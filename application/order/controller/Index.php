@@ -11,9 +11,9 @@ class Index
 		require PAY_PATH . '/example/WxPay.JsApiPay.php';
 		require PAY_PATH . '/example/log.php';
 
-		$log_path = PAY_PATH ."/logs/".date('Y-m-d').'.log';
+/*		$log_path = PAY_PATH ."/logs/".date('Y-m-d').'.log';
     	$logHandler= new \CLogFileHandler($log_path);
-    	var_dump($logHandler);
+    	var_dump($logHandler);*/
 
 
 		$tools = new \JsApiPay();
