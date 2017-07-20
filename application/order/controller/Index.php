@@ -7,7 +7,6 @@ class Index
 {
     public function index()
     {
-    	var_dump(111);die();
 		require PAY_PATH . '/lib/WxPay.Api.php';
 		require PAY_PATH . '/example/WxPay.JsApiPay.php';
 		require PAY_PATH . '/example/log.php';
