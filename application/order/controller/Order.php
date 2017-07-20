@@ -122,7 +122,6 @@ class Order extends Controller
 				if (!empty($inarr))
 					model('WayLogIn')->changeStatus($inarr['id'],1);
 				if (!empty($outarr)) {
-					var_dump($outarr);die();
 					model('WayLogOut')->changeStatus($outarr['id'],1);
 				}
 			}			
