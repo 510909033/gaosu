@@ -4,7 +4,7 @@ namespace app\order\controller;
 use think\Controller;
 use think\Log;
 
-class Index
+class Index extends Controller
 {
     public function index()
     {
