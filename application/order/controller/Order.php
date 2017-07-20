@@ -176,7 +176,6 @@ class Order extends Controller
 
 		$id = model('SysOrder')->add($orderData);
 
-		$this->wxPay($orderData);
 		return $id;
 	}
 
