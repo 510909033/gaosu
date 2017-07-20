@@ -1,7 +1,8 @@
 <?php
 namespace app\order\controller;
 
-
+use think\Controller;
+use think\Log;
 
 class Index
 {
