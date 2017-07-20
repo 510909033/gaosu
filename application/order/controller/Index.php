@@ -23,7 +23,7 @@ class Index
 		$input = new \WxPayUnifiedOrder();
 		$input->SetBody("test");
 		$input->SetAttach("test");
-		$input->SetOut_trade_no(WxPayConfig::MCHID.date("YmdHis"));
+		$input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
 		$input->SetTotal_fee("1");
 		$input->SetTime_start(date("YmdHis"));
 		$input->SetTime_expire(date("YmdHis", time() + 600));
@@ -31,8 +31,8 @@ class Index
 		$input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
 		$input->SetTrade_type("JSAPI");
 		$input->SetOpenid($openId);
-		$order = WxPayApi::unifiedOrder($input);
-		echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
+		$order = \WxPayApi::unifiedOrder($input);
+		//echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
 		printf_info($order);
 		$jsApiParameters = $tools->GetJsApiParameters($order);
 
