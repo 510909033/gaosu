@@ -35,7 +35,7 @@ class DbException extends Exception
             'Error Message' => $message,
             'Error SQL'     => $sql,
         ]);
-        Log::sql($sql,'sql');
+        Log::write($sql,'sql');
         unset($config['username'], $config['password']);
         $this->setData('Database Config', $config);
     }
