@@ -131,6 +131,7 @@ class Order extends Controller
 				return false;
 			Db::commit();
 		} catch (Exception $e) {
+			echo model()->_sql();
 			Db::rollback();
 		}
 
