@@ -46,24 +46,26 @@ class Index extends Controller
      */
     public function notify($id = 0)
     {
-        $notify = new PayNotifyCallBack();
+		require PAY_PATH . '/example/notify.php';
+
+        $notify = new \PayNotifyCallBack();
         $notify->handle(true);
 
-
+        var_dump()
         //找到匹配签名的订单
-        $order = Order::get($id);
+        $order = SysOrder::get($id);
         if (!isset($order)) {
-            Log::write('未找到订单，id= ' . $id);
+            \Log::write('未找到订单，id= ' . $id);
         }
         $succeed = ($notify->getReturnCode() == 'SUCCESS') ? true : false;
         if ($succeed) {
 
-            Log::write('订单' . $order->id . '生成二维码成功');
+            \Log::write('订单' . $order->id . '生成二维码成功');
 
             $order->save(['flag' => '2'], ['id' => $order->id]);
-            Log::write('订单' . $order->id . '状态更新成功');
+            \Log::write('订单' . $order->id . '状态更新成功');
         } else {
-            Log::write('订单' . $id . '支付失败');
+            \Log::write('订单' . $id . '支付失败');
         }
     }  
     

@@ -12,7 +12,7 @@ class Order extends Controller
 	function IndexAction()
 	{
 		$y = 0;
-		for ($i=1; $i <50 ; $i++) { 
+		for ($i=1; $i <2 ; $i++) { 
 			$userIds = [2,22,100];
 			$userId = $userIds[$y];
 			$carId 	= rand(1,7);
@@ -178,41 +178,41 @@ class Order extends Controller
 		$orderData['out_trade_no'] = create_order_num();
 		$orderData['body'] = "高速费用";
 
-		return model('SysOrder')->add($orderData);
+		$id = model('SysOrder')->add($orderData);
+
+		$this->wxPay($orderData);
 	}
 
-	public function addPay(){
-		vendor("WxpayAPI.lib.WxPay.Api.php");
-		vendor("WxpayAPI.example.WxPay.Api.php");
-		vendor("WxpayAPI.example.log");
+	public function wxPay($orderdate){
+		require PAY_PATH . '/lib/WxPay.Api.php';
+		require PAY_PATH . '/example/WxPay.JsApiPay.php';
+		require PAY_PATH . '/example/log.php';
 
-		$logHandler= new \CLogFileHandler("../logs/".date('Y-m-d').'.log');
-		$log = Log::Init($logHandler, 15);
-
-
-		//①、获取用户openid
 		$tools = new \JsApiPay();
 		$openId = $tools->GetOpenid();
 
 		//②、统一下单
 		$input = new \WxPayUnifiedOrder();
-		$input->SetBody("test");
-		$input->SetAttach("test");
-		$input->SetOut_trade_no(WxPayConfig::MCHID.date("YmdHis"));
-		$input->SetTotal_fee("1");
+		$input->SetBody($orderdate['body']);
+		$input->SetAttach("speed");
+		$input->SetOut_trade_no($orderdate['out_trade_no']);
+		$input->SetTotal_fee($orderdate['total_fee']);
 		$input->SetTime_start(date("YmdHis"));
 		$input->SetTime_expire(date("YmdHis", time() + 600));
-		$input->SetGoods_tag("test");
-		$input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
+		//$input->SetGoods_tag("test");
+		$input->SetNotify_url(Config::get('wxpay.NOTIFY_URL'));
 		$input->SetTrade_type("JSAPI");
 		$input->SetOpenid($openId);
-		$order = WxPayApi::unifiedOrder($input);
-		echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
-		printf_info($order);
+		$order = \WxPayApi::unifiedOrder($input);
+
 		$jsApiParameters = $tools->GetJsApiParameters($order);
 
 		//获取共享收货地址js函数参数
 		$editAddress = $tools->GetEditAddressParameters();
+
+       	$this->assign('order', $order);
+       	$this->assign('jsApiParameters', $jsApiParameters);
+      	return $this->fetch('jsapi');
 	}
 
 
