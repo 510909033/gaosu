@@ -13,5 +13,9 @@
 
 // 定义应用目录
 define('APP_PATH', __DIR__ . '/../application/');
+define('PAY_PATH', __DIR__ . '/../vendor/WxpayAPI');
 // 加载框架引导文件
 require __DIR__ . '/../thinkphp/start.php';
+$build = include '../build.php';
+// 运行自动生成
+\think\Build::run($build);
