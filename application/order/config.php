@@ -10,7 +10,7 @@ return [
 		'6'=>'6',
 		'7'=>'7',
 	],
-	'wxpay' = [
+	'wxpay' => [
 		'APPID' => 'wx43cccee49cb479ff',
         'MCHID' => '1482887882',
         'KEY' => '56ac2c50a487c623b207df90f3682985',
