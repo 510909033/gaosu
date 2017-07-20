@@ -11,11 +11,6 @@ class Index
 		require PAY_PATH . '/example/WxPay.JsApiPay.php';
 		require PAY_PATH . '/example/log.php';
 
-/*		$log_path = PAY_PATH ."/logs/".date('Y-m-d').'.log';
-    	$logHandler= new \CLogFileHandler($log_path);
-    	var_dump($logHandler);*/
-
-
 		$tools = new \JsApiPay();
 		$openId = $tools->GetOpenid();
 
@@ -32,27 +27,15 @@ class Index
 		$input->SetTrade_type("JSAPI");
 		$input->SetOpenid($openId);
 		$order = \WxPayApi::unifiedOrder($input);
-		//echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
-		printf_info($order);
+
 		$jsApiParameters = $tools->GetJsApiParameters($order);
 
 		//获取共享收货地址js函数参数
 		$editAddress = $tools->GetEditAddressParameters();
 
-		return view('index', [
-		    'jsApiParameters'  => $jsApiParameters,
-		    'editAddress' => $editAddress,
-		    'editAddress' => $editAddress,
-		]);
+       	$this->assign('order', $order);
+       	$this->assign('jsApiParameters', $jsApiParameters);
+      	return $this->fetch('jsapi');
     }
-
-
-
-	function printf_info($data)
-	{
-	    foreach($data as $key=>$value){
-	        echo "<font color='#00ff55;'>$key</font> : $value <br/>";
-	    }
-	}
 }
 
