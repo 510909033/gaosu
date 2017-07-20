@@ -66,10 +66,6 @@ class Order extends Controller
 					break;
 			}
 		}
-
-		var_dump($allData);
-
-
 	}
 
 	/**
@@ -181,6 +177,7 @@ class Order extends Controller
 		$id = model('SysOrder')->add($orderData);
 
 		$this->wxPay($orderData);
+		return $id;
 	}
 
 	public function wxPay($orderdate){
