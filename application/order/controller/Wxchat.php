@@ -23,8 +23,6 @@ class Wxchat
      */
     public function indexAction()
     {
-        \exLog::log($_GET, 'get');
-        \exLog::log(file_get_contents("php://input"), 'post');
         
         // 微信验证控制器
         $exwechat = new \exWechat();
