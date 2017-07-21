@@ -10,7 +10,7 @@ use youwen\exwechat\exRequest;
  * 微信交互控制器
  * @author baiyouwen <youwen21@yeah.net>
  */
-class WxchatAction
+class Wxchat
 {
     // 微信消息对象
     private $exRequest;
@@ -22,7 +22,7 @@ class WxchatAction
      * 
      * @author baiyouwen
      */
-    public function index()
+    public function indexAction()
     {
         exLog::log($_GET, 'get');
         exLog::log(file_get_contents("php://input"), 'post');
