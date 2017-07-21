@@ -22,11 +22,13 @@ class Wxchat
      * @author baiyouwen
      */
     public function indexAction()
-    {
+    {      
+
+        $token = "E7vtcApgBl4TKJudfvd8"; 
         exLog::log($_GET, 'get');
         exLog::log(file_get_contents("php://input"), 'post');
         // 微信验证控制器
-        $exwechat = new exWechat();
+        $exwechat = new exWechat($token);
         // 接口配置 和 签名验证
         $ret = $exwechat->authentication();
         if(is_bool($ret)){
