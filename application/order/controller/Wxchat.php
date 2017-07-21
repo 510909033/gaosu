@@ -23,11 +23,11 @@ class Wxchat
      */
     public function indexAction()
     {
-        exLog::log($_GET, 'get');
-        exLog::log(file_get_contents("php://input"), 'post');
+        \exLog::log($_GET, 'get');
+        \exLog::log(file_get_contents("php://input"), 'post');
         
         // 微信验证控制器
-        $exwechat = new exWechat();
+        $exwechat = new \exWechat();
         // 接口配置 和 签名验证
         $ret = $exwechat->authentication();
         if(is_bool($ret)){
@@ -39,10 +39,10 @@ class Wxchat
         }
 
         // 微信消息单例 和 验证消息签名
-        $this->exRequest = exRequest::instance();
+        $this->exRequest = \exRequest::instance();
         $ToUserName = $this->exRequest->getToUserName();
         // 根据ToUserName获取 appid, token等对应信息
-        $conf = new WechatConfig($ToUserName);
+        $conf = new \WechatConfig($ToUserName);
         $config = [];
         $config['appid'] = $conf->appid;
         $config['token'] = $conf->token;
@@ -71,22 +71,22 @@ class Wxchat
         switch ($this->_msg['MsgType']) {
             // 点击菜单与关注
             case 'event':
-                $cls = new HandleEvent($this->_msg);
+                $cls = new \HandleEvent($this->_msg);
                 $ret = $cls->handle();
                 break;
             // 文本消息
             case 'text':
-                $cls = new HandleText($this->_msg);
+                $cls = new \HandleText($this->_msg);
                 $ret = $cls->handle();
                 break;
             // 图片消息
             case 'image':
-                $cls = new HandleDefault();
+                $cls = new \HandleDefault();
                 $ret = $cls->handle('你发了个图片，我告诉你图片不要随便发。尤其不要发脸部照片，不安全。');
                 break;
             // 地理位置
             case 'location':
-                $cls = new HandleLocation($this->_msg);
+                $cls = new \HandleLocation($this->_msg);
                 $ret = $cls->handle();
                 break;
             // 音频消息
@@ -96,7 +96,7 @@ class Wxchat
             // 链接
             case 'link':
             default:
-                $cls = new HandleDefault($this->_msg);
+                $cls = new \HandleDefault($this->_msg);
                 $ret = $cls->handle();
         }
     }
