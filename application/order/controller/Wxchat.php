@@ -25,7 +25,7 @@ class Wxchat
     {
         
         // 微信验证控制器
-        $exwechat = new \exWechat();
+        $exwechat = new exWechat();
         // 接口配置 和 签名验证
         $ret = $exwechat->authentication();
         if(is_bool($ret)){
