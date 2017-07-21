@@ -4,7 +4,6 @@ namespace app\order\controller;
 use youwen\exwechat\exLog;
 use youwen\exwechat\exWechat;
 use youwen\exwechat\exRequest;
-use youwen\exwechat\exRequest;
 
 /**
  * 微信交互控制器
