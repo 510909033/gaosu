@@ -13,6 +13,22 @@ use app\common\model\SysConfig;
 class UserController extends Controller
 {
  
+    
+    public function indexAction(){
+        $arr = [];
+        $arr['初始化config表数据'] = url('way/user/initconfig');
+        $arr['授权第一步'] = url('way/user/auth');
+        $arr['测试创建用户车辆二维码'] = url('way/user/userbindcar');
+        
+        
+        foreach ($arr as $text=>$link){
+            
+            echo "<a href='{$link}'>{$text}</a><br /><br />";
+            
+        }
+        
+    }
+    
     /**
      * 用户绑定车辆
      */
@@ -30,7 +46,7 @@ class UserController extends Controller
         
     }
     
-    public function initAconfigAction(){
+    public function initConfigAction(){
         $config = new SysConfig();
         
         $auth = new AuthController();
@@ -43,6 +59,9 @@ class UserController extends Controller
         
     }
     
+    /**
+     * 第一步 授权
+     */
     public function authAction(){
         
         $auth = new AuthController();
@@ -53,6 +72,9 @@ class UserController extends Controller
         
     }
     
+    /**
+     * 第二步 解析code
+     */
     public function return_urlAction(){
         
         $auth = new AuthController();
