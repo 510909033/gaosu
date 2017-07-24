@@ -32,11 +32,18 @@ class UserController extends Controller
     
     public function initAconfigAction(){
         $config = new SysConfig();
+        
+        $auth = new AuthController();
+        
+        $auth->getAccessToken(false);
+//         return ;
+        
+        
         $config->init_table_data();
         
     }
     
-    public function auth(){
+    public function authAction(){
         
         $auth = new AuthController();
         $redirect_uri = url('way/user/return_url');
@@ -46,7 +53,7 @@ class UserController extends Controller
         
     }
     
-    public function return_url(){
+    public function return_urlAction(){
         
         $auth = new AuthController();
         $user = $auth->getResultByCode();

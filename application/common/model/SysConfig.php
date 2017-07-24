@@ -63,7 +63,9 @@ class SysConfig extends Model
             'NOTIFY_URL' => 'gs.jltengfang.com/order/index/notify',
             'SSLCERT_PATH' => '../cert/apiclient_cert.pem',
             'SSLKEY_PATH' => '../cert/apiclient_key.pem',
-            'REPORT_LEVENL' => 1
+            'REPORT_LEVENL' => 1,
+            'access_token'=>'',
+            'access_token_expire'=>0,
         ];
         
         
