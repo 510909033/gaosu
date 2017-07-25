@@ -11,7 +11,7 @@ use app\common\model\SysUser;
  * @author Administrator
  *
  */
-class AuthController 
+class AuthExtend
 {
     private $codeArr = [];
     private  $openid= false;

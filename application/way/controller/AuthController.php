@@ -12,7 +12,7 @@ class AuthController extends Controller
      */
     public function authIndexAction(){
     
-        $auth = new \weixin\auth\AuthController();
+        $auth = new \weixin\auth\AuthExtend();
         $redirect_uri = url('way/auth/return_url','','',true);
         $state = urlencode(input('state'));
         $is_unit = false;
@@ -27,7 +27,7 @@ class AuthController extends Controller
      * 第二步 解析code
      */
     public function return_urlAction(){
-        $auth = new \weixin\auth\AuthController();
+        $auth = new \weixin\auth\AuthExtend();
         $user = $auth->getResultByCode();
         if ($user && $user->id){
             UserTool::init($user);

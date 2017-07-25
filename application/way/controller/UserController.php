@@ -15,6 +15,7 @@ use app\common\model\SysUser;
 use app\common\tool\UserTool;
 use phpDocumentor\Reflection\Types\Parent_;
 use think\Session;
+use weixin\auth\AuthExtend;
 
 class UserController extends Controller
 {
@@ -31,14 +32,17 @@ class UserController extends Controller
         }
     }
  
-    public function bindIndexAction($id){
+    public function bindIndexAction($id=0){
         
         $this->auth()   ;
         $vars = [];
         
-        $wayUserBindCar = WayUserBindCar::get($id);
-        
-        $vars['form'] = $wayUserBindCar->toJson();
+        if ($id){
+            $wayUserBindCar = WayUserBindCar::get($id);
+            $vars['form'] = $wayUserBindCar->toJson();
+        }else{
+            $vars['form'] ='[]';
+        }
         
         return \view('',$vars);
     }
@@ -50,8 +54,8 @@ class UserController extends Controller
         
         $arr = [];
         $arr['初始化config表数据'] = url('way/user/initconfig');
-        $arr['授权第一步'] = url('way/auth/auth');
-        $arr['测试创建用户车辆二维码'] = url('way/user/userbindcar');
+        $arr['测试创建用户车辆二维码'] = url('way/user/bindindex');
+        $arr['获取access_token'] = url('way/user/testAccess_token');
     
     
         foreach ($arr as $text=>$link){
@@ -60,6 +64,11 @@ class UserController extends Controller
     
         }
     
+    }
+    
+    public function testAccess_tokenAction(){
+        $auth = new AuthExtend();
+        dump($auth->getAccessToken());
     }
     
     /**
