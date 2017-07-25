@@ -195,39 +195,41 @@ class OrderController extends Controller
 	    $notPayOrder = SysOrder::all(['trade_state'=>'']);
 	   // $tx = new accessToken(Config::get('wxpay.APPID'),Config::get('wxpay.APPSECRET'));
 	   // $accessToken = $tx->getAccessToken();
-	    foreach ($notPayOrder as $key => $value)
-	    {
-
-	        $data = [
-	            //'touser'=>$value['open_id'],
-	            'touser'=>'on8fG0xXd0UmqBbMexj0vZNL3O-w',
-	            'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
-	            'url'=>'http://gs.jltengfang.com/order?id='.$value['out_trade_no'],
-	            'topcolor'=>'#FF0000',
-	            'data'=>[
-	                'first'=>['value'=>'高速支付订单'],
-	                'orderID'=>['value'=>$value['out_trade_no']],
-	                'orderMoneySum'=>['value'=>$value['total_fee']],
-	                'backupFieldName'=>['value'=>'高速收费'],
-	                'backupFieldData'=>['value'=>'111'],
-	                'remark'=>['value'=>'如有问题请联系110']
-	            ],
-	        ];
-	        
-	        
-	        
-	        //$auth = new AuthController();
-	        //$accessToken = $auth->getAccessToken(false);
-            $auth = new AuthExtend();
-            $accessToken = $auth->getAccessToken();
-	        $message = new template($accessToken);
-	        $res = $message->send($data);
-	        var_dump($res);
-	        if ($res)
-	            echo 'succeed'.$value['id'];
-	        else 
-	            echo 'fail'.$value['id'];
-	    }
+	   if (!empty($notPayOrder))
+	   {
+    	    foreach ($notPayOrder as $key => $value)
+    	    {
+    
+    	        $data = [
+    	            //'touser'=>$value['open_id'],
+    	            'touser'=>'on8fG0xXd0UmqBbMexj0vZNL3O-w',
+    	            'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
+    	            'url'=>'http://gs.jltengfang.com/order?id='.$value['out_trade_no'],
+    	            'topcolor'=>'#FF0000',
+    	            'data'=>[
+    	                'first'=>['value'=>'高速支付订单'],
+    	                'orderID'=>['value'=>$value['out_trade_no']],
+    	                'orderMoneySum'=>['value'=>$value['total_fee']],
+    	                'backupFieldName'=>['value'=>'高速收费'],
+    	                'backupFieldData'=>['value'=>'111'],
+    	                'remark'=>['value'=>'如有问题请联系110']
+    	            ],
+    	        ];
+    	        
+    	        
+    	        
+    	        //$auth = new AuthController();
+    	        //$accessToken = $auth->getAccessToken(false);
+                $auth = new AuthExtend();
+                $accessToken = $auth->getAccessToken();
+    	        $message = new template($accessToken);
+    	        $res = $message->send($data);
+    	        var_dump($res);
+    	    }
+	   	}else 
+	   	{
+	       echo "没有未支付的订单";	    
+	   	}
 	}
 	
 	
