@@ -8,6 +8,7 @@ use app\common\model\WayLog;
 use weixin\auth\AuthController;
 use youwen\exwechat\api\message\template;
 use app\common\model\SysOrder;
+use youwen\exwechat\api\accessToken;
 
 class OrderController extends Controller 
 {
@@ -212,8 +213,10 @@ class OrderController extends Controller
 	        
 	        
 	        
-	        $auth = new AuthController();
-	        $accessToken = $auth->getAccessToken(false);
+	        //$auth = new AuthController();
+	        //$accessToken = $auth->getAccessToken(false);
+	        $tx = new accessToken(Config::get('wxpay.APPID'),Config::get('wxpay.APPSECRET'));
+	        $accessToken = $tx->getAccessToken();
 	        $message = new template($accessToken);
 	        $res = $message->send($data);
 	        if ($res)
