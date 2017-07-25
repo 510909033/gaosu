@@ -9,7 +9,7 @@ class IndexController
     }
 
 
-    public function test(){
+    public function testAction(){
         
         //1.将timestamp,nonce,token按字典序排序
         $timestamp = $_GET['timestamp'];
