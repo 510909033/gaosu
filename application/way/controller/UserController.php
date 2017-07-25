@@ -63,6 +63,10 @@ class UserController extends Controller
         
         $json = [];
         try {
+            if (!UserTool::getIs_login()){
+                $this->auth();
+                return;
+            }
 //             UserTool::init(SysUser::get(11111));
             
             $wayUserBindCar = new WayUserBindCar();

@@ -64,11 +64,12 @@ class AuthController
             $lineAccessToken->save();
             $lineExpire->value = time() + 7200;
             $lineExpire->save();
-            return $lineAccessToken->value;
+//             return $lineAccessToken->value;
         }else{
-            return $lineAccessToken->value;
+//             return $lineAccessToken->value;
         }
         SysConfig::commit();
+        return $lineAccessToken->value;
     }
     
     /**
@@ -168,14 +169,30 @@ class AuthController
             $con = file_get_contents($url);
             $arr = json_decode($con,true);
         }
+        
+/*
+
+array(5) {
+  ["access_token"] =&gt; string(107) "D3tNKjQeXO_DxjHGgwqtruFTWRtX_y1YD3H1V48GYajjB8lejLHlbbVWxWQVkm6cSHVlD9SMKPHkYfN0zzIhfhDk7x0V_z3LpRixuAmZOW8"
+  ["expires_in"] =&gt; int(7200)
+  ["refresh_token"] =&gt; string(107) "XcqJuzEywfzS8XUCGkwO3-joFYzm_jfr-5y5xI7puPSVYD5OZFlBT4kUYnBVPpYwrCql9xxJyySi-ac8-SplGFAzCe9MsvmTIygk0P7GXlA"
+  ["openid"] =&gt; string(28) "on8fG0yXIh9fbtLhLzIAbH2Yxxr0"
+  ["scope"] =&gt; string(11) "snsapi_base"
+}
+
+
+ */
         $this->codeArr = $arr;
+        
         if (!$this->codeArr['openid']){
             $this->codeArr['openid'] = false;
         }
+        
+        
         $this->openid = $this->codeArr['openid'] ;
         
-        $this->account->setAccount($this->openid);
-        $this->account->setAuth_type(SysConfig::REG_TYPE_WEIXIN);
+//         $this->account->setAccount($this->openid);
+//         $this->account->setAuth_type(SysConfig::REG_TYPE_WEIXIN);
         
         return $this->openid;
     }
