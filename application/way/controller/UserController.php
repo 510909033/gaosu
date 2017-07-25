@@ -22,7 +22,6 @@ class UserController extends Controller
     public function __construct(){
         parent::__construct();
         
-        
         Session::boot();
         if ( !UserTool::getIs_login() ){
             $this->redirect('way/auth/authindex',['state'=>urlencode(\request()->url(true))]);

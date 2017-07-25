@@ -15,7 +15,7 @@ class AuthController extends Controller
     
         $request = \request();
         $auth = new \weixin\auth\AuthController();
-        $redirect_uri = url('way/auth/return_url');
+        $redirect_uri = url('way/auth/return_url','','',true);
         $state = urlencode($request->get('state'));
         $is_unit = false;
         $auth->redirect($redirect_uri, $state, $is_unit);
