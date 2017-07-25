@@ -5,7 +5,6 @@ namespace app\way\controller;
 use think\Controller;
 use app\common\tool\UserTool;
 use think\Request;
-use weixin\auth\AuthController;
 
 class AuthController extends Controller
 {
@@ -14,8 +13,8 @@ class AuthController extends Controller
      */
     public function authIndexAction(){
     
-        $request = new Request();
-        $auth = new AuthController();
+        $request = \request();
+        $auth = new \weixin\auth\AuthController();
         $redirect_uri = url('way/auth/return_url');
         $state = urlencode($request->get('state'));
         $is_unit = false;
@@ -27,8 +26,8 @@ class AuthController extends Controller
      * 第二步 解析code
      */
     public function return_urlAction(){
-        $request = new Request();
-        $auth = new AuthController();
+        $request = \request();
+        $auth = new \weixin\auth\AuthController();
         $user = $auth->getResultByCode();
         if ($user && $user->id){
             UserTool::init($user);
