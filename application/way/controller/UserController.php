@@ -23,7 +23,7 @@ class UserController extends Controller
         parent::__construct();
 //         Session::boot();
         if ( !UserTool::getIs_login() ){
-            $this->redirect('way/auth/authindex',['state'=>\request()->url()]);
+            $this->redirect('way/auth/authindex',['state'=>urlencode(\request()->url())]);
         }
         
     }
