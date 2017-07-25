@@ -1,12 +1,14 @@
 <?php
-namespace app\index\controller;
+namespace app\test\controller;
 
 class IndexController
 {
-    
+
+
+
     public function testAction(){
         
-       /* //1.将timestamp,nonce,token按字典序排序
+/*        //1.将timestamp,nonce,token按字典序排序
         $timestamp = $_GET['timestamp'];
 
         $nonce = $_GET['nonce'];
@@ -31,10 +33,7 @@ class IndexController
 
         	exit;
         }*/
-
-
-
-        echo'321231321';
+        echo "1111111";
     }
 
 }
