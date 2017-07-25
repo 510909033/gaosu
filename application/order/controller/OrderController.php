@@ -192,6 +192,8 @@ class OrderController extends Controller
 	public function createPushMessageAction()
 	{
 	    $notPayOrder = SysOrder::all(['trade_state'=>'']);
+	    $tx = new accessToken(Config::get('wxpay.APPID'),Config::get('wxpay.APPSECRET'));
+	    $accessToken = $tx->getAccessToken();
 	    foreach ($notPayOrder as $key => $value)
 	    {
 
@@ -215,10 +217,10 @@ class OrderController extends Controller
 	        
 	        //$auth = new AuthController();
 	        //$accessToken = $auth->getAccessToken(false);
-	        $tx = new accessToken(Config::get('wxpay.APPID'),Config::get('wxpay.APPSECRET'));
-	        $accessToken = $tx->getAccessToken();
+
 	        $message = new template($accessToken['access_token']);
 	        $res = $message->send($data);
+	        var_dump($res);
 	        if ($res)
 	            echo 'succeed'.$value['id'];
 	        else 
