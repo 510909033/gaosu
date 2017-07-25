@@ -6,7 +6,7 @@ use think\Validate;
 class RegValidate extends Validate
 {
     protected $rule = [
-        'uni_account'  =>  'require|max:25|min:5',
+        'uni_account'  =>  'require',
         'password' =>  'require|length:40',
         'solt' =>  'require|length:5',
         'regtime' =>  'require|length:10',
