@@ -21,10 +21,13 @@ class UserController extends Controller
     
     public function __construct(){
         parent::__construct();
-        
-        Session::boot();
-        if ( !UserTool::getIs_login() ){
-            $this->redirect('way/auth/authindex',['state'=>urlencode(\request()->url(true))]);
+        if ($this->request->action() == 'index'){
+            
+        }else{
+            Session::boot();
+            if ( !UserTool::getIs_login() ){
+                $this->redirect('way/auth/authindex',['state'=>urlencode(\request()->url(true))]);
+            }
         }
         
     }
@@ -38,20 +41,19 @@ class UserController extends Controller
         
         return \view('',$vars);
     }
-    
     public function indexAction(){
         $arr = [];
         $arr['初始化config表数据'] = url('way/user/initconfig');
         $arr['授权第一步'] = url('way/auth/auth');
         $arr['测试创建用户车辆二维码'] = url('way/user/userbindcar');
-        
-        
+    
+    
         foreach ($arr as $text=>$link){
-            
+    
             echo "<a href='{$link}'>{$text}</a><br /><br />";
-            
+    
         }
-        
+    
     }
     
     /**
