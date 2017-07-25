@@ -20,4 +20,7 @@ return [
         'SSLKEY_PATH' => '../cert/apiclient_key.pem',
         'REPORT_LEVENL' => 1
 	],
+	'wxchat'=>[
+		'TOKEN'=>'E7vtcApgBl4TKJudfvd8',
+	]
 ];
