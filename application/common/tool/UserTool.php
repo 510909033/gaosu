@@ -4,7 +4,7 @@ use app\common\model\SysUser;
 use think\Session;
 
 class UserTool {
-    private static $is_login = false;
+    private static $is_login = null;
     private static $user_id=null;
     private static $uni_account = null;
     
@@ -46,7 +46,7 @@ class UserTool {
         
         \session('user_id',$sysUser->id);
         \session('uni_account' , $sysUser->uni_account);
-        session('is_login',true);
+        \session('is_login',true);
         
         self::$user_id = $sysUser->id;
         self::$uni_account = $sysUser->uni_account;
