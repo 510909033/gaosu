@@ -201,8 +201,8 @@ class OrderController extends Controller
     	    {
     
     	        $data = [
-    	            //'touser'=>$value['open_id'],
-    	            'touser'=>'on8fG0xXd0UmqBbMexj0vZNL3O-w',
+    	            'touser'=>$value['openid'],
+    	            //'touser'=>'on8fG0xXd0UmqBbMexj0vZNL3O-w',
     	            'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
     	            'url'=>'http://gs.jltengfang.com/order?id='.$value['out_trade_no'],
     	            'topcolor'=>'#FF0000',
@@ -221,7 +221,7 @@ class OrderController extends Controller
     	        //$auth = new AuthController();
     	        //$accessToken = $auth->getAccessToken(false);
                 $auth = new AuthExtend();
-                $accessToken = $auth->getAccessToken();
+                $accessToken = $auth->getAccessToken(true);
     	        $message = new template($accessToken);
     	        $res = $message->send($data);
     	        var_dump($res);
