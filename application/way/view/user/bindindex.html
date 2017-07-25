@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<!-- 优先使用 IE 最新版本和 Chrome -->
+<meta name="renderer" content="webkit">
+<!-- 360浏览器切换极速模式 -->
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!-- 禁止百度手机转码 -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href="__STATIC__/" />
+<link href="__CSS__/style.css" type="text/css" rel="stylesheet" />
+<link href="__CSS__/reset.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="__CSS__/jquery.mloading.css">
+<link rel="stylesheet" href="__CSS__/validationEngine.jquery.css">
+
+<script src="__JS__/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="__JS__/jquery.min.js"></script>
+<script src="__JS__/texiao1.js"></script>
+<script src="__JS__/jquery-1.10.1.min.js"></script>
+<script src="__JS__/jquery.mloading.js"></script>
+
+<script src="__JS__/angularjs.js"></script>
+
+
+
+<style>
+.formErrorContent {
+	color: #000000 !important;
+}
+</style>
+</head>
+<body>
+
+
+
+	<form class="kscx_top" id="form_id" method="post" action="bind" ng-app="myApp" ng-controller="myCtrl">
+		<div class="zhuce clearfix"  >
+			<span ng-bind="form_name"></span>
+		</div>
+		<ul>
+			<li class="xm_l1">车主姓名<span><input
+				 name="username" 
+					class="weui_input ws_ibj" type="text" placeholder="刘晓小"
+					maxlength="5" /></span></li>
+			<li>身份证号<span><input class=" weui_input ws_ibj" 
+			 name="identity_card" 
+					type="text" placeholder="22010219780724123X" maxlength="18" /></span></li>
+			<li>手机号码<span><input class="weui_input ws_ibj" 
+					name="phone" id="telephone" type="text"
+					placeholder="13544665577" maxlength="11" /></span></li>
+			<li>车牌号<span><input class="weui_input ws_ibj" type="text" 
+				 name="car_number" 
+					placeholder="吉AHH126" /></span></li>
+			<li>车型<span><select class="weui_input ws_ibj gais"  name="car_type_id" >
+						<option value="1">Volvo</option>
+						<option value="2">Saab</option>
+						<option value="3">Opel</option>
+						<option value="4">Audi</option>
+				</select></span></li>
+			<li>发动机后六位<span><input class="weui_input ws_ibj" 
+				 name="engine" 
+					type="text" placeholder="112244" /></span></li>
+			<li>颜色<span><input class="weui_input ws_ibj" type="text" 
+				 name="car_color" 
+					placeholder="黑色" /></span></li>
+			<li class="cl_l1">品牌<span><input 
+				 name="brand" 
+					class="weui_input ws_ibj" type="text" placeholder="路虎·朗逸" /></span></li>
+		</ul>
+		<p class="clbd_p1">完善车辆信息，点击下面按钮扫描证件</p>
+		<div class="sb_logo">
+			<a href="#"><img src="images/sfz_logo_03.png" class="sb_s1"></a>
+			<a href="#"><img src="images/jsz_sb_03.png" class="sb_s2"></a>
+		</div>
+		<div class="ws_dj1">
+			<label><input type="checkbox" id="yes" name="_agree" /></label><span>我已阅读并同意《吉林省高速缴费平台用户缴费协议》</span>
+			<div class="kuan">
+				<button id="zhuce" class="submit ws_qq" type="submit"
+					disabled="true">提交</button>
+			</div>
+		</div>
+	</form>
+
+	<div class="formErrorContent fengmian" id="y1">
+		<div class="tishi" id="y2">
+			<p class="y2_1">姓名不能为空</p>
+			<a class="btnok" href="JAVASCRIPT:;">确定</a>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		var cb = document.getElementById("yes");
+		var btn = document.getElementById("zhuce");
+		(function() {
+			
+			btn.style.background = "#e0e0e0";
+			cb.onclick = function() {
+				if (cb.checked == true) {
+					document.getElementById("zhuce").disabled = false;
+					btn.style.background = "#2ba246";
+				} else {
+					document.getElementById("zhuce").disabled = true;
+					btn.style.background = "#e0e0e0";
+				}
+			}
+		})();
+	</script>
+	<!--不能为空。-->
+	<script>
+	var nm1 = document.getElementById("y1");
+	var nm2 = document.getElementById("y2");
+	function hide(){
+		nm1.style.display = "none";
+		nm2.style.display = "none";
+	}
+	function show(msg){
+		$("#y2 .y2_1").html(msg);
+		nm1.style.display = "block";
+		nm2.style.display = "block";
+		
+	}
+	
+	function hide(){
+		nm1.style.display = "none";
+		nm2.style.display = "none";
+	}
+	function show_loading(){
+		nm1.style.display = "block";
+		nm2.style.display = "block";
+		$("#y2 .y2_1").html("数据提交中。。。");
+	}
+		
+
+	(function() {
+		nm2.onclick = function() {
+			nm1.style.display = "none";
+			nm2.style.display = "none";
+		}
+	})();
+	</script>
+	<!--loading加载。-->
+	<script>
+	
+	var app = angular.module('myApp', []);
+	app.controller('myCtrl', function($scope) {
+	    $scope.form_name = "绑定车辆";
+	});
+	
+	
+		$(function() {
+
+			hide();
+			$("li input").each(function(){
+				$(this).val($(this).attr("placeholder"));
+			})
+			
+			var form_data = {$form};
+			$("li input").each(function(){
+				if(typeof form_data[$(this).attr('name')] != undefined ){
+					$(this).val( form_data[$(this).attr('name')] );
+				}
+			})
+			
+			
+			
+		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			var is_submit = false;
+			$("#form_id").submit(function(){
+				
+			
+				if(! $("#yes").prop("checked") ){
+					show("请勾选 吉林省高速缴费平台用户缴费协议");
+					return false;
+				}
+				
+				if(is_submit){
+					return false;
+				}
+				is_submit = true;
+		
+				$.ajax({
+					url:"{:url('way/user/userBindCar')}",
+					data:$("#form_id").serialize(),
+					dataType:"json",
+					"type":"post",
+					beforeSend:function(){
+						show_loading();	
+					},
+					success:function(data){
+						hide();
+						if(data.status){
+							show(data.html);
+							$("#y2 .btnok").click(function(){
+								location.href=data.view_url;
+							});
+						}else{
+							show(data.html);
+						}
+					},
+					complete:function(){
+						is_submit = false;
+					},
+				});
+				
+				return false;
+			});
+			
+		});
+		
+	</script>
+</body>
+</html>
