@@ -36,7 +36,7 @@ class template extends AbstractApi
         $ret = http::curl_post($url, $json);
         return $this->commenPart($ret);
     }
-
+   
     // 设置所属行业
     public function set_industry($data)
     {

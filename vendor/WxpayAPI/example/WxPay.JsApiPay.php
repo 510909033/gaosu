@@ -7,7 +7,7 @@
  * 
  * 该类是微信支付提供的样例程序，商户可根据自己的需求修改，或者使用lib中的api自行开发
  * 
- * @author widy
+ * @author 
  *
  */
 class JsApiPay

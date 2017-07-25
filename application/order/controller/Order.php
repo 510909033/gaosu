@@ -4,6 +4,10 @@ namespace app\order\controller;
 use think\Controller;
 use think\Config;
 use think\Db;
+use app\common\model\WayLog;
+use weixin\auth\AuthController;
+use youwen\exwechat\api\message\template;
+use app\common\model\SysOrder;
 
 class Order extends Controller 
 {
@@ -130,7 +134,7 @@ class Order extends Controller
 			if (!$res||!$order) 
 				return false;
 			Db::commit();
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			echo model()->_sql();
 			Db::rollback();
 		}
@@ -180,6 +184,49 @@ class Order extends Controller
 		return $id;
 	}
 
+	/**
+	 * 查询所有未支付的订单进行推送消息
+	 */
+	
+	public function createPushMessageAction()
+	{
+	    $notPayOrder = SysOrder::all(['trade_state'=>'']);
+	    foreach ($notPayOrder as $key => $value)
+	    {
+
+	        $data = [
+	            //'touser'=>$value['open_id'],
+	            'touser'=>'otmgKwBaD_I0cw9LiWu7dL66tREA',
+	            'template_id'=>'NKvVUaovIrHSqtZaHSeVllP3uiPnuCPtjXDmapadPFo',
+	            'url'=>'http://gs.jltengfang.com/order?id='.$value['out_trade_no'],
+	            'topcolor'=>'#FF0000',
+	            'data'=>[
+	                'first'=>['value'=>'高速支付订单'],
+	                'orderID'=>['value'=>$value['out_trade_no']],
+	                'orderMoneySum'=>['value'=>$value['total_fee']],
+	                'backupFieldName'=>['value'=>'高速收费'],
+	                'backupFieldData'=>['value'=>'111'],
+	                'remark'=>['value'=>'如有问题请联系110']
+	            ],
+	        ];
+	        
+	        
+	        
+	        $auth = new AuthController();
+	        $accessToken = $auth->getAccessToken(false);
+	        $message = new template($accessToken);
+	        $res = $message->send($data);
+	        if ($res)
+	            echo 'succeed'.$value['id'];
+	        else 
+	            echo 'fail'.$value['id'];
+	    }
+	}
+	
+	
+	
+	
+	
 	public function wxPay($orderdate){
 		require PAY_PATH . '/lib/WxPay.Api.php';
 		require PAY_PATH . '/example/WxPay.JsApiPay.php';

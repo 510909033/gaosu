@@ -18,7 +18,7 @@ abstract class AbstractApi
 
     public function commenPart($ret)
     {
-        if(!$ret[0]){ // 正确执行
+        if(!$ret[0]){ // 正确执行 
             $this->originalData = $ret[1];
             $this->data = json_decode($ret[1], true);
             return $this->data;

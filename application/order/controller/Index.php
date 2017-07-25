@@ -3,6 +3,7 @@ namespace app\order\controller;
 
 use think\Controller;
 use think\Log;
+use app\common\model\SysOrder;
 
 class Index extends Controller
 {
@@ -14,6 +15,7 @@ class Index extends Controller
 
 		$tools = new \JsApiPay();
 		$openId = $tools->GetOpenid();
+		
 
 		//②、统一下单
 		$input = new \WxPayUnifiedOrder();
@@ -51,7 +53,6 @@ class Index extends Controller
         $notify = new \PayNotifyCallBack();
         $notify->handle(true);
 
-        var_dump()
         //找到匹配签名的订单
         $order = SysOrder::get($id);
         if (!isset($order)) {
@@ -88,11 +89,11 @@ class Index extends Controller
             $url = $order->pay_url;
         } else {
             $order->money = 0.01;
-            $notify = new NativePay();
-            $input = new WxPayUnifiedOrder();
+            $notify = new \NativePay();
+            $input = new \WxPayUnifiedOrder();
             $input->setBody("支付 0.01 元");
             $input->setAttach("test");
-            $input->setOutTradeNo(WxPayConfig::MCHID . date("YmdHis"));
+            $input->setOutTradeNo(\WxPayConfig::MCHID . date("YmdHis"));
             $input->setTotalFee($order->money);
             $input->setTimeStart(date("YmdHis"));
             $input->setTimeExpire(date("YmdHis", time() + 600));
@@ -106,27 +107,9 @@ class Index extends Controller
             //保存订单标识
             $order->save();
         }
-
         //生成二维码
         return $this->getUrlQRCode($url);
     }
 
-    /**
-     * 根据给出的 url 地址生成 QRCode
-     * @param $url
-     */
-    public static function getUrlQRCode($url)
-    {
-        $qrCode = new \Endroid\QrCode\QrCode();
-        $qrCode->setText($url)
-            ->setSize(300)
-            ->setPadding(10)
-            ->setErrorCorrection('high')
-            ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
-            ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
-            ->setLabelFontSize(16)
-            ->setImageType(\Endroid\QrCode\QrCode::IMAGE_TYPE_JPEG);
-        $qrCode->render();
-    }  
 }
 

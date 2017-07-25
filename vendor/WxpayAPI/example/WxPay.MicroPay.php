@@ -12,7 +12,7 @@ require_once "../lib/WxPay.Api.php";
  * 该类是微信支付提供的样例程序，商户可根据自己的需求修改，或者使用lib中的api自行开发，为了防止
  * 查询时hold住后台php进程，商户查询和撤销逻辑可在前端调用
  * 
- * @author widy
+ * @author 
  *
  */
 class MicroPay
