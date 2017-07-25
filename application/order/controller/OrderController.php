@@ -9,7 +9,7 @@ use weixin\auth\AuthController;
 use youwen\exwechat\api\message\template;
 use app\common\model\SysOrder;
 
-class Order extends Controller 
+class OrderController extends Controller 
 {
 
 

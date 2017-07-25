@@ -5,7 +5,7 @@ use think\Controller;
 use think\Log;
 use app\common\model\SysOrder;
 
-class Index extends Controller
+class IndexController extends Controller
 {
     public function index()
     {
