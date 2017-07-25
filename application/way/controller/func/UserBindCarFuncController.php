@@ -30,7 +30,7 @@ class UserBindCarFuncController
      * 创建用户车辆二维码
      * 保存图片到本地
      * @param boolean $is_replace  true的话强制生成图片，false如果图片存在直接返回 
-     * @return string  图片路径，相对于public，起始位置没有/
+     * @return string|false  图片路径，相对于public，起始位置没有/
      */
     public function createQrcode(WayUserBindCar $wayUserBindCar,$size=30,$margin=4,$is_replace=true ){
         $filename = VENDOR_PATH.'phpqrcode/phpqrcode.php';
