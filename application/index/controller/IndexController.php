@@ -5,7 +5,7 @@ class IndexController
 {
     public function indexAction()
     {
-    	$this->test();
+    	return $this->test();
     }
 
 
