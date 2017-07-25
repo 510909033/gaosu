@@ -9,6 +9,7 @@ use weixin\auth\AuthController;
 use youwen\exwechat\api\message\template;
 use app\common\model\SysOrder;
 use youwen\exwechat\api\accessToken;
+use weixin\auth\AuthExtend;
 
 class OrderController extends Controller 
 {
@@ -192,8 +193,8 @@ class OrderController extends Controller
 	public function createPushMessageAction()
 	{
 	    $notPayOrder = SysOrder::all(['trade_state'=>'']);
-	    $tx = new accessToken(Config::get('wxpay.APPID'),Config::get('wxpay.APPSECRET'));
-	    $accessToken = $tx->getAccessToken();
+	   // $tx = new accessToken(Config::get('wxpay.APPID'),Config::get('wxpay.APPSECRET'));
+	   // $accessToken = $tx->getAccessToken();
 	    foreach ($notPayOrder as $key => $value)
 	    {
 
@@ -217,8 +218,9 @@ class OrderController extends Controller
 	        
 	        //$auth = new AuthController();
 	        //$accessToken = $auth->getAccessToken(false);
-
-	        $message = new template($accessToken['access_token']);
+            $auth = new AuthExtend();
+            $accessToken = $auth->getAccessToken();
+	        $message = new template($accessToken);
 	        $res = $message->send($data);
 	        var_dump($res);
 	        if ($res)
