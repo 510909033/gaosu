@@ -21,18 +21,18 @@ class UserController extends Controller
     
     public function __construct(){
         parent::__construct();
-        if ($this->request->action() == 'index'){
-            
-        }else{
-            Session::boot();
-            if ( !UserTool::getIs_login() ){
-                $this->redirect('way/auth/authindex',['state'=>urlencode(\request()->url(true))]);
-            }
-        }
         
+    }
+    
+    public function auth(){
+        Session::boot();
+        if ( !UserTool::getIs_login() ){
+            $this->redirect('way/auth/authindex',['state'=>urlencode(\request()->url(true))]);
+        }
     }
  
     public function bindIndexAction($id){
+        $this->auth()   ;
         $vars = [];
         
         $wayUserBindCar = WayUserBindCar::get($id);
@@ -60,16 +60,17 @@ class UserController extends Controller
      * 用户绑定车辆
      */
     public function userBindCarAction(){
+        
         $json = [];
         try {
-            UserTool::init(SysUser::get(11111));
+//             UserTool::init(SysUser::get(11111));
             
             $wayUserBindCar = new WayUserBindCar();
             
             $data = \request()->post();
             
        
-            $data['user_id'] = 11111;
+            $data['user_id'] = UserTool::getUser_id();
             $data['openid'] = UserTool::getUni_account();
             $data['reg_time'] = '车辆注册时间';
             $data['chassis_number'] = '车架号';
