@@ -191,8 +191,6 @@ array(5) {
         
         $this->openid = $this->codeArr['openid'] ;
         
-//         $this->account->setAccount($this->openid);
-//         $this->account->setAuth_type(SysConfig::REG_TYPE_WEIXIN);
         
         return $this->openid;
     }

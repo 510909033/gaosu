@@ -37,6 +37,7 @@ class AuthController extends Controller
             header('location:'.$url);
             exit;
         }else{
+            dump($auth->getError());
             return 'fail'; 
         }
     }
