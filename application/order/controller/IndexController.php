@@ -16,6 +16,7 @@ class IndexController extends Controller
 		$tools = new \JsApiPay();
 		$openId = $tools->GetOpenid();
 		
+		var_dump($openId);die();
 
 		//②、统一下单
 		$input = new \WxPayUnifiedOrder();
