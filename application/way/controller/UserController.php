@@ -32,6 +32,7 @@ class UserController extends Controller
     }
  
     public function bindIndexAction($id){
+        
         $this->auth()   ;
         $vars = [];
         
@@ -42,6 +43,11 @@ class UserController extends Controller
         return \view('',$vars);
     }
     public function indexAction(){
+        Session::boot();
+        
+        echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
+        dump($_SESSION);
+        
         $arr = [];
         $arr['初始化config表数据'] = url('way/user/initconfig');
         $arr['授权第一步'] = url('way/auth/auth');
