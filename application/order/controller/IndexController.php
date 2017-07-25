@@ -7,7 +7,7 @@ use app\common\model\SysOrder;
 
 class IndexController extends Controller
 {
-    public function index()
+    public function indexAction()
     {
 		require PAY_PATH . '/lib/WxPay.Api.php';
 		require PAY_PATH . '/example/WxPay.JsApiPay.php';
