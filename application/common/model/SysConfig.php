@@ -92,7 +92,7 @@ class SysConfig extends Model
             
         }
         
-        
+        return true;
     }
     
     
