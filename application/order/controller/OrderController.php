@@ -200,7 +200,7 @@ class OrderController extends Controller
 	        $data = [
 	            //'touser'=>$value['open_id'],
 	            'touser'=>'on8fG0xXd0UmqBbMexj0vZNL3O-w',
-	            'template_id'=>'NKvVUaovIrHSqtZaHSeVllP3uiPnuCPtjXDmapadPFo',
+	            'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
 	            'url'=>'http://gs.jltengfang.com/order?id='.$value['out_trade_no'],
 	            'topcolor'=>'#FF0000',
 	            'data'=>[
