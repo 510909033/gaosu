@@ -217,7 +217,7 @@ class OrderController extends Controller
 	        //$accessToken = $auth->getAccessToken(false);
 	        $tx = new accessToken(Config::get('wxpay.APPID'),Config::get('wxpay.APPSECRET'));
 	        $accessToken = $tx->getAccessToken();
-	        $message = new template($accessToken);
+	        $message = new template($accessToken['access_token']);
 	        $res = $message->send($data);
 	        if ($res)
 	            echo 'succeed'.$value['id'];
