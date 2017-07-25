@@ -1,11 +1,11 @@
 <?php
 namespace app\index\controller;
 
-class Index
+class IndexController
 {
     public function indexAction()
     {
-    	$this->test();
+    	return $this->test();
     }
 
 
