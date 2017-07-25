@@ -139,8 +139,9 @@ class AuthController
         
   
         if ($arr['openid']){
-            if ($this->bindUser()  ){
-                return $this->user;
+            $user = $this->bindUser(); 
+            if ( $user ){
+                return $user;
             }
             return false;
         }else{
