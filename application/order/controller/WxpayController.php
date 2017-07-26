@@ -40,10 +40,10 @@ class WxpayController extends Controller
         $orderdate = array();
         
         $input = new \WxPayUnifiedOrder();
-        $input->SetBody($orderdate['body']);
+        $input->SetBody($orderdate->body);
         $input->SetAttach("speed");
-        $input->SetOut_trade_no($orderdate['out_trade_no']);
-        $input->SetTotal_fee($orderdate['total_fee']);
+        $input->SetOut_trade_no($orderdate->out_trade_no);
+        $input->SetTotal_fee($orderdate->total_fee);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         $input->SetNotify_url(Config::get('wxpay.NOTIFY_URL'));
