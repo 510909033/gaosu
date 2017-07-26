@@ -31,8 +31,8 @@ class WxpayController extends Controller
             $this->error('查询不到正确的订单信息'); */
         $orderid = '201707191700278553924515';
             
-        $orderdate = SysOrder::find(['out_trade_no'=>$orderid]);
-       var_dump($orderdate);die();
+        $orderdate = SysOrder::get(['out_trade_no'=>$orderid]);
+       var_dump($orderdate['body']);die();
        
         if (!$orderdate || empty($orderdate))
             $this->error('查询不到正确的订单信息');            
