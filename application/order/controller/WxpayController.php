@@ -51,6 +51,7 @@ class WxpayController extends Controller
         $input->SetOpenid($openId);
         $order = \WxPayApi::unifiedOrder($input);
         
+        var_dump($order);die();
         $jsApiParameters = $tools->GetJsApiParameters($order);
         
         $this->assign('order', $order);
