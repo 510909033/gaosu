@@ -17,9 +17,7 @@
 <link rel="stylesheet" href="__CSS__/validationEngine.jquery.css">
 
 <script src="__JS__/jquery-1.8.3.min.js" type="text/javascript"></script>
-<script src="__JS__/jquery.min.js"></script>
 <script src="__JS__/texiao1.js"></script>
-<script src="__JS__/jquery-1.10.1.min.js"></script>
 <script src="__JS__/jquery.mloading.js"></script>
 
 <script src="__JS__/angularjs.js"></script>
@@ -60,15 +58,28 @@
 						<option value="3">Opel</option>
 						<option value="4">Audi</option>
 				</select></span></li>
-			<li>发动机后六位<span><input class="weui_input ws_ibj" 
+			<li>发动机号<span><input class="weui_input ws_ibj" 
 				 name="engine" 
 					type="text" placeholder="112244" /></span></li>
 			<li>颜色<span><input class="weui_input ws_ibj" type="text" 
 				 name="car_color" 
 					placeholder="黑色" /></span></li>
+			
+			<li>车辆注册时间<span><input class="weui_input ws_ibj" type="text" 
+				 name="reg_time" 
+					placeholder="" /></span></li>		
+					
+			<li>车架号<span><input class="weui_input ws_ibj" type="text" 
+				 name="chassis_number" 
+					placeholder="" /></span></li>		
+					
 			<li class="cl_l1">品牌<span><input 
 				 name="brand" 
 					class="weui_input ws_ibj" type="text" placeholder="路虎·朗逸" /></span></li>
+					
+			
+			
+					
 		</ul>
 		<p class="clbd_p1">完善车辆信息，点击下面按钮扫描证件</p>
 		<div class="sb_logo">
@@ -78,6 +89,7 @@
 		<div class="ws_dj1">
 			<label><input type="checkbox" id="yes" name="_agree" /></label><span>我已阅读并同意《吉林省高速缴费平台用户缴费协议》</span>
 			<div class="kuan">
+				<input class="li_input_hidden" type="hidden" name="id" value="0" />
 				<button id="zhuce" class="submit ws_qq" type="submit"
 					disabled="true">提交</button>
 			</div>
@@ -158,20 +170,12 @@
 			})
 			
 			var form_data = {$form};
-			$("li input").each(function(){
-				if(typeof form_data[$(this).attr('name')] != undefined ){
+			
+			$("li input,.li_input_hidden").each(function(){
+				if(typeof form_data[$(this).attr('name')] != 'undefined' ){
 					$(this).val( form_data[$(this).attr('name')] );
 				}
 			})
-			
-			
-			
-		
-			
-			
-			
-			
-			
 			
 			
 			
@@ -191,8 +195,8 @@
 				is_submit = true;
 		
 				$.ajax({
-					url:"{:url('way/user/userBindCar')}",
-					data:$("#form_id").serialize(),
+					url:"{:url('way/user/userBindCar?_ajax=1')}",
+					data:$("#form_id").serialize()+'&_ajax=1',
 					dataType:"json",
 					"type":"post",
 					beforeSend:function(){
