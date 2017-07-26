@@ -10,6 +10,8 @@ use app\way\controller\NeedLoginController;
 use app\common\tool\UserTool;
 use think\Exception;
 use app\common\model\SysUser;
+use app\common\tool\ConfigTool;
+use app\common\model\SysLogTmp;
 
 class UserController extends NeedLoginController
 {
@@ -96,6 +98,10 @@ class UserController extends NeedLoginController
             $json['status'] = 0;
             $json['error'] = $e->getMessage();
             $json['html'] = $e->getMessage();
+            
+            if (ConfigTool::IS_LOG_TMP){
+                SysLogTmp::log('绑定车辆出现异常', serialize($e) , 0 ,__METHOD__);
+            }
         }
    
         $json['method'] = $this->request->method();
