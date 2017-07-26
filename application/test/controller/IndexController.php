@@ -44,7 +44,7 @@ get_token();
  
 
     //获取access_token
-    public function get_tokenAction(){
+    function get_tokenAction(){
 
         //使用CURL向腾讯的API接口中发送对应的请求
         $ch = curl_init();
@@ -85,7 +85,7 @@ get_token();
 
 
 //判断文件是否存在
-    public function exists_tokenAction(){
+    function exists_tokenAction(){
 
         //判断token.txt文件是否存在
         if(file_exists('token.txt')){
@@ -98,7 +98,7 @@ get_token();
     }
 
 //获取token.txt的创建时间，并且与当前执行index.php文件的时间对比
-    public function exprise_tokenAction(){
+    function exprise_tokenAction(){
 
         //文件创建时间
         $ctime = filectime('token.txt');
