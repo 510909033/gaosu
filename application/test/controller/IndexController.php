@@ -37,7 +37,7 @@ class IndexController
     }
 
 //获取access_token
-    public function accessAction(){
+    public function accessAction(){     
 
         //定义一个APPID的常量
         define('APP_ID','wx9e1d8fc5ee0c85a1');
