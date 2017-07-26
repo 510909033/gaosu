@@ -44,8 +44,39 @@ class IndexController
 
         get_token();
 
-        exit;
+    //获取access_token
+    public function get_tokenAction(){     
+
+       
+        //使用CURL向腾讯的API接口中发送对应的请求
+        $ch = curl_init();
+
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.APP_ID.'&secret='.APP_SECRET;
+
+        curl_setopt($ch,CURLOPT_URL,$url);
+
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+
+        curl_setopt($ch,CURLOPT_HEADER,1);
+
+        curl_setopt($ch,CURLOPT_TIMEOUT,10);
+
+        $output = curl_exec($ch);
+
+        curl_close($ch);
+
+        $obj = json_decode($output,true);
+
+        var_dump($obj);
+
+
+        //得到access_token（票据）
         
+        //将其保存起来
+    }
+
+        exit;
+
     if(exists_token()){
 
     }else{
@@ -74,7 +105,7 @@ class IndexController
         //文件创建时间
         $ctime = filectime('token.txt');
 
-        if(time() - $ctime)>=7000){
+        if((time() - $ctime)>=7000){
 
              return true;
 
@@ -85,38 +116,7 @@ class IndexController
 }
     }
 
-//获取access_token
-   /* public function get_tokenAction(){     
 
-       
-        //使用CURL向腾讯的API接口中发送对应的请求
-        $ch = curl_init();
-
-        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.APP_ID.'&secret='.APP_SECRET;
-
-        curl_setopt($ch,CURLOPT_URL,$url);
-
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-
-        curl_setopt($ch,CURLOPT_HEADER,1);
-
-        curl_setopt($ch,CURLOPT_TIMEOUT,10);
-
-        $output = curl_exec($ch);
-
-        curl_close($ch);
-
-        $obj = json_decode($output,true);
-
-        var_dump($obj);
-
-
-
-        
-        //得到access_token（票据）
-        //
-        //将其保存起来
-    }*/
        
 
 }
