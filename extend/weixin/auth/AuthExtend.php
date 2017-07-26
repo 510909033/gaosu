@@ -1,9 +1,6 @@
 <?php
 namespace weixin\auth;
 
-use app\home\model\User;
-use \app\common\model\WeixinUser;
-use app\base\controller\interf\AuthInterf;
 use app\common\model\SysConfig;
 use app\common\model\SysUser;
 /**

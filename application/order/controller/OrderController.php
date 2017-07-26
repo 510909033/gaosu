@@ -1,19 +1,15 @@
 <?php
 namespace app\order\controller;
 
-use think\Controller;
-use think\Config;
-use think\Db;
-use app\common\model\WayLog;
-use weixin\auth\AuthController;
-use youwen\exwechat\api\message\template;
 use app\common\model\SysOrder;
-use youwen\exwechat\api\accessToken;
+use think\Config;
+use think\Controller;
 use weixin\auth\AuthExtend;
+use youwen\exwechat\api\accessToken;
+use youwen\exwechat\api\message\template;
 
 class OrderController extends Controller 
 {
-
 
 	function IndexAction()
 	{
@@ -192,7 +188,7 @@ class OrderController extends Controller
     	        $data = [
     	            'touser'=>$value['openid'],
     	            'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
-    	            'url'=>'http://gs.jltengfang.com/order?id='.$value['out_trade_no'],
+    	            'url'=>'http://gs.jltengfang.com/order/wxpay/index?id='.$value['out_trade_no'],
     	            'topcolor'=>'#FF0000',
     	            'data'=>[
     	                'first'=>['value'=>'高速支付订单'],
@@ -203,7 +199,7 @@ class OrderController extends Controller
     	                'remark'=>['value'=>'如有问题请联系110']
     	            ],
     	        ];
-    	        
+    	        var_dump($data);
                 $auth = new AuthExtend();
                 $accessToken = $auth->getAccessToken(false);
     	        $message = new template($accessToken);
@@ -215,42 +211,4 @@ class OrderController extends Controller
 	       echo "没有未支付的订单";	    
 	   	}
 	}
-	
-	
-	
-	
-	
-	public function wxPay($orderdate){
-		require PAY_PATH . '/lib/WxPay.Api.php';
-		require PAY_PATH . '/example/WxPay.JsApiPay.php';
-		require PAY_PATH . '/example/log.php';
-
-		$tools = new \JsApiPay();
-		$openId = $tools->GetOpenid();
-
-		//②、统一下单
-		$input = new \WxPayUnifiedOrder();
-		$input->SetBody($orderdate['body']);
-		$input->SetAttach("speed");
-		$input->SetOut_trade_no($orderdate['out_trade_no']);
-		$input->SetTotal_fee($orderdate['total_fee']);
-		$input->SetTime_start(date("YmdHis"));
-		$input->SetTime_expire(date("YmdHis", time() + 600));
-		//$input->SetGoods_tag("test");
-		$input->SetNotify_url(Config::get('wxpay.NOTIFY_URL'));
-		$input->SetTrade_type("JSAPI");
-		$input->SetOpenid($openId);
-		$order = \WxPayApi::unifiedOrder($input);
-
-		$jsApiParameters = $tools->GetJsApiParameters($order);
-
-		//获取共享收货地址js函数参数
-		$editAddress = $tools->GetEditAddressParameters();
-
-       	$this->assign('order', $order);
-       	$this->assign('jsApiParameters', $jsApiParameters);
-      	return $this->fetch('jsapi');
-	}
-
-
 }

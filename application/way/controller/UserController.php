@@ -6,71 +6,49 @@ use think\Controller;
 use think\Request;
 use app\way\controller\func\UserBindCarFuncController;
 use app\common\model\WayUserBindCar;
-use think\Validate;
-use weixin\auth\AuthController;
-use app\common\model\SysConfig;
-use app\common\model\SysArea;
-use think\Db;
-use app\common\model\SysUser;
+use app\way\controller\NeedLoginController;
 use app\common\tool\UserTool;
-use phpDocumentor\Reflection\Types\Parent_;
-use think\Session;
-use weixin\auth\AuthExtend;
+use think\Exception;
+use app\common\model\SysUser;
 
-class UserController extends Controller
+class UserController extends NeedLoginController
 {
-    
-    public function __construct(){
-        parent::__construct();
-        
-    }
-    
-    public function auth(){
-        Session::boot();
-        if ( !UserTool::getIs_login() ){
-            $this->redirect('way/auth/authindex',['state'=>urlencode(\request()->url(true))]);
-        }
-    }
  
+    /**
+     * 车辆绑定显示页
+     * @param number $id
+     * @return \think\response\View
+     */
     public function bindIndexAction($id=0){
         
-        $this->auth()   ;
+        
         $vars = [];
         
         if ($id){
             $wayUserBindCar = WayUserBindCar::get($id);
             $vars['form'] = $wayUserBindCar->toJson();
         }else{
-            $vars['form'] ='[]';
+            $where = [
+                'user_id'=>UserTool::getUser_id()  
+            ];
+            $wayUserBindCar = WayUserBindCar::where($where)->find();
+            
+            $start = microtime(true);
+       
+            
+            if ($wayUserBindCar){
+                $vars['form'] = $wayUserBindCar->toJson();
+            }else{
+                $vars['form'] ='[]';
+            }
         }
         
         return \view('',$vars);
     }
-    public function indexAction(){
-        Session::boot();
-        
-        echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
-        dump($_SESSION);
-        
-        $arr = [];
-        $arr['初始化config表数据'] = url('way/user/initconfig');
-        $arr['测试创建用户车辆二维码'] = url('way/user/bindindex');
-        $arr['获取access_token'] = url('way/user/testAccess_token');
+
+
     
-    
-        foreach ($arr as $text=>$link){
-    
-            echo "<a href='{$link}'>{$text}</a><br /><br />";
-    
-        }
-    
-    }
-    
-    public function testAccess_tokenAction(){
-        $auth = new AuthExtend();
-        dump($auth->getAccessToken());
-    }
-    
+
     /**
      * 用户绑定车辆
      */
@@ -78,21 +56,15 @@ class UserController extends Controller
         
         $json = [];
         try {
-            if (!UserTool::getIs_login()){
-                $this->auth();
-                return;
-            }
-//             UserTool::init(SysUser::get(11111));
             
             $wayUserBindCar = new WayUserBindCar();
             
-            $data = \request()->post();
+            $data = $this->request->post();
             
        
             $data['user_id'] = UserTool::getUser_id();
             $data['openid'] = UserTool::getUni_account();
-            $data['reg_time'] = '车辆注册时间';
-            $data['chassis_number'] = '车架号';
+            
             $data['car_qrcode_path'] = '尚未生成';
             
             
@@ -100,12 +72,13 @@ class UserController extends Controller
             $data['verify'] = 0;
             $data['create_time'] = time();
             
-            
-            $res = $wayUserBindCar->addOne($data);
+            $res = $wayUserBindCar->bindCar($data);
+       
+//             $res = $wayUserBindCar->addOne($data);
             if (!$res){
                 $json['status'] = 0;
                 $json['type'] = 'msg';
-                $json['html'] = implode('<br />', $wayUserBindCar->getError());
+                $json['html'] = implode('<br />', (array)$wayUserBindCar->getError());
                 $json['error'] = ($wayUserBindCar->getError());
             }else{
                 $func = new UserBindCarFuncController();
@@ -125,48 +98,15 @@ class UserController extends Controller
             $json['html'] = $e->getMessage();
         }
    
+        $json['method'] = $this->request->method();
+        
      
         return json($json);
-        
-//         dump($res);
-//         return ;
-        
-//         $func = new UserBindCarFuncController();
-        
-//         $wayUserBindCar = WayUserBindCar::get(1);
-//         $res = $func->createQrcode($wayUserBindCar);
-//         dump($res);
-        
-    }
-    
-    public function initConfigAction(){
-        $info = [];
-        try {
-            $config = new SysConfig();
-            
-//             $auth = new AuthController();
-//             $auth->getAccessToken(false);
-            
-            $info['初始化配置表'] = $config->init_table_data();
-            
-            $res = Db::query("show tables");
-            foreach ($res as $arr ){
-                $info['表名'][] = current($arr);
-//                 $info['表行数大小'][key($arr)] = Db::table(current($arr))->count('id');
-            }
-            
-            if (SysArea::count('id') < 1){
-                $info['初始化地区表'] = SysArea::execute(file_get_contents(EXTEND_PATH.'sys_area.sql'));
-            }
-        } catch (\Exception $e) {
-            $info['异常'] = $e->getMessage();
-        }
-        
 
         
-        dump($info);
     }
     
+
 
     
 }

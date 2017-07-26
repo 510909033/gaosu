@@ -4,14 +4,23 @@ namespace app\way\controller\func;
 
 use think\Controller;
 use app\common\model\WayUserBindCar;
-
+/**
+ * 绑定车辆表功能
+ * @author Administrator
+ *
+ */
 class UserBindCarFuncController 
 {
-    private $qrcode_root = ROOT_PATH.'public'.DS;
-    private $db_path = 'user_bind_car'.DS.'qrcode'.DS;
+    private $qrcode_root = '';
+    private $db_path = '';
     
-    
+    /**
+     * 绑定车辆表功能
+     */
     public function __construct(){
+        $this->qrcode_root = ROOT_PATH.'public'.DS;
+        $this->db_path = 'user_bind_car'.DS.'qrcode'.DS       ; 
+        
     }
 
     /**
@@ -21,7 +30,7 @@ class UserBindCarFuncController
      */
     private function getSplitDir($id){
         
-        return ($id%1000).DS.($id%1000).DS.($id%1000).DS;
+        return ($id%1000).DS.($id%1000).DS.($id%1000).DS ;
     }
     
     

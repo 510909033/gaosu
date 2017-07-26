@@ -4,7 +4,11 @@ namespace app\way\controller;
 
 use think\Controller;
 use app\common\tool\UserTool;
-
+/**
+ * 微信授权执行类
+ * @author Administrator
+ *
+ */
 class AuthController extends Controller
 {
     /**
@@ -13,12 +17,17 @@ class AuthController extends Controller
     public function authIndexAction(){
     
         $auth = new \weixin\auth\AuthExtend();
-        $redirect_uri = url('way/auth/return_url','','',true);
-        $state = urlencode(input('state'));
+        $redirect_uri = url('way/auth/return_url','','',true);//一般不变
+
+        if (!input('state')){
+            $state = urlencode(url('way/user/bindindex','','',true));
+        }else{
+            $state = urlencode(input('state'));//解析code最后跳转的url 包含http
+        }
         $is_unit = false;
         
-        $redirect_uri = urlencode($redirect_uri);
         
+        $redirect_uri = urlencode($redirect_uri);
         $auth->redirect($redirect_uri, $state, $is_unit);
     
     }

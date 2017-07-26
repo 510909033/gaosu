@@ -20,19 +20,24 @@ class WxpayController extends Controller
      */
     public function indexAction()
     {      
+        require PAY_PATH . '/lib/WxPay.Api.php';
+        require PAY_PATH . '/example/WxPay.JsApiPay.php';
+        require PAY_PATH . '/example/log.php';
         
-        $orderid = $_GET['id'];
+        
+        
+/*         $orderid = $_GET['id'];
         if (!isset($orderid) || empty($orderid) || !is_numeric($orderid))
-            $this->error('查询不到正确的订单信息');
-
+            $this->error('查询不到正确的订单信息'); */
+        $orderid = '201707191700278553924515';
             
         $orderdate = SysOrder::get(['out_trade_no'=>$orderid]);
+       
         if (!$orderdate || empty($orderdate))
             $this->error('查询不到正确的订单信息');            
         
         $tools = new \JsApiPay();
         $openId = $tools->GetOpenid();
-        $orderdate = array();
         
         $input = new \WxPayUnifiedOrder();
         $input->SetBody($orderdate['body']);
@@ -47,9 +52,6 @@ class WxpayController extends Controller
         $order = \WxPayApi::unifiedOrder($input);
         
         $jsApiParameters = $tools->GetJsApiParameters($order);
-        
-        //获取共享收货地址js函数参数
-        $editAddress = $tools->GetEditAddressParameters();
         
         $this->assign('order', $order);
         $this->assign('jsApiParameters', $jsApiParameters);

@@ -29,19 +29,24 @@ class SysConfig extends Model
     
     
     
+//     /**
+//      * 添加一条配置
+//      * @param array $data
+//      * @param array $vars
+//      * @return number|\think\false
+//      */
+//     public function addOne(array $data ){
+//         $model = null;
+//         $model = $this->validateFailException()->validate('\\app\\base\\validate\\ConfigValidate')->save($data);
+//         return $model;
+//     }
+    
     /**
-     * 添加一条配置
-     * @param array $data
-     * @param array $vars
-     * @return number|\think\false
+     * 根据type和key获取唯一的一行数据
+     * @param unknown $type
+     * @param unknown $key
+     * @return string|null null表示未获取到
      */
-    public function addOne(array $data ){
-        $model = null;
-        $model = $this->validateFailException()->validate('\\app\\base\\validate\\ConfigValidate')->save($data);
-        return $model;
-    }
-    
-    
     public static function getValueBy($type,$key){
         $model = self::get(function(Query $query) use ($type,$key){
             $where = [
