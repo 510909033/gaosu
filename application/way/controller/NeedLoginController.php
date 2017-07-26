@@ -7,6 +7,7 @@ use think\Session;
 use app\common\tool\UserTool;
 use app\common\model\SysUser;
 use app\common\tool\ConfigTool;
+use think\Env;
 
 class NeedLoginController extends Controller
 {
@@ -17,9 +18,10 @@ class NeedLoginController extends Controller
      * @var false|int
      * 
      */
-    protected static $debug_user_id = 11111;
+    protected static $debug_user_id = null;
     
     public function __construct(){
+        self::$debug_user_id = Env::get('debug.user_id111');
         parent::__construct();
         $this->check()  ;
     }
