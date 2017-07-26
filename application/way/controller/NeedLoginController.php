@@ -8,7 +8,7 @@ use app\common\tool\UserTool;
 use app\common\model\SysUser;
 use app\common\tool\ConfigTool;
 use think\Env;
-
+mb_internal_encoding("UTF-8");
 class NeedLoginController extends Controller
 {
     
@@ -21,7 +21,7 @@ class NeedLoginController extends Controller
     protected static $debug_user_id = null;
     
     public function __construct(){
-        self::$debug_user_id = Env::get('debug.user_id111');
+        self::$debug_user_id = Env::get('debug.user_id');
         parent::__construct();
         $this->check()  ;
     }
@@ -42,7 +42,7 @@ class NeedLoginController extends Controller
             if ($this->request->isAjax()){
                 $json = [
                     'status' => 0 ,
-                    'reason'=>ConfigTool::JSON_REASON_NEED_LOGIN,
+                    'reason'=>ConfigTool::$JSON_REASON_NEED_LOGIN,
                     'html'=>'尚未登录请登录',
                 ];
                 json($json)->send();
