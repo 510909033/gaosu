@@ -8,9 +8,8 @@ define('APP_ID','wx9e1d8fc5ee0c85a1');
 define('APP_SECRET','39ea8dc418b5ab3a03867a5937fe19fd'); 
 
 get_token();
-        
-class IndexController
-{
+
+
 
    /* public function testAction(){
         
@@ -114,4 +113,3 @@ class IndexController
         }
     }
 
-}
