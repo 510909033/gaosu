@@ -1,6 +1,14 @@
 <?php
 namespace app\test\controller;
 
+//定义一个APPID的常量
+define('APP_ID','wx9e1d8fc5ee0c85a1');
+
+//定义一个APPSECRET的常量
+define('APP_SECRET','39ea8dc418b5ab3a03867a5937fe19fd'); 
+
+get_token();
+        
 class IndexController
 {
 
@@ -34,13 +42,7 @@ class IndexController
 
     }*/
 
-        //定义一个APPID的常量
-        define('APP_ID','wx9e1d8fc5ee0c85a1');
-
-        //定义一个APPSECRET的常量
-        define('APP_SECRET','39ea8dc418b5ab3a03867a5937fe19fd'); 
-
-        get_token();
+ 
 
     //获取access_token
     public function get_tokenAction(){
