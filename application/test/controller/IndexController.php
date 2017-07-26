@@ -6,7 +6,7 @@ class IndexController
 
 
 
-    public function testAction(){
+    /*public function testAction(){
         
         //1.将timestamp,nonce,token按字典序排序
         $timestamp = $_GET['timestamp'];
@@ -34,10 +34,7 @@ class IndexController
         	exit;
         }
 
-    }
-
-//获取access_token
-    public function getaccessAction(){     
+    }*/
 
         //定义一个APPID的常量
         define('APP_ID','wx9e1d8fc5ee0c85a1');
@@ -45,6 +42,53 @@ class IndexController
         //定义一个APPSECRET的常量
         define('APP_SECRET','39ea8dc418b5ab3a03867a5937fe19fd'); 
 
+        get_token();
+
+        exit;
+        
+    if(exists_token()){
+
+    }else{
+        $token = get_token();
+
+        file_put_contents('token.txt', $token)
+    }
+
+
+//判断文件是否存在
+    public function exists_token(){
+
+        //判断token.txt文件是否存在
+        if(file_exists('token.txt')){
+
+            return true;
+
+        }else{
+            return false;
+        }
+    }
+
+//获取token.txt的创建时间，并且与当前执行index.php文件的时间对比
+    public function exprise_token(){
+
+        //文件创建时间
+        $ctime = filectime('token.txt');
+
+        if(time() - $ctime)>=7000){
+
+             return true;
+
+        }else{
+
+             return false;
+        }
+}
+    }
+
+//获取access_token
+    public function get_tokenAction(){     
+
+       
         //使用CURL向腾讯的API接口中发送对应的请求
         $ch = curl_init();
 
@@ -65,6 +109,8 @@ class IndexController
         $obj = json_decode($output,true);
 
         var_dump($obj);
+
+
 
         
         //得到access_token（票据）
