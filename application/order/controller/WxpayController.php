@@ -20,6 +20,11 @@ class WxpayController extends Controller
      */
     public function indexAction()
     {      
+        require PAY_PATH . '/lib/WxPay.Api.php';
+        require PAY_PATH . '/example/WxPay.JsApiPay.php';
+        require PAY_PATH . '/example/log.php';
+        
+        
         
         $orderid = $_GET['id'];
         if (!isset($orderid) || empty($orderid) || !is_numeric($orderid))

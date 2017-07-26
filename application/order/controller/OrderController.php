@@ -1,19 +1,15 @@
 <?php
 namespace app\order\controller;
 
-use think\Controller;
-use think\Config;
-use think\Db;
-use app\common\model\WayLog;
-use weixin\auth\AuthController;
-use youwen\exwechat\api\message\template;
 use app\common\model\SysOrder;
-use youwen\exwechat\api\accessToken;
+use think\Config;
+use think\Controller;
 use weixin\auth\AuthExtend;
+use youwen\exwechat\api\accessToken;
+use youwen\exwechat\api\message\template;
 
 class OrderController extends Controller 
 {
-
 
 	function IndexAction()
 	{
