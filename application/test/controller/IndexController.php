@@ -4,9 +4,7 @@ namespace app\test\controller;
 class IndexController
 {
 
-
-
-    /*public function testAction(){
+    public function testAction(){
         
         //1.将timestamp,nonce,token按字典序排序
         $timestamp = $_GET['timestamp'];
@@ -34,7 +32,7 @@ class IndexController
         	exit;
         }
 
-    }*/
+    }
 
         //定义一个APPID的常量
         define('APP_ID','wx9e1d8fc5ee0c85a1');
@@ -45,9 +43,8 @@ class IndexController
         get_token();
 
     //获取access_token
-    public function get_tokenAction(){     
+    public function get_tokenAction(){
 
-       
         //使用CURL向腾讯的API接口中发送对应的请求
         $ch = curl_init();
 
