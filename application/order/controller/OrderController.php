@@ -192,7 +192,7 @@ class OrderController extends Controller
     	        $data = [
     	            'touser'=>$value['openid'],
     	            'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
-    	            'url'=>'http://gs.jltengfang.com/order?id='.$value['out_trade_no'],
+    	            'url'=>'http://gs.jltengfang.com/order/Wxpay?id='.$value['out_trade_no'],
     	            'topcolor'=>'#FF0000',
     	            'data'=>[
     	                'first'=>['value'=>'高速支付订单'],
