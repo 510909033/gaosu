@@ -189,7 +189,6 @@ class OrderController extends Controller
 	   {
     	    foreach ($notPayOrder as $key => $value)
     	    {
-    
     	        $data = [
     	            'touser'=>$value['openid'],
     	            'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
