@@ -53,9 +53,6 @@ class WxpayController extends Controller
         
         $jsApiParameters = $tools->GetJsApiParameters($order);
         
-        //获取共享收货地址js函数参数
-        $editAddress = $tools->GetEditAddressParameters();
-        
         $this->assign('order', $order);
         $this->assign('jsApiParameters', $jsApiParameters);
         return $this->fetch('jsapi');
