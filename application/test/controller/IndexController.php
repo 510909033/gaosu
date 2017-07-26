@@ -80,7 +80,7 @@ get_token();
     }else{
         $token = get_token();
 
-        file_put_contents('token.txt', $token)
+        file_put_contents('token.txt', $token);
     }
 
 
