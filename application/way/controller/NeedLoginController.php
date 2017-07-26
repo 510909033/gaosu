@@ -8,7 +8,7 @@ use app\common\tool\UserTool;
 use app\common\model\SysUser;
 use app\common\tool\ConfigTool;
 use think\Env;
-
+mb_internal_encoding("UTF-8");
 class NeedLoginController extends Controller
 {
     
