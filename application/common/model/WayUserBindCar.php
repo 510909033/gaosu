@@ -14,9 +14,9 @@ class WayUserBindCar extends Model
 //     protected $readonly = ConfigTool::$TABLE_WAY_USER_BIND_CAR__READONLY;
 //     protected $readonly = null;
     
-    public function __construct(){
+    public function __construct($data=[]){
         $this->readonly = ConfigTool::$TABLE_WAY_USER_BIND_CAR__READONLY;
-        parent::__construct();
+        parent::__construct($data);
     }
     
     public function bindCar($data){
@@ -62,8 +62,6 @@ class WayUserBindCar extends Model
        
 //         $validate->rule('car_number' , 'require|eq:'.$hasBind->car_number);
         
-        
-        
         if ($hasBind->id != $data['id']){ 
             $this->error = '系统错误';
             return false;
@@ -91,6 +89,7 @@ class WayUserBindCar extends Model
         $where = [
             'user_id'=>$user_id
         ];
+        
         return WayUserBindCar::where($where)->find();
     }
     

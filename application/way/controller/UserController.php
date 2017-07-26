@@ -9,6 +9,7 @@ use app\common\model\WayUserBindCar;
 use app\way\controller\NeedLoginController;
 use app\common\tool\UserTool;
 use think\Exception;
+use app\common\model\SysUser;
 
 class UserController extends NeedLoginController
 {
@@ -19,7 +20,6 @@ class UserController extends NeedLoginController
      * @return \think\response\View
      */
     public function bindIndexAction($id=0){
-        
         
         
         $vars = [];
@@ -73,7 +73,7 @@ class UserController extends NeedLoginController
             $data['create_time'] = time();
             
             $res = $wayUserBindCar->bindCar($data);
-            
+       
 //             $res = $wayUserBindCar->addOne($data);
             if (!$res){
                 $json['status'] = 0;

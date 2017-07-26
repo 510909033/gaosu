@@ -21,7 +21,7 @@ class NeedLoginController extends Controller
     protected static $debug_user_id = null;
     
     public function __construct(){
-        self::$debug_user_id = Env::get('debug.user_id111');
+        self::$debug_user_id = Env::get('debug.user_id');
         parent::__construct();
         $this->check()  ;
     }
