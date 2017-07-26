@@ -203,7 +203,7 @@ class OrderController extends Controller
     	                'remark'=>['value'=>'如有问题请联系110']
     	            ],
     	        ];
-    	        
+    	        var_dump($data);
                 $auth = new AuthExtend();
                 $accessToken = $auth->getAccessToken(false);
     	        $message = new template($accessToken);
