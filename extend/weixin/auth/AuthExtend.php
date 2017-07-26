@@ -3,6 +3,8 @@ namespace weixin\auth;
 
 use app\common\model\SysConfig;
 use app\common\model\SysUser;
+use app\common\model\SysLogTmp;
+use app\common\tool\ConfigTool;
 /**
  * 微信静默授权类
  * @author Administrator
@@ -78,6 +80,10 @@ class AuthExtend
         $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$this->getAppkey().'&secret='.$this->getAppsecret();
         $content = file_get_contents($url);
         $arr = json_decode($content,true);
+        
+        if (ConfigTool::IS_LOG_TMP){
+            SysLogTmp::log('获取access_token', $content, 0 ,__METHOD__);
+        }
         
 
         if (isset($arr['access_token']) && isset($arr['expires_in'])){
@@ -166,6 +172,10 @@ class AuthExtend
             $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$code.'&grant_type=authorization_code';
             $con = file_get_contents($url);
             $arr = json_decode($con,true);
+        }
+        
+        if (ConfigTool::IS_LOG_TMP){
+            SysLogTmp::log('获取openid结果', $con , 0 ,__METHOD__);
         }
         
 /*

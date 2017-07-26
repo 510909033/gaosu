@@ -11,7 +11,19 @@ namespace app\common\tool;
  *      TABLE_WAY_USER_BIND_CAR__ADD_CAR_ALLOW_FIELD
  */
 class ConfigTool {
-   
+   /*
+    * 常见日志
+    *   获取access_token
+    *   用户微信授权后，获取的用户信息
+    *    
+    */
+    
+    /**
+     * 是否记录系统临时日志，即写入sys_log_tmp表
+     * @var string
+     */
+    const IS_LOG_TMP = TRUE;
+    
     /**
      * 需要登录的reason原因
      * @var string

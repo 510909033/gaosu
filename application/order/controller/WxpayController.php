@@ -29,7 +29,7 @@ class WxpayController extends Controller
 /*         $orderid = $_GET['id'];
         if (!isset($orderid) || empty($orderid) || !is_numeric($orderid))
             $this->error('查询不到正确的订单信息'); */
-        $orderid = '201707191700278553924515';
+        $orderid = '201707191700278553924516';
             
         $orderdate = SysOrder::get(['out_trade_no'=>$orderid]);
        
@@ -51,6 +51,11 @@ class WxpayController extends Controller
         $input->SetOpenid($openId);
         $order = \WxPayApi::unifiedOrder($input);
         
+        if (isset($order['err_code'])&&!empty($order['err_code']))
+            $this->error($order['err_code_des']);
+
+
+
         $jsApiParameters = $tools->GetJsApiParameters($order);
         
         $this->assign('order', $order);
@@ -58,4 +63,34 @@ class WxpayController extends Controller
         return $this->fetch('jsapi');
 
     }
+
+    /**
+     * 异步接收订单返回信息，订单成功付款后     
+     * @param int $id 订单编号
+     */
+    public function notify($id = 0)
+    {
+        require PAY_PATH . '/example/notify.php';
+
+        $notify = new \PayNotifyCallBack();
+        $notify->handle(true);
+
+        //找到匹配签名的订单
+        $order = SysOrder::get($id);
+        if (!isset($order)) {
+            \Log::write('未找到订单，id= ' . $id);
+        }
+        $succeed = ($notify->getReturnCode() == 'SUCCESS') ? true : false;
+        if ($succeed) {
+
+            \Log::write('订单' . $order->id . '生成二维码成功');
+
+            $order->save(['flag' => '2'], ['id' => $order->id]);
+            \Log::write('订单' . $order->id . '状态更新成功');
+        } else {
+            \Log::write('订单' . $id . '支付失败');
+        }
+    }  
+
+
 }

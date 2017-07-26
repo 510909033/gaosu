@@ -193,7 +193,7 @@ class OrderController extends Controller
     	            'data'=>[
     	                'first'=>['value'=>'高速支付订单'],
     	                'orderID'=>['value'=>$value['out_trade_no']],
-    	                'orderMoneySum'=>['value'=>$value['total_fee']],
+    	                'orderMoneySum'=>['value'=>sprintf("%.2f",($value['total_fee']/100))],
     	                'backupFieldName'=>['value'=>'高速收费'],
     	                'backupFieldData'=>['value'=>'111'],
     	                'remark'=>['value'=>'如有问题请联系110']
