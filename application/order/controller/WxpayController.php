@@ -26,8 +26,7 @@ class WxpayController extends Controller
         
         
         
-        $orderid = $_GET;
-        var_dump($orderid);die();
+        $orderid = $_GET['id'];
         if (!isset($orderid) || empty($orderid) || !is_numeric($orderid))
             $this->error('查询不到正确的订单信息');
 
