@@ -4,7 +4,7 @@ namespace app\test\controller;
 class IndexController
 {
 
-    public function testAction(){
+   /* public function testAction(){
         
         //1.将timestamp,nonce,token按字典序排序
         $timestamp = $_GET['timestamp'];
@@ -32,7 +32,7 @@ class IndexController
         	exit;
         }
 
-    }
+    }*/
 
         //定义一个APPID的常量
         define('APP_ID','wx9e1d8fc5ee0c85a1');
@@ -84,7 +84,7 @@ class IndexController
 
 
 //判断文件是否存在
-    public function exists_token(){
+    public function exists_tokenAction(){
 
         //判断token.txt文件是否存在
         if(file_exists('token.txt')){
@@ -97,7 +97,7 @@ class IndexController
     }
 
 //获取token.txt的创建时间，并且与当前执行index.php文件的时间对比
-    public function exprise_token(){
+    public function exprise_tokenAction(){
 
         //文件创建时间
         $ctime = filectime('token.txt');
@@ -111,9 +111,5 @@ class IndexController
              return false;
         }
     }
-    
-
-
-       
 
 }
