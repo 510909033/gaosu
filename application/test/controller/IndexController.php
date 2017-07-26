@@ -86,7 +86,7 @@ class IndexController
     }
 
 //获取access_token
-    public function get_tokenAction(){     
+   /* public function get_tokenAction(){     
 
        
         //使用CURL向腾讯的API接口中发送对应的请求
@@ -116,7 +116,7 @@ class IndexController
         //得到access_token（票据）
         //
         //将其保存起来
-    }
+    }*/
        
 
 }
