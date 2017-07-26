@@ -32,18 +32,18 @@ class WxpayController extends Controller
         $orderid = '201707191700278553924515';
             
         $orderdate = SysOrder::get(['out_trade_no'=>$orderid]);
+       
         if (!$orderdate || empty($orderdate))
             $this->error('查询不到正确的订单信息');            
         
         $tools = new \JsApiPay();
         $openId = $tools->GetOpenid();
-        $orderdate = array();
         
         $input = new \WxPayUnifiedOrder();
-        $input->SetBody($orderdate->data->body);
+        $input->SetBody($orderdate['body']);
         $input->SetAttach("speed");
-        $input->SetOut_trade_no($orderdate->data->out_trade_no);
-        $input->SetTotal_fee($orderdate->data->total_fee);
+        $input->SetOut_trade_no($orderdate['out_trade_no']);
+        $input->SetTotal_fee($orderdate['total_fee']);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         $input->SetNotify_url(Config::get('wxpay.NOTIFY_URL'));
@@ -52,9 +52,6 @@ class WxpayController extends Controller
         $order = \WxPayApi::unifiedOrder($input);
         
         $jsApiParameters = $tools->GetJsApiParameters($order);
-        
-        //获取共享收货地址js函数参数
-        $editAddress = $tools->GetEditAddressParameters();
         
         $this->assign('order', $order);
         $this->assign('jsApiParameters', $jsApiParameters);
