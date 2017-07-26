@@ -60,7 +60,11 @@ class IndexController
 
         $output = curl_exec($ch);
 
-        var_dump($output);
+        curl_close($ch);
+
+        $obj = json_decode($output,true);
+
+        var_dump($obj);
 
         
         //得到access_token（票据）
