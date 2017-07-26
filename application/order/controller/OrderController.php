@@ -1,18 +1,15 @@
 <?php
 namespace app\order\controller;
 
-use think\Controller;
-use think\Config;
-use think\Db;
-use app\common\model\WayLog;
-use weixin\auth\AuthController;
-use youwen\exwechat\api\message\template;
 use app\common\model\SysOrder;
+use think\Config;
+use think\Controller;
+use weixin\auth\AuthExtend;
 use youwen\exwechat\api\accessToken;
+use youwen\exwechat\api\message\template;
 
 class OrderController extends Controller 
 {
-
 
 	function IndexAction()
 	{
@@ -35,18 +32,12 @@ class OrderController extends Controller
 		$out = model('WayLogOut');
 		$out->saveAll($outlist);
 	}
-
-
-
-
-
-
  	/**
 	 * 
 	 *合并出入口信息并下单
 	 */
 
-	public function MergelogAction()
+/*	public function MergelogAction()
 	{
 		$userLogData = [];
 
@@ -71,7 +62,7 @@ class OrderController extends Controller
 					break;
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * 
@@ -79,7 +70,7 @@ class OrderController extends Controller
 	 * @param  (array)$arr 需要处理的数组
 	 * @return array();
 	 */
-	public function filterArray($arr=[])
+/*	public function filterArray($arr=[])
 	{
 		if (empty($arr)) return array();
 
@@ -92,7 +83,7 @@ class OrderController extends Controller
 			}
 		}
 		return array_values($arr); 
-	}
+	}*/
 
 	/**
 	 * 
@@ -101,7 +92,7 @@ class OrderController extends Controller
 	 * @param  (array)$outarr 出口数据
 	 * @return bool;
 	 */
-	public function addWayLog($inarr,$outarr)
+/*	public function addWayLog($inarr,$outarr)
 	{
 		$data = array();
 
@@ -139,9 +130,7 @@ class OrderController extends Controller
 			echo model()->_sql();
 			Db::rollback();
 		}
-
-
-	}
+	}*/
 	/**
 	 * 
 	 *计算费用
@@ -151,7 +140,7 @@ class OrderController extends Controller
 	 * @return (int) 金额：单位分;
 	 */
 
-	public function getPayNum($carType,$in_pos_id,$out_pos_id)
+/*	public function getPayNum($carType,$in_pos_id,$out_pos_id)
 	{
 		//收费配置
 		$charge 	= Config::get('charge_charge');
@@ -159,7 +148,7 @@ class OrderController extends Controller
 		$mileage 	= abs($out_pos_id-$in_pos_id);
 
 		return $rate*$mileage*1000;
-	}
+	}*/
 	/**
 	 * 
 	 *添加订单
@@ -168,7 +157,7 @@ class OrderController extends Controller
 	 */
 
 
-	public function addOrder($data)
+/*	public function addOrder($data)
 	{	
 
 		$orderData = array();
@@ -183,7 +172,7 @@ class OrderController extends Controller
 		$id = model('SysOrder')->add($orderData);
 
 		return $id;
-	}
+	}*/
 
 	/**
 	 * 查询所有未支付的订单进行推送消息
@@ -192,40 +181,35 @@ class OrderController extends Controller
 	public function createPushMessageAction()
 	{
 	    $notPayOrder = SysOrder::all(['trade_state'=>'']);
-	    $tx = new accessToken(Config::get('wxpay.APPID'),Config::get('wxpay.APPSECRET'));
-	    $accessToken = $tx->getAccessToken();
-	    foreach ($notPayOrder as $key => $value)
-	    {
-
-	        $data = [
-	            //'touser'=>$value['open_id'],
-	            'touser'=>'on8fG0xXd0UmqBbMexj0vZNL3O-w',
-	            'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
-	            'url'=>'http://gs.jltengfang.com/order?id='.$value['out_trade_no'],
-	            'topcolor'=>'#FF0000',
-	            'data'=>[
-	                'first'=>['value'=>'高速支付订单'],
-	                'orderID'=>['value'=>$value['out_trade_no']],
-	                'orderMoneySum'=>['value'=>$value['total_fee']],
-	                'backupFieldName'=>['value'=>'高速收费'],
-	                'backupFieldData'=>['value'=>'111'],
-	                'remark'=>['value'=>'如有问题请联系110']
-	            ],
-	        ];
-	        
-	        
-	        
-	        //$auth = new AuthController();
-	        //$accessToken = $auth->getAccessToken(false);
-
-	        $message = new template($accessToken['access_token']);
-	        $res = $message->send($data);
-	        var_dump($res);
-	        if ($res)
-	            echo 'succeed'.$value['id'];
-	        else 
-	            echo 'fail'.$value['id'];
-	    }
+	   if (!empty($notPayOrder))
+	   {
+    	    foreach ($notPayOrder as $key => $value)
+    	    {
+    	        $data = [
+    	            'touser'=>$value['openid'],
+    	            'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
+    	            'url'=>'http://gs.jltengfang.com/order/Wxpay?id='.$value['out_trade_no'],
+    	            'topcolor'=>'#FF0000',
+    	            'data'=>[
+    	                'first'=>['value'=>'高速支付订单'],
+    	                'orderID'=>['value'=>$value['out_trade_no']],
+    	                'orderMoneySum'=>['value'=>$value['total_fee']],
+    	                'backupFieldName'=>['value'=>'高速收费'],
+    	                'backupFieldData'=>['value'=>'111'],
+    	                'remark'=>['value'=>'如有问题请联系110']
+    	            ],
+    	        ];
+    	        var_dump($data);
+                $auth = new AuthExtend();
+                $accessToken = $auth->getAccessToken(false);
+    	        $message = new template($accessToken);
+    	        $res = $message->send($data);
+    	        var_dump($res);
+    	    }
+	   	}else 
+	   	{
+	       echo "没有未支付的订单";	    
+	   	}
 	}
 	
 	
