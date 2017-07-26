@@ -11,7 +11,13 @@ use app\common\tool\UserTool;
 
 class WayUserBindCar extends Model
 {
-    protected $readonly = ConfigTool::TABLE_WAY_USER_BIND_CAR__READONLY;
+//     protected $readonly = ConfigTool::$TABLE_WAY_USER_BIND_CAR__READONLY;
+//     protected $readonly = null;
+    
+    public function __construct(){
+        $this->readonly = ConfigTool::$TABLE_WAY_USER_BIND_CAR__READONLY;
+        parent::__construct();
+    }
     
     public function bindCar($data){
         $hasBind = self::getOne(UserTool::getUser_id());
@@ -35,7 +41,7 @@ class WayUserBindCar extends Model
         $validate = Loader::validate('WayUserBindCarValidate');
         
         if($validate->batch()->check($data)){
-            return $this->create($data , ConfigTool::TABLE_WAY_USER_BIND_CAR__ADD_CAR_ALLOW_FIELD);
+            return $this->create($data , ConfigTool::$TABLE_WAY_USER_BIND_CAR__ADD_CAR_ALLOW_FIELD);
         }else{
             $this->error = $validate->getError();
             return false;
@@ -64,7 +70,7 @@ class WayUserBindCar extends Model
         }
       
         if($validate->scene('save')->batch()->check($data)){
-            $res = $hasBind->allowField(ConfigTool::TABLE_WAY_USER_BIND_CAR__SAVE_CAR_ALLOW_FIELD)->save($data);
+            $res = $hasBind->allowField(ConfigTool::$TABLE_WAY_USER_BIND_CAR__SAVE_CAR_ALLOW_FIELD)->save($data);
             if (false !== $res){
                 return $hasBind;
             }

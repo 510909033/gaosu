@@ -42,7 +42,7 @@ class NeedLoginController extends Controller
             if ($this->request->isAjax()){
                 $json = [
                     'status' => 0 ,
-                    'reason'=>ConfigTool::JSON_REASON_NEED_LOGIN,
+                    'reason'=>ConfigTool::$JSON_REASON_NEED_LOGIN,
                     'html'=>'尚未登录请登录',
                 ];
                 json($json)->send();
