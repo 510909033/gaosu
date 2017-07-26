@@ -60,7 +60,9 @@ class IndexController
 
         $output = curl_exec($ch);
 
-        $obj = json_decode($output);
+        curl_close($ch);
+
+        $obj = json_decode($output,true);
 
         var_dump($obj);
 
