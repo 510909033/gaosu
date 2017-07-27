@@ -70,11 +70,15 @@ class PayNotifyCallBack extends WxPayNotify
         $update['transaction_id'] = $data['transaction_id'];
         $res = SysOrder::update($update,['out_trade_no'=>$data['out_trade_no']]);
         
-        if ($res)
+        if ($res){
+
         	Log::order_log('订单更新成功','成功');
             return true;
-        else 
+        }
+        else
+        {	
         	Log::order_log('订单更新数据库失败','失败');
             return false;
+        } 
 	}
 }
