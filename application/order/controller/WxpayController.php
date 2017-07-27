@@ -72,7 +72,6 @@ class WxpayController extends Controller
         require PAY_PATH . '/example/notify.php';
         $data = $_REQUEST;
 
-        \Log::write(1111);
 
         $notify = new \PayNotifyCallBack();
 
