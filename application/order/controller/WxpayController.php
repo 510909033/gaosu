@@ -26,10 +26,10 @@ class WxpayController extends Controller
         
         
         
-/*         $orderid = $_GET['id'];
+        $orderid = $_GET['id'];
         if (!isset($orderid) || empty($orderid) || !is_numeric($orderid))
-            $this->error('查询不到正确的订单信息'); */
-        $orderid = '201707191700278553924516';
+            $this->error('查询不到正确的订单信息');
+        //$orderid = '201707191700278553924516';
             
         $orderdate = SysOrder::get(['out_trade_no'=>$orderid]);
        
@@ -68,15 +68,20 @@ class WxpayController extends Controller
      * 异步接收订单返回信息，订单成功付款后     
      * @param int $id 订单编号
      */
-    public function notify($id = 0)
+    public function notifyAction()
     {
+        $data = $_REQUEST;
+
+        \Log::write(json_encode($data));
+
+
         require PAY_PATH . '/example/notify.php';
 
         $notify = new \PayNotifyCallBack();
         $notify->handle(true);
 
         //找到匹配签名的订单
-        $order = SysOrder::get($id);
+/*        $order = SysOrder::get(['out_trade_no'=>$orderid]);
         if (!isset($order)) {
             \Log::write('未找到订单，id= ' . $id);
         }
@@ -89,7 +94,7 @@ class WxpayController extends Controller
             \Log::write('订单' . $order->id . '状态更新成功');
         } else {
             \Log::write('订单' . $id . '支付失败');
-        }
+        }*/
     }  
 
 
