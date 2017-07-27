@@ -1,4 +1,6 @@
 <?php
+namespace app\test\controller;
+
 class IndexController extends Controller {
 
 	public function __construct(){
