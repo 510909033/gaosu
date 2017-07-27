@@ -1,14 +1,17 @@
 <?php
-class IndexAction extends Action {
+namespace app\test\controller;
+
+use think\Controller;
+class IndexController extends Controller {
 
 	public function __construct(){
 		
 	}
 
-	public function index(){
+	public function indexAction(){
 		//获得参数 signature nonce token timestamp echostr
 		$nonce     = $_GET['nonce'];
-		$token     = 'imooc';
+		$token     = 'zhgs';
 		$timestamp = $_GET['timestamp'];
 		$echostr   = $_GET['echostr'];
 		$signature = $_GET['signature'];
@@ -53,8 +56,8 @@ class IndexAction extends Action {
 				$toUser   = $postObj->FromUserName;
 				$fromUser = $postObj->ToUserName;
 				$time     = time();
-				$msgType  =  'text';
-				$content  = '欢迎关注我们的微信公众账号'.$postObj->FromUserName.'-'.$postObj->ToUserName;
+				$msgType  = 'text';
+				$content  = '欢迎关注我们的微信公众账号'/*.$postObj->FromUserName.'-'.$postObj->ToUserName*/;
 				$template = "<xml>
 							<ToUserName><![CDATA[%s]]></ToUserName>
 							<FromUserName><![CDATA[%s]]></FromUserName>
@@ -72,7 +75,6 @@ class IndexAction extends Action {
 <Content><![CDATA[你好]]></Content>
 </xml>*/
 			
-
 			}
 		}
 

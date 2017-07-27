@@ -26,6 +26,17 @@ class SysConfig extends Model
     const REG_TYPE_PHONE = 2;
     const REG_TYPE_EMAIL = 3;
     const REG_TYPE_USERNAME = 4;
+    /**
+     * 用户类型 ，user_type 个人
+     * @var integer
+     */
+    const REG_USER_TYPE__PERSONAL = 1;
+    /**
+     * 用户类型 ，user_type 商家
+     * @var integer
+     */
+    const REG_USER_TYPE__MERCHANT = 2;
+    
     
     
     

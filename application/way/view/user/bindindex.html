@@ -16,12 +16,16 @@
 <link rel="stylesheet" href="__CSS__/jquery.mloading.css">
 <link rel="stylesheet" href="__CSS__/validationEngine.jquery.css">
 
+
 <script src="__JS__/jquery-1.8.3.min.js" type="text/javascript"></script>
 <script src="__JS__/texiao1.js"></script>
 <script src="__JS__/jquery.mloading.js"></script>
 
 <script src="__JS__/angularjs.js"></script>
 
+    <script src="__JS__/zepto.min.js"></script>
+    <script src="__JS__/picker.js"></script>
+	 <link rel="stylesheet" href="__CSS__/weui2.css">
 
 
 <style>
@@ -180,6 +184,7 @@
 			
 			
 			
+			
 			var is_submit = false;
 			$("#form_id").submit(function(){
 				
@@ -204,7 +209,7 @@
 					},
 					success:function(data){
 						hide();
-						if(data.status){
+						if(0 === data.errcode){
 							show(data.html);
 							$("#y2 .btnok").click(function(){
 								location.href=data.view_url;
@@ -222,6 +227,11 @@
 			});
 			
 		});
+		
+		
+		  $(function(){
+		        $("input[name='reg_time']").datetimePicker({title:"车辆注册时间",m:1});  //年月日
+		    })
 		
 	</script>
 </body>

@@ -9,6 +9,10 @@ use think\Db;
 
 class InitFunc 
 {
+    /**
+     * 
+     * @return array
+     */
     public function initConfig(){
         $info = [];
         try {
@@ -34,7 +38,7 @@ class InitFunc
         
 
         
-        dump($info);
+        return $info;
     }
     
 }
