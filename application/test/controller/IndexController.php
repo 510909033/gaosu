@@ -30,7 +30,7 @@ class IndexController extends Controller {
 		}
 	}
 	// 接收事件推送并回复
-	public function reponseMsg(){
+	public function reponseMsgAction(){
 		//1.获取到微信推送过来post数据（xml格式）
 		$postArr = $GLOBALS['HTTP_RAW_POST_DATA'];
 		$tmpstr  = $postArr;
