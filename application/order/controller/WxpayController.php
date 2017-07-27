@@ -4,6 +4,7 @@ namespace app\order\controller;
 use think\Config;
 use think\Controller;
 use app\common\model\SysOrder;
+use think\Log;
 
 /**
  * 微信支付控制器
@@ -26,10 +27,9 @@ class WxpayController extends Controller
         
         
         
-/*         $orderid = $_GET['id'];
+        $orderid = $_GET['ordernum'];
         if (!isset($orderid) || empty($orderid) || !is_numeric($orderid))
-            $this->error('查询不到正确的订单信息'); */
-        $orderid = '201707191700278553924516';
+            $this->error('查询不到正确的订单信息');
             
         $orderdate = SysOrder::get(['out_trade_no'=>$orderid]);
        
@@ -68,28 +68,11 @@ class WxpayController extends Controller
      * 异步接收订单返回信息，订单成功付款后     
      * @param int $id 订单编号
      */
-    public function notify($id = 0)
+    public function notifyAction()
     {
         require PAY_PATH . '/example/notify.php';
-
         $notify = new \PayNotifyCallBack();
         $notify->handle(true);
-
-        //找到匹配签名的订单
-        $order = SysOrder::get($id);
-        if (!isset($order)) {
-            \Log::write('未找到订单，id= ' . $id);
-        }
-        $succeed = ($notify->getReturnCode() == 'SUCCESS') ? true : false;
-        if ($succeed) {
-
-            \Log::write('订单' . $order->id . '生成二维码成功');
-
-            $order->save(['flag' => '2'], ['id' => $order->id]);
-            \Log::write('订单' . $order->id . '状态更新成功');
-        } else {
-            \Log::write('订单' . $id . '支付失败');
-        }
     }  
 
 
