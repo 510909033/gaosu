@@ -4,6 +4,7 @@ namespace app\order\controller;
 use think\Config;
 use think\Controller;
 use app\common\model\SysOrder;
+use function think\log;
 
 /**
  * 微信支付控制器
@@ -71,7 +72,8 @@ class WxpayController extends Controller
     {
         require PAY_PATH . '/example/notify.php';
         $data = $_REQUEST;
-
+        $log =  new Log();
+        $log->write(json_encode($data));
 
         $notify = new \PayNotifyCallBack();
 
