@@ -195,7 +195,10 @@ class Log
         }
         return $result;
     }
-    public static function order_log($msg,$tag,$filename=date('Ymd')){
+    public static function order_log($msg,$tag,$filename=''){
+        if (empty($filename)) {
+            $filename = date('Ymd');
+        }
             $path = '/runtime/log/dwc/';
             $path = str_replace('\\', '/', ROOT_PATH .$path);
             if (!is_dir($path))
