@@ -3,7 +3,7 @@ ini_set('date.timezone','Asia/Shanghai');
 error_reporting(E_ERROR);
 
 //require_once "../lib/WxPay.Api.php";
-require '../lib/WxPay.Notify.php';
+require PAY_PATH.'/lib/WxPay.Notify.php';
 require 'log.php';
 
 //初始化日志
