@@ -72,7 +72,7 @@ class UserBindCarFuncController
                 return $db_file;
             }
         }
-        \QRcode::png(time() ,$outfile , \QR_ECLEVEL_L , $size=30,$margin=4);
+        \QRcode::png( $text ,$outfile , \QR_ECLEVEL_L , $size=30,$margin=4);
         if (is_file($outfile)){
             return $db_file;
         }
@@ -87,7 +87,7 @@ class UserBindCarFuncController
      */
     private function encrypt_qrcode_text(WayUserBindCar $wayUserBindCar){
         
-        return $wayUserBindCar->id;
+        return $wayUserBindCar->car_number.','.$wayUserBindCar->qrcode_version.','.$wayUserBindCar->id;
     }
     
     /**
