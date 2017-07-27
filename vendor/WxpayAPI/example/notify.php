@@ -64,7 +64,7 @@ class PayNotifyCallBack extends WxPayNotify
         $update['return_cache'] = json_encode($data);
         $update['attach'] = $data['attach'];
         $update['transaction_id'] = $data['transaction_id'];
-        $res = SysOrder::update($update,['out_trade_no'=>$update['out_trade_no']]);
+        $res = SysOrder::update($update,['out_trade_no'=>$data['out_trade_no']]);
         
         if ($res)
             return true;
