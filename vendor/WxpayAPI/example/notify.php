@@ -46,11 +46,14 @@ class PayNotifyCallBack extends WxPayNotify
 			return false;
 		}
 		$log = new Log();
-		$log->write('处理流程');
+		$log->write(json_encode($data));
 		return true;
 	}
 }
 
+Log::write('111111');
 //Log::DEBUG("begin notify");
 $notify = new PayNotifyCallBack();
+Log::write('22222');
 $notify->Handle(false);
+Log::write('333333');
