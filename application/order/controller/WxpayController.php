@@ -25,8 +25,6 @@ class WxpayController extends Controller
         require PAY_PATH . '/example/WxPay.JsApiPay.php';
         require PAY_PATH . '/example/log.php';
         
-        
-        
         $orderid = $_GET['ordernum'];
         if (!isset($orderid) || empty($orderid) || !is_numeric($orderid))
             $this->error('查询不到正确的订单信息');
@@ -53,8 +51,6 @@ class WxpayController extends Controller
         
         if (isset($order['err_code'])&&!empty($order['err_code']))
             $this->error($order['err_code_des']);
-
-
 
         $jsApiParameters = $tools->GetJsApiParameters($order);
         
