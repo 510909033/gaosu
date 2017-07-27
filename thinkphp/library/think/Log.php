@@ -205,7 +205,7 @@ class Log
         {
             mkdir($path);
         }
-        file_put_contents($path . $filename . '.txt', date('H:i:s') . "\t" . $tag . "\t" . $msg . PHP_EOL, FILE_APPEND);
+        file_put_contents($path . $filename . '.txt', date('Y-m-d H:i:s') . "\t" . $tag . "\t" . $msg . PHP_EOL, FILE_APPEND);
      }
 
 

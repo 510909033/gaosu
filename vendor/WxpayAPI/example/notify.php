@@ -34,6 +34,7 @@ class PayNotifyCallBack extends WxPayNotify
 	//重写回调处理函数
 	public function NotifyProcess($data, &$msg)
 	{
+		Log::order_log(json_encode($data),'回调记录');		
 		$notfiyOutput = array();
 		$update = array();
 		if(!array_key_exists("transaction_id", $data)){
@@ -72,12 +73,12 @@ class PayNotifyCallBack extends WxPayNotify
         
         if ($res){
 
-        	Log::order_log('订单更新成功','成功');
+        	Log::order_log('订单更新成功'.$orderdata['out_trade_no'],'成功');
             return true;
         }
         else
         {	
-        	Log::order_log('订单更新数据库失败','失败');
+        	Log::order_log('订单更新数据库失败'.$orderdata['out_trade_no'],'失败');
             return false;
         } 
 	}
