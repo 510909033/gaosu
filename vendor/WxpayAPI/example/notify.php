@@ -1,4 +1,6 @@
 <?php
+use think\Log;
+
 ini_set('date.timezone','Asia/Shanghai');
 error_reporting(E_ERROR);
 
@@ -43,6 +45,8 @@ class PayNotifyCallBack extends WxPayNotify
 			$msg = "订单查询失败";
 			return false;
 		}
+		$log = new Log();
+		$log->write('处理流程');
 		return true;
 	}
 }
