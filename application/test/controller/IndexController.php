@@ -26,7 +26,7 @@ class IndexController extends Controller {
 			echo  $echostr;
 			exit;
 		}else{
-			$this->reponseMsg();
+			$this->reponseMsgAction();
 		}
 	}
 	// 接收事件推送并回复
