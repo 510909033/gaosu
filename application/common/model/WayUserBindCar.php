@@ -8,24 +8,50 @@ use think\Loader;
 use app\way\validate\WayUserBindCarValidate;
 use app\common\tool\ConfigTool;
 use app\common\tool\UserTool;
+use app\way\controller\func\UserBindCarFuncController;
 
 class WayUserBindCar extends Model
 {
-//     protected $readonly = ConfigTool::$TABLE_WAY_USER_BIND_CAR__READONLY;
-//     protected $readonly = null;
+
+    
+
     
     public function __construct($data=[]){
         $this->readonly = ConfigTool::$TABLE_WAY_USER_BIND_CAR__READONLY;
         parent::__construct($data);
     }
     
+    protected  function setIdentityCardAttr($value)
+    {
+        return strtolower($value);
+    }
+    
+    protected  function setCarNumberAttr($value)
+    {
+        return strtolower($value);
+    }
+    
+    /**
+     * @param unknown $data
+     * @return \app\common\model\WayUserBindCar|boolean
+     */
     public function bindCar($data){
         $hasBind = self::getOne(UserTool::getUser_id());
         if (!$hasBind){
-            return $this->addOne($data);
+            //如果没有绑定 
+            unset($data['id']);
+            $res =  $this->addOne($data);
         }else{  
-            return $this->saveOne($data,$hasBind);
+            $res =  $this->saveOne($data,$hasBind);
         }
+        
+        
+        if ($res){
+            $res = self::get($res->id);
+        }
+        
+        
+        return $res;
     }
     
     /**
@@ -51,7 +77,7 @@ class WayUserBindCar extends Model
     /**
      * 新绑定车辆唯一入口
      * @param unknown $data
-     * @return \app\common\model\WayUserBindCar|boolean
+     * @return \app\common\model\WayUserBindCar|false
      */
     private function saveOne($data,WayUserBindCar $hasBind){
     
@@ -91,6 +117,21 @@ class WayUserBindCar extends Model
         ];
         
         return WayUserBindCar::where($where)->find();
+    }
+    
+    /**
+     * 更新绑定车辆的二维码
+     * @param WayUserBindCar $wayUserBindCar
+     * @return false|1 or 0 ，false表示失败，1或0表示成功
+     */
+    public static function save_car_qrcode_path(WayUserBindCar $wayUserBindCar){
+        $func = new UserBindCarFuncController();
+        $car_qrcode_path = $func->createQrcode($wayUserBindCar);
+        if ($car_qrcode_path){
+            $wayUserBindCar->car_qrcode_path = $car_qrcode_path;
+            return $wayUserBindCar->allowField('car_qrcode_path')->save();
+        }
+        return false;
     }
     
 }

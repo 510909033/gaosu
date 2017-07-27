@@ -231,6 +231,9 @@ array(5) {
                 'regtime'=>time(),
                 'type'=>SysConfig::REG_TYPE_WEIXIN,
                 'subscribe'=> 0 ,
+                'create_time'=>time(),
+                'user_type'=>SysConfig::REG_USER_TYPE__PERSONAL,
+                
             ];
             $regResult = $user->regApi($regData);
             if ( 0 === $regResult['err'] ){
