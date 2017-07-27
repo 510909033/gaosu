@@ -53,6 +53,9 @@ class PayNotifyCallBack extends WxPayNotify
             Log::write($msg.$data['out_trade_no']);
             return false;
         }
+        if ($orderdata['trade_state']=='SUCCESS')
+            return  true;
+        
         if ($orderdata['total_fee']!=$data['total_fee']){
             $update['remark'] = '金额异常';
             $update['trade_state'] = 'PAYERROR';
