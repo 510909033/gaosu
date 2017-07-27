@@ -5,7 +5,7 @@ class IndexController extends Controller {
 		
 	}
 
-	public function index(){
+	public function indexAction(){
 		//获得参数 signature nonce token timestamp echostr
 		$nonce     = $_GET['nonce'];
 		$token     = 'zhgs';
