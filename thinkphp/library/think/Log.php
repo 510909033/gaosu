@@ -199,13 +199,13 @@ class Log
         if (empty($filename)) {
             $filename = date('Ymd');
         }
-            $path = '/runtime/log/dwc/';
-            $path = str_replace('\\', '/', ROOT_PATH .$path);
-            if (!is_dir($path))
-            {
-                mkdir($path);
-            }
-            file_put_contents($path . $filename . '.txt', date('H:i:s') . "\t" . $tag . "\t" . $msg . PHP_EOL, FILE_APPEND);
+        $path = '/runtime/log/dwc/';
+        $path = str_replace('\\', '/', ROOT_PATH .$path);
+        if (!is_dir($path))
+        {
+            mkdir($path);
+        }
+        file_put_contents($path . $filename . '.txt', date('H:i:s') . "\t" . $tag . "\t" . $msg . PHP_EOL, FILE_APPEND);
      }
 
 
