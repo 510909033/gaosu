@@ -16,6 +16,7 @@ class PayNotifyCallBack extends WxPayNotify
 	//查询订单
 	public function Queryorder($transaction_id)
 	{
+	    Log::write(__LINE__);
 		$input = new WxPayOrderQuery();
 		$input->SetTransaction_id($transaction_id);
 		$result = WxPayApi::orderQuery($input);
@@ -25,8 +26,10 @@ class PayNotifyCallBack extends WxPayNotify
 			&& $result["return_code"] == "SUCCESS"
 			&& $result["result_code"] == "SUCCESS")
 		{
+		    Log::write(__LINE__);
 			return true;
 		}
+		Log::write(__LINE__);
 		return false;
 	}
 	
@@ -36,12 +39,15 @@ class PayNotifyCallBack extends WxPayNotify
 		Log::DEBUG("call back:" . json_encode($data));
 		$notfiyOutput = array();
 		
+		Log::write(__LINE__);
 		if(!array_key_exists("transaction_id", $data)){
+		    Log::write(__LINE__);
 			$msg = "输入参数不正确";
 			return false;
 		}
 		//查询订单，判断订单真实性
 		if(!$this->Queryorder($data["transaction_id"])){
+		    Log::write(__LINE__);
 			$msg = "订单查询失败";
 			return false;
 		}
