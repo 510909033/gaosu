@@ -57,7 +57,7 @@ class IndexController extends Controller {
 				$fromUser = $postObj->ToUserName;
 				$time     = time();
 				$msgType  = 'text';
-				$content  = '欢迎关注我们的微信公众账号'.$postObj->FromUserName.'-'.$postObj->ToUserName;
+				$content  = '欢迎关注我们的微信公众账号'/*.$postObj->FromUserName.'-'.$postObj->ToUserName*/;
 				$template = "<xml>
 							<ToUserName><![CDATA[%s]]></ToUserName>
 							<FromUserName><![CDATA[%s]]></FromUserName>
