@@ -70,7 +70,6 @@ class WxpayController extends Controller
     public function notifyAction()
     {
         require PAY_PATH . '/example/notify.php';
-        require PAY_PATH . '/example/log.php';
         $data = $_REQUEST;
 
         \Log::write(json_encode($data));
