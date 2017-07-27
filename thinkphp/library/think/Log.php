@@ -195,6 +195,16 @@ class Log
         }
         return $result;
     }
+    public static function order_log($msg,$tag,$filename=date('Ymd')){
+            $path = '/runtime/log/dwc/';
+            $path = str_replace('\\', '/', ROOT_PATH .$path);
+            if (!is_dir($path))
+            {
+                mkdir($path);
+            }
+            file_put_contents($path . $filename . '.txt', date('H:i:s') . "\t" . $tag . "\t" . $msg . PHP_EOL, FILE_APPEND);
+     }
+
 
     /**
      * 静态调用
