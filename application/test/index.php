@@ -1,5 +1,4 @@
 <?php
-namespace app\test\controller;
 
 //定义一个APPID的常量
 define('APP_ID','wx9e1d8fc5ee0c85a1');
