@@ -33,6 +33,7 @@ class IndexController extends Controller {
 	public function reponseMsg(){
 		//1.获取到微信推送过来post数据（xml格式）
 		$postArr = $GLOBALS['HTTP_RAW_POST_DATA'];
+		$tmpstr  = $postArr;
 		//2.处理消息类型，并设置回复类型和内容
 		/*<xml>
 <ToUserName><![CDATA[toUser]]></ToUserName>
@@ -57,7 +58,7 @@ class IndexController extends Controller {
 				$fromUser = $postObj->ToUserName;
 				$time     = time();
 				$msgType  = 'text';
-				$content  = '欢迎关注我们的微信公众账号'/*.$postObj->FromUserName.'-'.$postObj->ToUserName*/;
+				$content  = '公众帐号'.$postObj->FromUserName.'-'.$postObj->ToUserName;
 				$template = "<xml>
 							<ToUserName><![CDATA[%s]]></ToUserName>
 							<FromUserName><![CDATA[%s]]></FromUserName>
