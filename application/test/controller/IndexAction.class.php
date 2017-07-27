@@ -8,7 +8,7 @@ class IndexAction extends Action {
 	public function index(){
 		//获得参数 signature nonce token timestamp echostr
 		$nonce     = $_GET['nonce'];
-		$token     = 'imooc';
+		$token     = 'zhgs';
 		$timestamp = $_GET['timestamp'];
 		$echostr   = $_GET['echostr'];
 		$signature = $_GET['signature'];
