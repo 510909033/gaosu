@@ -4,7 +4,7 @@ error_reporting(E_ERROR);
 
 require_once PAY_PATH."/lib/WxPay.Api.php";
 require PAY_PATH.'/lib/WxPay.Notify.php';
-require PAY_PATH.'/example/log.php';
+//require PAY_PATH.'/example/log.php';
 
 //初始化日志
 
