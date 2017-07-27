@@ -71,10 +71,6 @@ class WxpayController extends Controller
     public function notifyAction()
     {
         require PAY_PATH . '/example/notify.php';
-        $data = $_REQUEST;
-        $log =  new Log();
-        $log->write(json_encode($data));
-
         $notify = new \PayNotifyCallBack();
         $notify->handle(true);
     }  

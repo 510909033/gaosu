@@ -1,5 +1,6 @@
 <?php
 use think\Log;
+use app\order\model\SysOrder;
 
 ini_set('date.timezone','Asia/Shanghai');
 error_reporting(E_ERROR);
@@ -16,7 +17,6 @@ class PayNotifyCallBack extends WxPayNotify
 	//查询订单
 	public function Queryorder($transaction_id)
 	{
-	    Log::write(__LINE__);
 		$input = new WxPayOrderQuery();
 		$input->SetTransaction_id($transaction_id);
 		$result = WxPayApi::orderQuery($input);
@@ -26,40 +26,45 @@ class PayNotifyCallBack extends WxPayNotify
 			&& $result["return_code"] == "SUCCESS"
 			&& $result["result_code"] == "SUCCESS")
 		{
-		    Log::write(__LINE__);
 			return true;
 		}
-		Log::write(__LINE__);
 		return false;
 	}
 	
 	//重写回调处理函数
 	public function NotifyProcess($data, &$msg)
 	{
-		Log::DEBUG("call back:" . json_encode($data));
 		$notfiyOutput = array();
-		
-		Log::write(__LINE__);
+		$update = array();
 		if(!array_key_exists("transaction_id", $data)){
-		    Log::write(__LINE__);
 			$msg = "输入参数不正确";
 			return false;
 		}
 		//查询订单，判断订单真实性
 		if(!$this->Queryorder($data["transaction_id"])){
-		    Log::write(__LINE__);
 			$msg = "订单查询失败";
 			return false;
 		}
-		$log = new Log();
-		$log->write(json_encode($data));
-		return true;
+        $orderdata =  SysOrder::get(['out_trade_no'=>$data['out_trade_no']]);
+        if (!$orderdata)
+            $msg = '本地订单不存在';
+            return false;
+        if ($orderdata['total_fee']!=$data['total_fee']){
+            $update['remark'] = '金额异常';
+            $update['trade_state'] = 'PAYERROR';
+        }else{
+            $update['trade_state'] = 'SUCCESS';
+        }
+        
+        $update['time_end'] = strtotime($data['time_end']);
+        $update['return_cache'] = json_encode($data);
+        $update['attach'] = $data['attach'];
+        $update['transaction_id'] = $data['transaction_id'];
+        $res = SysOrder::update($update,['out_trade_no'=>$update['out_trade_no']]);
+        
+        if ($res)
+            return true;
+        else 
+            return false;
 	}
 }
-
-Log::write('111111');
-//Log::DEBUG("begin notify");
-$notify = new PayNotifyCallBack();
-Log::write('22222');
-$notify->Handle(false);
-Log::write('333333');
