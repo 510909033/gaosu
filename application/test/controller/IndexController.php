@@ -26,13 +26,14 @@ class IndexController extends Controller {
 			echo  $echostr;
 			exit;
 		}else{
-			$this->reponseMsgAction();
+			$this->reponseMsg();
 		}
 	}
 	// 接收事件推送并回复
-	public function reponseMsgAction(){
+	public function reponseMsg(){
 		//1.获取到微信推送过来post数据（xml格式）
 		$postArr = $GLOBALS['HTTP_RAW_POST_DATA'];
+		$tmpstr  = $postArr;
 		//2.处理消息类型，并设置回复类型和内容
 		/*<xml>
 <ToUserName><![CDATA[toUser]]></ToUserName>
@@ -76,6 +77,7 @@ class IndexController extends Controller {
 </xml>*/
 			
 			}
-		}	
-	}
+		}
+	}//reponseMsg end
+	
 }//class end
