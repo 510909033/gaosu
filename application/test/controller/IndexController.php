@@ -13,7 +13,7 @@ class IndexController extends Controller {
 	    @file_put_contents('./'.$filename , $str .PHP_EOL.PHP_EOL,FILE_APPEND);
 	}*/
 	public function indexAction(){
-	    //$this->log(11);
+/* 	    //$this->log(11);
 	    //$this->log($GLOBALS['HTTP_RAW_POST_DATA']);
 	    
 		//获得参数 signature nonce token timestamp echostr
@@ -34,9 +34,9 @@ class IndexController extends Controller {
 			echo  $echostr;
 			exit;
 		}else{
-		    //$this->log(33);
+		    //$this->log(33); */
 			$this->reponseMsgAction();
-		}
+/* 		} */
 	}
 	public function getNonce(){
 
