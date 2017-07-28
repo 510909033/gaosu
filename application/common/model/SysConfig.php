@@ -4,6 +4,9 @@ namespace app\common\model;
 
 use think\Model;
 use think\db\Query;
+use app\common\tool\TmpTool;
+use app\common\tool\ConfigTool;
+use app\common\tool\UserTool;
 
 class SysConfig extends Model
 {
@@ -15,7 +18,7 @@ class SysConfig extends Model
      */
     const TYPE_UPLOAD_SUBFIX_NUM = '上传文件配置';
     const TYPE_WEIXIN_CONFIG = '微信配置';
-    const TYPE_COLOR = '颜色选项';
+    const TYPE_GS_COLOR_CONFIG = '高速配置-高速绑定车辆颜色配置';
     
     /**
      * user表type字段的值
@@ -51,6 +54,15 @@ class SysConfig extends Model
 //         $model = $this->validateFailException()->validate('\\app\\base\\validate\\ConfigValidate')->save($data);
 //         return $model;
 //     }
+
+    /**
+     * 根据type获取配置列表
+     * @param unknown $type
+     * @return \think\static[]|\think\false
+     */
+    public static function getListByType($type){
+        return self::all( ['type'=>$type]);
+    }
     
     /**
      * 根据type和key获取唯一的一行数据
@@ -66,7 +78,7 @@ class SysConfig extends Model
             ];
             $query->where($where);
         });
-            return $model&&$model->id?$model->value:null;
+        return $model&&$model->id?$model->value:null;
     }
     
     
@@ -83,6 +95,14 @@ class SysConfig extends Model
             'access_token'=>'',
             'access_token_expire'=>0,
         ];
+        
+        $config[SELF::TYPE_GS_COLOR_CONFIG] = [
+            'blue' => '蓝色',
+            'black' => '黑色',
+            'yellow' => '黄色',
+            'white' => '白色',
+        ];
+        
         
         
         foreach ($config as $type=>$arr){
@@ -103,6 +123,9 @@ class SysConfig extends Model
                   'key'=>$key,
                    'value'=>$value
                 ];
+                if (ConfigTool::IS_LOG_TMP){
+                    SysLogTmp::log('增加配置表数据,type=【'.$type.'】', $type.'|'.$key.'|'.$value, UserTool::getUser_id(), __FILE__);
+                }
                 $line->save($data);
             }
             
