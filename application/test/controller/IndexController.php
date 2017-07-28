@@ -18,6 +18,7 @@ class IndexController extends Controller {
 	    
 		//获得参数 signature nonce token timestamp echostr
 		$nonce     = $_GET['nonce'];
+		var_dump($nonce);
 		$token     = 'zhgs';
 		$timestamp = $_GET['timestamp'];
 		$echostr   = $_GET['echostr'];
@@ -37,6 +38,9 @@ class IndexController extends Controller {
 		    $this->log(33);
 			$this->reponseMsgAction();
 		}
+	}
+	public function getNonce(){
+
 	}
 	// 接收事件推送并回复
 	public function reponseMsgAction(){
