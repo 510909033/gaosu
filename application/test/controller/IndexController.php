@@ -14,7 +14,7 @@ class IndexController extends Controller {
 	}
 	public function indexAction(){
 	    $this->log(11);
-	    $this->log($GLOBALS['HTTP_RAW_POST_DATA']);
+	    //$this->log($GLOBALS['HTTP_RAW_POST_DATA']);
 	    
 		//获得参数 signature nonce token timestamp echostr
 		$nonce     = $_GET['nonce'];
