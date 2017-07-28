@@ -186,7 +186,8 @@ class OrderController extends Controller
     	    {
     	        $data = [
     	            'touser'=>$value['openid'],
-    	            'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
+    	            //'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
+    	            'template_id'=>'NKvVUaovIrHSqtZaHSeVllP3uiPnuCPtjXDmapadPFo',
     	            'url'=>'http://gs.jltengfang.com/order/wxpay/index?ordernum='.$value['out_trade_no'],
     	            'topcolor'=>'#FF0000',
     	            'data'=>[
