@@ -1,6 +1,7 @@
 <?php
 use think\Log;
 use app\order\model\SysOrder;
+use think\Db;
 
 ini_set('date.timezone','Asia/Shanghai');
 error_reporting(E_ERROR);
@@ -69,17 +70,28 @@ class PayNotifyCallBack extends WxPayNotify
         $update['return_cache'] = json_encode($data);
         $update['attach'] = $data['attach'];
         $update['transaction_id'] = $data['transaction_id'];
-        $res = SysOrder::update($update,['out_trade_no'=>$data['out_trade_no']]);
         
-        if ($res){
 
-        	Log::order_log('订单更新成功'.$orderdata['out_trade_no'],'成功');
-            return true;
-        }
-        else
-        {	
-        	Log::order_log('订单更新数据库失败'.$orderdata['out_trade_no'],'失败');
+        Db::startTrans();
+        try {
+            $res    = SysOrder::update($update,['out_trade_no'=>$data['out_trade_no']]);
+            $logres = WayLog::update(['is_need_pay'=>0,'is_pay'=>1,'pay_time'=>time()],['id'=>$orderdata['log_id']]);
+            if ($res&&$logres){
+                Db::commit();
+                Log::order_log('订单更新成功'.$orderdata['out_trade_no'],'成功');
+                return true;
+            }
+            else
+            {
+                Db::rollback();
+                Log::order_log('订单更新数据库失败'.$orderdata['out_trade_no'],'失败');
+                return false;
+            }
+        } catch (Exception $e) {
+            Log::order_log(json_encode($e),'抛异常');
+            Db::rollback();            
             return false;
-        } 
+
+        }        
 	}
 }
