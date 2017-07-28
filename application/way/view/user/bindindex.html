@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <!-- 优先使用 IE 最新版本和 Chrome -->
 <meta name="renderer" content="webkit">
@@ -21,16 +22,21 @@
 <script src="__JS__/texiao1.js"></script>
 <script src="__JS__/jquery.mloading.js"></script>
 
-<script src="__JS__/angularjs.js"></script>
 
-    <script src="__JS__/zepto.min.js"></script>
-    <script src="__JS__/picker.js"></script>
-	 <link rel="stylesheet" href="__CSS__/weui2.css">
+<script src="__JS__/zepto.min.js"></script>
+<script src="__JS__/picker.js"></script>
+<link rel="stylesheet" href="__CSS__/weui2.css">
+
+<script src="__JS__/angularjs.js"></script>
 
 
 <style>
 .formErrorContent {
 	color: #000000 !important;
+}
+
+.kuan {
+	margin-bottom: 10rm !important;
 }
 </style>
 </head>
@@ -38,52 +44,52 @@
 
 
 
-	<form class="kscx_top" id="form_id" method="post" action="bind" ng-app="myApp" ng-controller="myCtrl">
-		<div class="zhuce clearfix"  >
+	<form class="kscx_top" id="form_id" method="post" action="bind"
+		ng-app="myApp" ng-controller="myCtrl">
+		<div class="zhuce clearfix">
 			<span ng-bind="form_name"></span>
 		</div>
 		<ul>
-			<li class="xm_l1">车主姓名<span><input
-				 name="username" 
-					class="weui_input ws_ibj" type="text" placeholder="刘晓小"
+			<li class="xm_l1">车主姓名<span><input name="username"
+					class="weui_input ws_ibj" type="text" placeholder="请输入车主姓名"
 					maxlength="5" /></span></li>
-			<li>身份证号<span><input class=" weui_input ws_ibj" 
-			 name="identity_card" 
-					type="text" placeholder="22010219780724123X" maxlength="18" /></span></li>
-			<li>手机号码<span><input class="weui_input ws_ibj" 
-					name="phone" id="telephone" type="text"
-					placeholder="13544665577" maxlength="11" /></span></li>
-			<li>车牌号<span><input class="weui_input ws_ibj" type="text" 
-				 name="car_number" 
-					placeholder="吉AHH126" /></span></li>
-			<li>车型<span><select class="weui_input ws_ibj gais"  name="car_type_id" >
-						<option value="1">Volvo</option>
-						<option value="2">Saab</option>
-						<option value="3">Opel</option>
-						<option value="4">Audi</option>
+			<li>身份证号<span><input class=" weui_input ws_ibj"
+					name="identity_card" type="text" placeholder="请输入省份证号"
+					maxlength="18" /></span></li>
+			<li>手机号码<span><input class="weui_input ws_ibj"
+					name="phone" id="telephone" type="text" placeholder="请输入手机号码"
+					maxlength="11" /></span></li>
+			<li>车牌号<span><input class="weui_input ws_ibj" type="text"
+					name="car_number" placeholder="请输入车牌号" /></span></li>
+			<li>车型<span><select class="weui_input ws_ibj gais"
+					name="car_type_id">
+						<option value="0">请选择车型</option>
+						<option value="{{ x.uni_id }}" ng-selected="number123==x.uni_id"
+							ng-repeat="x in names" ng-bind="x.name"></option>
+
 				</select></span></li>
-			<li>发动机号<span><input class="weui_input ws_ibj" 
-				 name="engine" 
-					type="text" placeholder="112244" /></span></li>
-			<li>颜色<span><input class="weui_input ws_ibj" type="text" 
-				 name="car_color" 
-					placeholder="黑色" /></span></li>
-			
-			<li>车辆注册时间<span><input class="weui_input ws_ibj" type="text" 
-				 name="reg_time" 
-					placeholder="" /></span></li>		
-					
-			<li>车架号<span><input class="weui_input ws_ibj" type="text" 
-				 name="chassis_number" 
-					placeholder="" /></span></li>		
-					
-			<li class="cl_l1">品牌<span><input 
-				 name="brand" 
-					class="weui_input ws_ibj" type="text" placeholder="路虎·朗逸" /></span></li>
-					
-			
-			
-					
+			<li>发动机号<span><input class="weui_input ws_ibj"
+					name="engine" type="text" placeholder="请输入发动机号" /></span></li>
+			<li>颜色<span><select class="weui_input ws_ibj gais"
+					name="car_color">
+						<option value="0">请选择颜色</option>
+						<option value="{{ x.id }}" ng-selected="form_car_color==x.id"
+							ng-repeat="x in repeat_car_color" ng-bind="x.value"></option>
+
+				</select></span></li>
+
+			<li>车辆注册时间<span><input class="weui_input ws_ibj"
+					type="text" name="reg_time" placeholder="请输入车辆注册时间" /></span></li>
+
+			<li>车架号<span><input class="weui_input ws_ibj" type="text"
+					name="chassis_number" placeholder="请输入车架号" /></span></li>
+
+			<li class="cl_l1">品牌<span><input name="brand"
+					class="weui_input ws_ibj" type="text" placeholder="请输出车辆品牌" /></span></li>
+
+
+
+
 		</ul>
 		<p class="clbd_p1">完善车辆信息，点击下面按钮扫描证件</p>
 		<div class="sb_logo">
@@ -92,21 +98,26 @@
 		</div>
 		<div class="ws_dj1">
 			<label><input type="checkbox" id="yes" name="_agree" /></label><span>我已阅读并同意《吉林省高速缴费平台用户缴费协议》</span>
-			<div class="kuan">
+			<div class="kuan" style="margin-bottom: 0.546875rem;">
 				<input class="li_input_hidden" type="hidden" name="id" value="0" />
 				<button id="zhuce" class="submit ws_qq" type="submit"
 					disabled="true">提交</button>
 			</div>
 		</div>
+
 	</form>
 
 	<div class="formErrorContent fengmian" id="y1">
 		<div class="tishi" id="y2">
-			<p class="y2_1">姓名不能为空</p>
+			<p class="y2_1">数据加载中。。。</p>
 			<a class="btnok" href="JAVASCRIPT:;">确定</a>
 		</div>
 	</div>
-	
+
+	<script type="text/javascript">
+var app = angular.module('myApp', []);
+</script>
+
 	<script type="text/javascript">
 		var cb = document.getElementById("yes");
 		var btn = document.getElementById("zhuce");
@@ -160,29 +171,39 @@
 	<!--loading加载。-->
 	<script>
 	
-	var app = angular.module('myApp', []);
-	app.controller('myCtrl', function($scope) {
+	var form_data = {$form};
+	if(typeof form_data.car_type_id =='undefined'){
+		form_data.car_type_id =0;
+	}
+	if(typeof form_data.car_color =='undefined'){
+		form_data.car_color = 0;
+	}
+	
+	app.controller('myCtrl', function($scope,$http) {
 	    $scope.form_name = "绑定车辆";
+	    $scope.number123 = form_data.car_type_id;
+	    $scope.form_car_color = form_data.car_color;
+	    
+	    $http.get('{:url('way/user/getCarTypeJson')}').success(function (response) { 
+	 	   $scope.names = response.records;
+	 	});
+	   
+	    $http.get('{:url('way/user/getCarColorJson')}').success(function (response) { 
+	 	   $scope.repeat_car_color = response.records;
+	 	});
+	   
 	});
 	
 	
 		$(function() {
-
+			$("input[name='reg_time']").datetimePicker({title:"车辆注册时间",m:1});  //年月日
 			hide();
-			$("li input").each(function(){
-				$(this).val($(this).attr("placeholder"));
-			})
-			
-			var form_data = {$form};
 			
 			$("li input,.li_input_hidden").each(function(){
 				if(typeof form_data[$(this).attr('name')] != 'undefined' ){
 					$(this).val( form_data[$(this).attr('name')] );
 				}
 			})
-			
-			
-			
 			
 			
 			var is_submit = false;
@@ -229,9 +250,6 @@
 		});
 		
 		
-		  $(function(){
-		        $("input[name='reg_time']").datetimePicker({title:"车辆注册时间",m:1});  //年月日
-		    })
 		
 	</script>
 </body>

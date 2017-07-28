@@ -17,10 +17,11 @@ class WayUserBindCarValidate extends Validate{
             'username' =>  'require',
             'identity_card' =>  'require',
             'phone' =>  'require|number|length:11',
-            'car_type_id' =>  'require',
+            'car_type_id' =>  'require|number|gt:0',
             'engine' =>  'require',
             'brand' =>  'require',
             'chassis_number' =>  'require',
+            '_agree'=>'require|accepted',
             
         ],
     ];
@@ -33,11 +34,11 @@ class WayUserBindCarValidate extends Validate{
         'verify' =>  'require|number|in:0,1,2,3',
         'create_time' =>  'require|number|gt:0',
         
-        'car_color' =>  'require',
+        'car_color' =>  'require|number|gt:0',
         'username' =>  'require',
-        'identity_card' =>  'require',
+        'identity_card' =>  'require|min:15|max:18',
         'phone' =>  'require|number|length:11',
-        'car_type_id' =>  'require',
+        'car_type_id' =>  'require|number|gt:0',
         'engine' =>  'require',
         'brand' =>  'require',
         'reg_time' =>  'require',//1501084800

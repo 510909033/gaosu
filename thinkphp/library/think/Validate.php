@@ -140,6 +140,7 @@ class Validate
      */
     public function rule($name, $rule = '')
     {
+        
         if (is_array($name)) {
             $this->rule = array_merge($this->rule, $name);
         } else {
