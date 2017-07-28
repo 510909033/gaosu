@@ -12,6 +12,7 @@ use app\way\controller\func\UserBindCarFuncController;
 use think\Env;
 use app\common\model\WayUserBindCar;
 use think\Url;
+use think\Log;
 
 class IndexController extends Controller
 {
@@ -65,5 +66,31 @@ class IndexController extends Controller
         $auth = new AuthExtend();
         dump($auth->getAccessToken());
     }
+    
+    
+    public function clearFileAction(){
+        $dir = [
+          ROOT_PATH.'public/tmp_tool',
+        ];
+        
+        $dir = new \DirectoryIterator(ROOT_PATH.'public/tmp_tool');
+        foreach ($dir as $k=>$v){
+            dump($v);
+        }
+        dump($dir->read());
+        dump($dir->read());
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
