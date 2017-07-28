@@ -10,7 +10,7 @@ class IndexController extends Controller {
 
 	private function log($str){
 	    $filename = time().'.txt';
-	    @file_put_content('./'.$filename , $str .PHP_EOL.PHP_EOL,FILE_APPEND);
+	    file_put_content('./'.$filename , $str .PHP_EOL.PHP_EOL,FILE_APPEND);
 	}
 	public function indexAction(){
 	    $this->log(11);
