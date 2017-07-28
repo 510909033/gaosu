@@ -285,8 +285,10 @@ var app = angular.module('myApp', []);
 
         //var obj = document.getElementById(id),
         var obj;
+        
         obj = id.get(0);
         
+        console.log('aaa');
 
         time = time || 0,
 
@@ -307,6 +309,7 @@ var app = angular.module('myApp', []);
         };
 
         if(obj){
+        	  console.log('bbbb');
 
             obj.addEventListener('focus', function(){
 
@@ -323,11 +326,16 @@ var app = angular.module('myApp', []);
     }
 
 
+    $("input").each(function(){
+    	objBlur($(this),200);
+    	
+	});
+    
 
     if(isIPHONE){
         
     	$("input").each(function(){
-    		objBlur($(this),200);
+    		//objBlur($(this),200);
     	});
     }
 </script>	
