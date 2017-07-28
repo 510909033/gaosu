@@ -27,4 +27,9 @@ class WayUserBindCar extends Model
  			
  		return $data;
  	}
+ 	
+ 	public function getAll(){
+ 	    $sql= "select * from way_user_bind_car";
+ 	    return Db::query($sql);
+ 	}
 }
