@@ -72,7 +72,7 @@ class IndexController extends Controller {
 				$fromUser = $postObj->ToUserName;
 				$time     = time();
 				$msgType  = 'text';
-				$content  = '欢迎关注公众帐号'.$postObj->FromUserName.'-'.$postObj->ToUserName;
+				$content  = '欢迎关注智慧高速MPS'.PHP_EOL.'OpenID为：'.$postObj->FromUserName;
 				$template = "<xml>
 							<ToUserName><![CDATA[%s]]></ToUserName>
 							<FromUserName><![CDATA[%s]]></FromUserName>
