@@ -10,7 +10,7 @@ class SysLogTmp extends Model
         $data = [
             'title'=>$title,
             'content'=>$content,
-            'user_id'=>$user_id,
+            'user_id'=>bcadd($user_id, 0,0),
             'create_time'=>time(),
             'pos'=>$pos
             

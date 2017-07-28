@@ -27,7 +27,7 @@ class UserTool {
         if (is_null(self::$user_id)){
             self::$user_id = session('user_id');
         }
-        return UserTool::$user_id;
+        return UserTool::$user_id?UserTool::$user_id:0;
     }
 
     /**
@@ -38,7 +38,7 @@ class UserTool {
         if (is_null(self::$uni_account)){
             self::$uni_account = session('uni_account');
         }
-        return UserTool::$uni_account;
+        return UserTool::$uni_account?UserTool::$uni_account:'';
     }
 
     public static function init(SysUser $sysUser){

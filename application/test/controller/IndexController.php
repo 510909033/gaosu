@@ -5,6 +5,7 @@ use think\Controller;
 class IndexController extends Controller {
    /* protected function _initialize()
     {
+
         //$this->log('__construct');
     }*/
 
@@ -14,10 +15,22 @@ class IndexController extends Controller {
 	}*/
 	public function indexAction(){
 /* 	    //$this->log(11);
+
+        $this->log('__construct');
+    }
+
+	private function log($str){
+	    $filename = time().'.txt';
+	    @file_put_contents('./'.$filename , $str .PHP_EOL.PHP_EOL,FILE_APPEND);
+	}
+	public function indexAction(){
+	    $this->log(11);
+
 	    //$this->log($GLOBALS['HTTP_RAW_POST_DATA']);
 	    
 		//获得参数 signature nonce token timestamp echostr
 		$nonce     = $_GET['nonce'];
+		var_dump($nonce);
 		$token     = 'zhgs';
 		$timestamp = $_GET['timestamp'];
 		$echostr   = $_GET['echostr'];
@@ -29,14 +42,21 @@ class IndexController extends Controller {
 		//拼接成字符串,sha1加密 ，然后与signature进行校验
 		$str = sha1( implode( $array ) );
 		if( $str  == $signature && $echostr ){
+
 		    //$this->log(22);
+
+		    $this->log(22);
+
 			//第一次接入weixin api接口的时候
 			echo  $echostr;
 			exit;
 		}else{
+
 		    //$this->log(33); */
 			$this->reponseMsgAction();
 /* 		} */
+	}
+
 	}
 	public function getNonce(){
 
@@ -47,13 +67,6 @@ class IndexController extends Controller {
 		$postArr = $GLOBALS['HTTP_RAW_POST_DATA'];
 		$tmpstr  = $postArr;
 		//2.处理消息类型，并设置回复类型和内容
-		/*<xml>
-<ToUserName><![CDATA[toUser]]></ToUserName>
-<FromUserName><![CDATA[FromUser]]></FromUserName>
-<CreateTime>123456789</CreateTime>
-<MsgType><![CDATA[event]]></MsgType>
-<Event><![CDATA[subscribe]]></Event>
-</xml>*/
 		$postObj = simplexml_load_string( $postArr );
 		//$postObj->ToUserName = '';
 		//$postObj->FromUserName = '';
@@ -63,16 +76,27 @@ class IndexController extends Controller {
 		// gh_e79a177814ed
 		//判断该数据包是否是订阅的事件推送
 		if( strtolower( $postObj->MsgType) == 'event'){
+
 		   // $this->log(44);
 			//如果是关注 subscribe 事件
 			if( strtolower($postObj->Event == 'subscribe') ){
 			   // $this->log(55);
+
+		    $this->log(44);
+			//如果是关注 subscribe 事件
+			if( strtolower($postObj->Event == 'subscribe') ){
+			    $this->log(55);
+
 				//回复用户消息(纯文本格式)	
 				$toUser   = $postObj->FromUserName;
 				$fromUser = $postObj->ToUserName;
 				$time     = time();
 				$msgType  = 'text';
+
 				$content  = '欢迎关注智慧高速MPS'.PHP_EOL.'OpenID为：'.$postObj->FromUserName;
+
+				$content  = '欢迎关注公众帐号'.$postObj->FromUserName.'-'.$postObj->ToUserName;
+
 				$template = "<xml>
 							<ToUserName><![CDATA[%s]]></ToUserName>
 							<FromUserName><![CDATA[%s]]></FromUserName>
@@ -82,64 +106,12 @@ class IndexController extends Controller {
 							</xml>";
 				$info     = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
 				echo $info;
-				//$this->log($info);
-		/*<xml>
-<ToUserName><![CDATA[toUser]]></ToUserName>
-<FromUserName><![CDATA[fromUser]]></FromUserName>
-<CreateTime>12345678</CreateTime>
-<MsgType><![CDATA[text]]></MsgType>
-<Content><![CDATA[你好]]></Content>
-</xml>*/
+
+				exit();
 			
 
 			}
 		}
-
-		//当微信用户发送imooc，公众账号回复‘imooc is very good'
-		/*<xml>
-<ToUserName><![CDATA[toUser]]></ToUserName>
-<FromUserName><![CDATA[fromUser]]></FromUserName>
-<CreateTime>12345678</CreateTime>
-<MsgType><![CDATA[text]]></MsgType>
-<Content><![CDATA[你好]]></Content>
-</xml>*/
-		/*if(strtolower($postObj->MsgType) == 'text'){
-			switch( trim($postObj->Content) ){
-				case 1:
-					$content = '您输入的数字是1';
-				break;
-				case 2:
-					$content = '您输入的数字是2';
-				break;
-				case 3:
-					$content = '您输入的数字是3';
-				break;
-				case 4:
-					$content = "<a href='http://www.imooc.com'>慕课</a>";
-				break;
-				case '英文':
-					$content = 'imooc is ok';
-				break;
-
-			}	
-				$template = "<xml>
-<ToUserName><![CDATA[%s]]></ToUserName>
-<FromUserName><![CDATA[%s]]></FromUserName>
-<CreateTime>%s</CreateTime>
-<MsgType><![CDATA[%s]]></MsgType>
-<Content><![CDATA[%s]]></Content>
-</xml>";
-//注意模板中的中括号 不能少 也不能多
-				$fromUser = $postObj->ToUserName;
-				$toUser   = $postObj->FromUserName; 
-				$time     = time();
-				// $content  = '18723180099';
-				$msgType  = 'text';
-				echo sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
-			
-		}
-	}
-*/
 		//用户发送tuwen1关键字的时候，回复一个单图文
 		if( strtolower($postObj->MsgType) == 'text' && trim($postObj->Content)=='tuwen2' ){
 			$toUser = $postObj->FromUserName;
@@ -257,26 +229,4 @@ class IndexController extends Controller {
 		var_dump( $arr );
 	}
 
-	function getWxServerIp(){
-		$accessToken = "6vOlKOh7r5uWk_ZPCl3DS36NEK93VIH9Q9tacreuxJ5WzcVc235w_9zONy75NoO11gC9P0o4FBVxwvDiEtsdX6ZRFR0Lfs_ymkb8Bf6kRfo";
-		$url = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=".$accessToken;
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-		$res = curl_exec($ch);
-		curl_close($ch);
-		if(curl_errno($ch)){
-			var_dump(curl_error($ch));
-		}
-		$arr = json_decode($res,true);
-		echo "<pre>";
-		var_dump( $arr );
-		echo "</pre>";
-			
-				exit();
-			
-			}
-		}
-	}//reponseMsg end
-	
 }//class end

@@ -1,4 +1,6 @@
 <?php
+use think\Log;
+
 /**
  * 
  * 回调基础类
@@ -26,8 +28,8 @@ class WxPayNotify extends WxPayNotifyReply
 			//该分支在成功回调到NotifyCallBack方法，处理完成之后流程
 			$this->SetReturn_code("SUCCESS");
 			$this->SetReturn_msg("OK");
+			$this->ReplyNotify($needSign);
 		}
-		$this->ReplyNotify($needSign);
 	}
 	
 	/**
@@ -75,11 +77,10 @@ class WxPayNotify extends WxPayNotifyReply
 	final private function ReplyNotify($needSign = true)
 	{
 		//如果需要签名
-		if($needSign == true && 
-			$this->GetReturn_code() == "SUCCESS")
+		if($needSign == true && $this->GetReturn_code() == "SUCCESS")
 		{
 			$this->SetSign();
 		}
-		WxpayApi::replyNotify($this->ToXml());
+		\WxPayApi::replyNotify($this->ToXml());
 	}
 }

@@ -14,6 +14,8 @@ use app\common\tool\ConfigTool;
 use app\common\model\SysLogTmp;
 use app\common\tool\TmpTool;
 use think\helper\Time;
+use app\common\model\WayCarType;
+use app\common\model\SysConfig;
 
 class UserController extends NeedLoginController
 {
@@ -30,7 +32,8 @@ class UserController extends NeedLoginController
         $form = [];
         try {
             if ($id){
-                $wayUserBindCar = WayUserBindCar::get(array('id'=>$id,'user_id'=>UserTool::getUser_id()));
+//                 $wayUserBindCar = WayUserBindCar::get( array('id'=>$id,'user_id'=>UserTool::getUser_id()));
+                $wayUserBindCar = WayUserBindCar::get( array('user_id'=>UserTool::getUser_id()));
                 if ($wayUserBindCar){
                    $form = $wayUserBindCar; 
                 }
@@ -133,7 +136,23 @@ class UserController extends NeedLoginController
         
     }
     
+    
+    public function getCarTypeJsonAction(){
+        $all = WayCarType::all();
+        foreach ($all as $k=>$v){
+            $all[$k] = $v->toArray();
+            $all[$k]['name'] = $v->name.'('.$v->title.')';
+        }
+        
+        return json(array('records'=>$all));
+    }
 
 
+    public function getCarColorJsonAction(){
+        
+        $all = SysConfig::getListByType(SysConfig::TYPE_GS_COLOR_CONFIG);
+        
+        return json(array('records'=>$all));
+    }
     
 }
