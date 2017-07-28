@@ -2,6 +2,7 @@
 use think\Log;
 use app\order\model\SysOrder;
 use think\Db;
+use app\common\model\WayLog;
 
 ini_set('date.timezone','Asia/Shanghai');
 error_reporting(E_ERROR);
@@ -76,7 +77,7 @@ class PayNotifyCallBack extends WxPayNotify
         try {
             $res    = SysOrder::update($update,['out_trade_no'=>$data['out_trade_no']]);
             $logres = WayLog::update(['is_need_pay'=>0,'is_pay'=>1,'pay_time'=>time()],['id'=>$orderdata['log_id']]);
-            if ($res&&$logres){
+            if ($res && $logres){
                 Db::commit();
                 Log::order_log('订单更新成功'.$orderdata['out_trade_no'],'成功');
                 return true;
