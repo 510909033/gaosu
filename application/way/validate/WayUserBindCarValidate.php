@@ -4,27 +4,26 @@ use think\Validate;
 
 class WayUserBindCarValidate extends Validate{
     
-    protected $scene = [
-        'save'  =>  [
-            'car_number' =>  'require|length:7',
-            'user_id'  =>  'require|gt:0|number',
-            'openid' =>  'require',
-            'status' =>  'require|number|in:0,1,2',
-            'verify' =>  'require|number|in:0,1,2,3',
-            'create_time' =>  'require|number|gt:0',
+//     protected $scene = [
+//         'save'  =>  [
+//             'car_number' =>  'require|length:7',
+//             'user_id'  =>  'require|gt:0|number',
+//             'openid' =>  'require',
+//             'status' =>  'require|number|in:0,1,2',
+//             'verify' =>  'require|number|in:0,1,2,3',
+//             'create_time' =>  'require|number|gt:0',
+//             'car_color' =>  'require',
+//             'username' =>  'require',
+//             'identity_card' =>  'require',
+//             'phone' =>  'require|number|length:11',
+//             'car_type_id' =>  'require|number|gt:0',
+//             'engine' =>  'require',
+//             'brand' =>  'require',
+//             'chassis_number' =>  'require',
+//             '_agree'=>'require|accepted',
             
-            'car_color' =>  'require',
-            'username' =>  'require',
-            'identity_card' =>  'require',
-            'phone' =>  'require|number|length:11',
-            'car_type_id' =>  'require|number|gt:0',
-            'engine' =>  'require',
-            'brand' =>  'require',
-            'chassis_number' =>  'require',
-            '_agree'=>'require|accepted',
-            
-        ],
-    ];
+//         ],
+//     ];
     
     protected $rule = [
         'car_number' =>  'require|length:7|unique:way_user_bind_car',
@@ -33,21 +32,20 @@ class WayUserBindCarValidate extends Validate{
         'status' =>  'require|number|in:0,1,2',
         'verify' =>  'require|number|in:0,1,2,3',
         'create_time' =>  'require|number|gt:0',
-        
         'car_color' =>  'require|number|gt:0',
         'username' =>  'require',
         'identity_card' =>  'require|min:15|max:18',
         'phone' =>  'require|number|length:11',
-        'car_type_id' =>  'require|number|gt:1',
+        'car_type_id' =>  'require|number|gt:0',
         'engine' =>  'require',
         'brand' =>  'require',
-        'reg_time' =>  'require',//1501084800
         'chassis_number' =>  'require',
-//         'car_qrcode_path' =>  'require',
         '_agree'=>'require|accepted',
+        'reg_time' =>  'require',//1501084800
     ];
     
     protected $message = [
+        'car_number'=>'请填写车牌号',
         'car_number.unique'=>'车牌号已存在',  
         'user_id.unique'=>'您已绑定过车辆',
         'opendid'=>'读取用户信息失败',

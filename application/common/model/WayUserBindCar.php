@@ -54,6 +54,11 @@ class WayUserBindCar extends Model
         return $res;
     }
     
+    private function setValidateRule(WayUserBindCarValidate $validate){
+        $validate->rule('reg_time','require|number|gt:0|lt:'.time());
+        $validate->message('reg_time.lt' , '车辆注册时间不能大于当前时间');
+    }
+    
     /**
      * 新绑定车辆唯一入口
      * @param unknown $data
@@ -65,6 +70,7 @@ class WayUserBindCar extends Model
          * @var WayUserBindCarValidate $validate
          */
         $validate = Loader::validate('WayUserBindCarValidate');
+        $this->setValidateRule($validate);
         
         if($validate->batch()->check($data)){
             return $this->create($data , ConfigTool::$TABLE_WAY_USER_BIND_CAR__ADD_CAR_ALLOW_FIELD);
@@ -85,15 +91,16 @@ class WayUserBindCar extends Model
          * @var WayUserBindCarValidate $validate
          */
         $validate = Loader::validate('WayUserBindCarValidate');
-       
+        $this->setValidateRule($validate);
 //         $validate->rule('car_number' , 'require|eq:'.$hasBind->car_number);
         
         if ($hasBind->id != $data['id']){ 
             $this->error = '系统错误';
             return false;
         }
-      
-        if($validate->scene('save')->batch()->check($data)){
+
+        //scene('save')->
+        if($validate->batch()->check($data)){
             $res = $hasBind->allowField(ConfigTool::$TABLE_WAY_USER_BIND_CAR__SAVE_CAR_ALLOW_FIELD)->save($data);
             if (false !== $res){
                 return $hasBind;
