@@ -6,56 +6,13 @@ class IndexController extends Controller {
     protected function _initialize()
     {
 
-        //$this->log('__construct');
+        
     }
 
-	/*private function log($str){
-	    $filename = time().'.txt';
-	    @file_put_contents('./'.$filename , $str .PHP_EOL.PHP_EOL,FILE_APPEND);
-	}*/
+	
 	public function indexAction(){
-/* 	    //$this->log(11);
 
-        $this->log('__construct');
-    }
-
-	private function log($str){
-	    $filename = time().'.txt';
-	    @file_put_contents('./'.$filename , $str .PHP_EOL.PHP_EOL,FILE_APPEND);
-	}
-	public function indexAction(){
-	    $this->log(11);
-
-	    //$this->log($GLOBALS['HTTP_RAW_POST_DATA']);
-	    
-		//获得参数 signature nonce token timestamp echostr
-		$nonce     = $_GET['nonce'];
-		var_dump($nonce);
-		$token     = 'zhgs';
-		$timestamp = $_GET['timestamp'];
-		$echostr   = $_GET['echostr'];
-		$signature = $_GET['signature'];
-		//形成数组，然后按字典序排序
-		$array = array();
-		$array = array($nonce, $timestamp, $token);
-		sort($array);
-		//拼接成字符串,sha1加密 ，然后与signature进行校验
-		$str = sha1( implode( $array ) );
-		if( $str  == $signature && $echostr ){
-
-		    //$this->log(22);
-
-		    $this->log(22);
-
-			//第一次接入weixin api接口的时候
-			echo  $echostr;
-			exit;
-		}else{
-
-		    //$this->log(33); */
 			$this->reponseMsgAction();
-/* 		} */
-	}
 
 	}
 	
