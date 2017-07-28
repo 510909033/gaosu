@@ -445,7 +445,9 @@ class WxPayApi
 	 */
 	public static function replyNotify($xml)
 	{
+        Log::order_log($xml,'回复通知结果');
 		echo $xml;
+		die();
 	}
 	
 	/**
