@@ -68,7 +68,7 @@ class WxpayController extends Controller
     {
         require PAY_PATH . '/example/notify.php';
         $notify = new \PayNotifyCallBack();
-        $notify->handle(true);
+        $notify->handle(false);
     }  
 
 
