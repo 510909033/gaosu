@@ -55,85 +55,45 @@ class IndexController extends Controller {
 				$info     = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
 				echo $info;
 
-				if( strtolower($postObj->MsgType) == 'text' && trim($postObj->Content)=='tuwen2' ){
-			$toUser = $postObj->FromUserName;
-			$fromUser = $postObj->ToUserName;
-			$arr = array(
-				array(
-					'title'=>'imooc',
-					'description'=>"imooc is very cool",
-					'picUrl'=>'http://www.imooc.com/static/img/common/logo.png',
-					'url'=>'http://www.imooc.com',
-				),
-				array(
-					'title'=>'hao123',
-					'description'=>"hao123 is very cool",
-					'picUrl'=>'https://www.baidu.com/img/bdlogo.png',
-					'url'=>'http://www.hao123.com',
-				),
-				array(
-					'title'=>'qq',
-					'description'=>"qq is very cool",
-					'picUrl'=>'http://www.imooc.com/static/img/common/logo.png',
-					'url'=>'http://www.qq.com',
-				),
-			);
-			$template = "<xml>
-						<ToUserName><![CDATA[%s]]></ToUserName>
-						<FromUserName><![CDATA[%s]]></FromUserName>
-						<CreateTime>%s</CreateTime>
-						<MsgType><![CDATA[%s]]></MsgType>
-						<ArticleCount>".count($arr)."</ArticleCount>
-						<Articles>";
-			foreach($arr as $k=>$v){
-				$template .="<item>
-							<Title><![CDATA[".$v['title']."]]></Title> 
-							<Description><![CDATA[".$v['description']."]]></Description>
-							<PicUrl><![CDATA[".$v['picUrl']."]]></PicUrl>
-							<Url><![CDATA[".$v['url']."]]></Url>
-							</item>";
-			}
-			
-			$template .="</Articles>
-						</xml> ";
-			echo sprintf($template, $toUser, $fromUser, time(), 'news');
-
-			//注意：进行多图文发送时，子图文个数不能超过10个
-		}else{
-			switch( trim($postObj->Content) ){
-				case 1:
-					$content = '您输入的数字是1';
-				break;
-				case 2:
-					$content = '您输入的数字是2';
-				break;
-				case 3:
-					$content = '您输入的数字是3';
-				break;
-				case 4:
-					$content = "<a href='http://www.imooc.com'>慕课</a>";
-				break;
-				case '英文':
-					$content = 'imooc is ok';
-				break;
-			}	
-				$template = "<xml>
-<ToUserName><![CDATA[%s]]></ToUserName>
-<FromUserName><![CDATA[%s]]></FromUserName>
-<CreateTime>%s</CreateTime>
-<MsgType><![CDATA[%s]]></MsgType>
-<Content><![CDATA[%s]]></Content>
-</xml>";
-//注意模板中的中括号 不能少 也不能多
-				$fromUser = $postObj->ToUserName;
-				$toUser   = $postObj->FromUserName; 
-				$time     = time();
-				// $content  = '18723180099';
-				$msgType  = 'text';
-				echo sprintf($template, $toUser, $fromUser, $time, $msgType, $content);	
 
 			}
 		}
+	}
+
+	function http_curlAction(){
+		//获取imooc
+		//1.初始化curl
+		$ch = curl_init();
+		$url = 'http://www.baidu.com';
+		//2.设置curl的参数
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		//3.采集
+		$output = curl_exec($ch);
+		//4.关闭
+		curl_close($ch);
+		var_dump($output);
+	}
+
+	function getWxAccessTokenAction(){
+		//1.请求url地址
+		$appid = 'wx9e1d8fc5ee0c85a1';
+		$appsecret =  '39ea8dc418b5ab3a03867a5937fe19fd';
+		$url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret;
+		//2初始化
+		$ch = curl_init();
+		//3.设置参数
+		curl_setopt($ch , CURLOPT_URL, $url);
+		curl_setopt($ch , CURLOPT_RETURNTRANSFER, 1);
+		//4.调用接口 
+		$res = curl_exec($ch);
+		//5.关闭curl
+		curl_close( $ch );
+		if( curl_errno($ch) ){
+			var_dump( curl_error($ch) );
+		}
+		$arr = json_decode($res, true);
+		var_dump( $arr );
 	}
 
 }//class end
