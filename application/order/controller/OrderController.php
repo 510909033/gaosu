@@ -2,35 +2,30 @@
 namespace app\order\controller;
 
 use app\common\model\SysOrder;
-use think\Config;
 use think\Controller;
 use weixin\auth\AuthExtend;
 use youwen\exwechat\api\accessToken;
 use youwen\exwechat\api\message\template;
+use app\common\model\WayLog;
 
 class OrderController extends Controller 
 {
-
+    //测试生成log表数据
 	function IndexAction()
 	{
-		$y = 0;
-		for ($i=1; $i <2 ; $i++) { 
-			$userIds = [2,22,100];
-			$userId = $userIds[$y];
-			$carId 	= rand(1,7);
-			$bindId = model("WayUserBindCar")->getUserCar($userId);
-			$inlist[] = ['user_id'=>$userId,'user_bind_car_id'=>$bindId['id'],'create_time'=>date('Y-m-d H:i:s',time()+1+$i),'in_time'=>date('Y-m-d H:i:s',time()+1+$i),'in_pos_id'=>1,'open_id'=>$userId]; 
-			$outlist[] = ['user_id'=>$userId,'user_bind_car_id'=>$bindId['id'],'create_time'=>date('Y-m-d H:i:s',time()+2+$i),'out_time'=>date('Y-m-d H:i:s',time()+2+$i),'out_pos_id'=>2,'open_id'=>$userId];
-			$y++;
-			if ($y==3) {
-				$y=0;
-			}
+	    $list = [];
+		$cars =  model('WayUserBindCar')->getAll();
+
+		for ($i=1; $i <5 ; $i++) {
+		  $log = array_rand($cars,1);
+		  $log = $cars[$log];
+		  $list[] = ['user_id'=>$log['user_id'],'open_id'=>$log['openid'],'user_bind_car_id'=>$log['id'],'create_time'=>time(),'in_time'=>time(),'out_time'=>time()+500,'in_pos_id'=>1,'out_pos_id'=>2,'pay_total_fee'=>1];
 			echo $i;
 		}
-		$in = model('WayLogIn');
-		$in->saveAll($inlist);
-		$out = model('WayLogOut');
-		$out->saveAll($outlist);
+		var_dump($list);
+		$obj =  new WayLog();
+		$obj->saveAll($list); 
+	
 	}
  	/**
 	 * 
@@ -157,22 +152,26 @@ class OrderController extends Controller
 	 */
 
 
-/*	public function addOrder($data)
-	{	
-
-		$orderData = array();
-
-		$orderData['user_id'] = $data['user_id'];
-		$orderData['create_time'] = time();
-		$orderData['create_cache'] = json_encode($data);
-		$orderData['total_fee'] = $data['pay_total_fee'];
-		$orderData['out_trade_no'] = create_order_num();
-		$orderData['body'] = "高速费用";
-
-		$id = model('SysOrder')->add($orderData);
-
-		return $id;
-	}*/
+	public function addOrderAction()
+	{
+	    
+	    $logs= model('WayLog')->getNotPay();
+	    
+	    foreach ($logs as $data)
+	    {
+	        $orderData = array();
+	        $orderData['user_id']      = $data['user_id'];
+	        $orderData['create_time']  = time();
+	        $orderData['openid']       = $data['open_id'];
+	        $orderData['create_cache'] = json_encode($data);
+	        $orderData['total_fee']    = $data['pay_total_fee'];
+	        $orderData['out_trade_no'] = create_order_num();
+	        $orderData['body']         = $data['in_pos_id'].'高速入口至'.$data['out_pos_id'].'高速出口所产生的高速费用';
+	        $orderData['log_id']       = $data['id'];
+	        $id = model('SysOrder')->add($orderData);
+	        echo $id;   
+	    }
+	}
 
 	/**
 	 * 查询所有未支付的订单进行推送消息
@@ -187,16 +186,17 @@ class OrderController extends Controller
     	    {
     	        $data = [
     	            'touser'=>$value['openid'],
-    	            'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
+    	            //'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
+    	            'template_id'=>'NKvVUaovIrHSqtZaHSeVllP3uiPnuCPtjXDmapadPFo',
     	            'url'=>'http://gs.jltengfang.com/order/wxpay/index?ordernum='.$value['out_trade_no'],
     	            'topcolor'=>'#FF0000',
     	            'data'=>[
     	                'first'=>['value'=>'高速支付订单'],
     	                'orderID'=>['value'=>$value['out_trade_no']],
     	                'orderMoneySum'=>['value'=>sprintf("%.2f",($value['total_fee']/100))],
-    	                'backupFieldName'=>['value'=>'高速收费'],
-    	                'backupFieldData'=>['value'=>'111'],
-    	                'remark'=>['value'=>'如有问题请联系110']
+    	                'backupFieldName'=>['value'=>$value['body']],
+    	                'backupFieldData'=>['value'=>'请及时付款,逾期可能对你的征信产生不良影响'],
+    	                'remark'=>['value'=>'如有问题请联系腾放公司客服']
     	            ],
     	        ];
     	        var_dump($data);
