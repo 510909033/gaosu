@@ -28,4 +28,13 @@ class WayLog extends Model
  	public function add($data){
  		return Db::name($this->table)->insertGetId($data);
  	}
+ 	/**
+	 * 
+	 *查询所有未支付的数据
+	 * @return (array);未支付的高速记录
+	 */
+ 	public function getNotPay(){
+ 	    $sql = 'select * from way_log where is_need_pay=1 and is_pay=0';
+ 	    return Db::query($sql);
+ 	}
 }
