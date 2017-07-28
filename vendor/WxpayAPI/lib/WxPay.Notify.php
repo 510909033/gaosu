@@ -81,6 +81,7 @@ class WxPayNotify extends WxPayNotifyReply
 		{
 			$this->SetSign();
 		}
-		\WxPayApi::replyNotify($this->ToXml());
+		Log::order_log('11111','待回复');
+		WxPayApi::replyNotify($this->ToXml());
 	}
 }
