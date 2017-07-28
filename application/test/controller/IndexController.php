@@ -5,7 +5,7 @@ use think\Controller;
 class IndexController extends Controller {
     protected function _initialize()
     {
-        $this->log('__construct');
+        //$this->log('__construct');
     }
 
 	/*private function log($str){
