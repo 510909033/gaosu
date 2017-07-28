@@ -88,11 +88,12 @@ class IndexController extends Controller {
 		//4.调用接口 
 		$res = curl_exec($ch);
 		//5.关闭curl
-		curl_close( $ch );
+		
 		if( curl_errno($ch) ){
 			var_dump( curl_error($ch) );
 		}
 		$arr = json_decode($res, true);
+		curl_close( $ch );
 		var_dump( $arr );
 	}
 
