@@ -32,7 +32,8 @@ class UserController extends NeedLoginController
         $form = [];
         try {
             if ($id){
-                $wayUserBindCar = WayUserBindCar::get(array('id'=>$id,'user_id'=>UserTool::getUser_id()));
+//                 $wayUserBindCar = WayUserBindCar::get( array('id'=>$id,'user_id'=>UserTool::getUser_id()));
+                $wayUserBindCar = WayUserBindCar::get( array('user_id'=>UserTool::getUser_id()));
                 if ($wayUserBindCar){
                    $form = $wayUserBindCar; 
                 }
@@ -138,9 +139,10 @@ class UserController extends NeedLoginController
     
     public function getCarTypeJsonAction(){
         $all = WayCarType::all();
-//         foreach ($all as $k=>$v){
-//             $all[$k] = $v->toArray();
-//         }
+        foreach ($all as $k=>$v){
+            $all[$k] = $v->toArray();
+            $all[$k]['name'] = $v->name.'('.$v->title.')';
+        }
         
         return json(array('records'=>$all));
     }
