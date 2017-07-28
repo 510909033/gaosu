@@ -58,9 +58,7 @@ class IndexController extends Controller {
 	}
 
 	}
-	public function getNonce(){
-
-	}
+	
 	// 接收事件推送并回复
 	public function reponseMsgAction(){
 		//1.获取到微信推送过来post数据（xml格式）
@@ -82,11 +80,10 @@ class IndexController extends Controller {
 			if( strtolower($postObj->Event == 'subscribe') ){
 			   // $this->log(55);
 
-		    $this->log(44);
+		    
 			//如果是关注 subscribe 事件
 			if( strtolower($postObj->Event == 'subscribe') ){
-			    $this->log(55);
-
+			   
 				//回复用户消息(纯文本格式)	
 				$toUser   = $postObj->FromUserName;
 				$fromUser = $postObj->ToUserName;
