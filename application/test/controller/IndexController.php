@@ -60,22 +60,28 @@ class IndexController extends Controller {
 		}
 	}
 
-	function http_curlAction(){
-		//获取imooc
+	public function http_curlAction($url,$type='get',$res='json'){	
 		//1.初始化curl
 		$ch = curl_init();
 		$url = 'http://www.baidu.com';
 		//2.设置curl的参数
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		if($type == 'post'){
+			curl_setopt($ch,CURLOPT_POST,1);
+			curl_setopt($ch,CURLOPT_POSTFIELDS,$arr);
+		}
 		//3.采集
 		$output = curl_exec($ch);
 		//4.关闭
 		curl_close($ch);
-		var_dump($output);
+		if($res == 'json'){
+			return json_decode($output,true);
+		}
 	}
+		
 
-	function getWxAccessTokenAction(){
+	/*function getWxAccessTokenAction(){
 		//1.请求url地址
 		$appid = 'wx9e1d8fc5ee0c85a1';
 		$appsecret =  '39ea8dc418b5ab3a03867a5937fe19fd';
@@ -95,6 +101,45 @@ class IndexController extends Controller {
 		$arr = json_decode($res, true);
 		curl_close( $ch );
 		var_dump( $arr );
+	}*/
+
+//返回access_token
+	public function getWxAccessTokenAction(){
+		//将access_token存在session/cookie中
+		if($_SESSION['access_token'] && $_SESSION['expire_time']>time()){
+			//如果access_token在session并没有过期
+			return $_SESSION['access_token'];
+		}else{
+			//如果access_token不存在或已过期，重新取access_token
+			$appid = 'wx9e1d8fc5ee0c85a1';
+			$appsecret =  '39ea8dc418b5ab3a03867a5937fe19fd';
+			$url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret;
+			$this->http_curlAction($url,'get','josn');
+			$access_token = $res['access_token'];
+			//将重新获取到的access_token存到session
+			$_SESSION['access_token'] = $access_token;
+			$_SESSION['expire_time'] = time()+7000;
+			return $access_token;
+		}
+	}
+
+	public function definedItemAction(){
+		//创建微信菜单
+		//目前微信接口的调用方式都是通过curl post/get
+		echo $access_token = $this->getWxAccessTokenAction;
+		 $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token;
+		 $postArr = array(
+		 			'button'=>array(
+		 					'name'=>'132'，
+		 					'type'=>'click',
+		 					'key'=>'item1',
+		 					'url'=>'http://www.baidu.com'
+		 				)//第一个一级菜单
+		 		
+		 	);
+		 echo  $postJson = json_encode($postArr);
+		 $res = $this->http_curl($url,'post','json',$postJson);
+		 var_dump($res);
 	}
 
 }//class end
