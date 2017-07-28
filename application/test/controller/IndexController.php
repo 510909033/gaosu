@@ -3,11 +3,11 @@ namespace app\test\controller;
 
 use think\Controller;
 class IndexController extends Controller {
-   /* protected function _initialize()
+    protected function _initialize()
     {
 
         //$this->log('__construct');
-    }*/
+    }
 
 	/*private function log($str){
 	    $filename = time().'.txt';
@@ -102,5 +102,6 @@ class IndexController extends Controller {
 
 			}
 		}
+	}
 
 }//class end
