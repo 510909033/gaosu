@@ -96,7 +96,7 @@ class SysConfig extends Model
             'access_token_expire'=>0,
         ];
         
-        $config[SELF::TYPE_GS_COLOR_CONFIG] = [
+        $config[self::TYPE_GS_COLOR_CONFIG] = [
             'blue' => '蓝色',
             'black' => '黑色',
             'yellow' => '黄色',
