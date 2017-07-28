@@ -82,8 +82,8 @@ class IndexController extends Controller {
 							</xml>";
 				$info     = sprintf($template, $toUser, $fromUser, $time, $msgType, $content);
 				echo $info;
-				$this->log($info);
-				//
+				//$this->log($info);
+				
 				exit();
 /*<xml>
 <ToUserName><![CDATA[toUser]]></ToUserName>
