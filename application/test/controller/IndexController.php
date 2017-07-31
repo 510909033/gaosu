@@ -81,7 +81,7 @@ class IndexController extends Controller {
 	}
 		
 
-	/*function getWxAccessTokenAction(){
+	function getWxAccessTokenAction(){
 		//1.请求url地址
 		$appid = 'wx9e1d8fc5ee0c85a1';
 		$appsecret =  '39ea8dc418b5ab3a03867a5937fe19fd';
@@ -101,10 +101,10 @@ class IndexController extends Controller {
 		$arr = json_decode($res, true);
 		curl_close( $ch );
 		var_dump( $arr );
-	}*/
+	}
 
 //返回access_token
-	public function getWxAccessTokenAction(){
+	/*public function getWxAccessTokenAction(){
 		//将access_token存在session/cookie中
 		if($_SESSION['access_token'] && $_SESSION['expire_time']>time()){
 			//如果access_token在session并没有过期
@@ -121,7 +121,7 @@ class IndexController extends Controller {
 			$_SESSION['expire_time'] = time()+7000;
 			return $access_token;
 		}
-	}
+	}*/
 
 	public function definedItemAction(){
 		//创建微信菜单
