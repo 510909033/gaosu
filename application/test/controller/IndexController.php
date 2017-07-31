@@ -137,7 +137,7 @@ class IndexController extends Controller {
 		 				)//第一个一级菜单		
 		 	);
 		 echo  $postJson = json_encode($postArr);
-		 $res = $this->http_curl($url,'post','json',$postJson);
+		 $res = $this->http_curlAction($url,'post','json',$postJson);
 		 var_dump($res);
 	}
 
