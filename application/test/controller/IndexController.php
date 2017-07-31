@@ -74,7 +74,7 @@ class IndexController extends Controller {
 		//3.采集
 		$output = curl_exec($ch);
 		//4.关闭
-		
+		curl_close($ch);
 		if($res == 'json'){
 			if(curl_errno($ch)){
 				return curl_errno($ch);
@@ -82,7 +82,7 @@ class IndexController extends Controller {
 				return json_decode($output,true);
 			}
 		}
-		curl_close($ch);
+		
 	}
 		
 
@@ -171,7 +171,7 @@ class IndexController extends Controller {
 
 		 echo '<br/>';
 
-		 printf($res);
+		 var_dump($res);
 	}
 
 }//class end
