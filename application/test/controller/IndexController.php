@@ -74,7 +74,7 @@ class IndexController extends Controller {
 		//3.采集
 		$output = curl_exec($ch);
 		//4.关闭
-		curl_close($ch);
+		//curl_close($ch);
 		if($res == 'json'){
 			if(curl_errno($ch)){
 				return curl_errno($ch);
