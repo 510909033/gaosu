@@ -152,7 +152,7 @@ class IndexController extends Controller {
 		 						'name'=>urlencode('菜单二'),
 		 						'sub_button'=>array(
 		 							'type'=>'view',
-		 							 'name': '系统拍照发图', 
+		 							 'name'=>urlencode('系统拍照发图'), 
 		 							'key'=>'item2',
 		 							'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
 		 							),
