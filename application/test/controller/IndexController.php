@@ -149,6 +149,8 @@ class IndexController extends Controller {
 
 		 $res = $this->http_curlAction($url,'post','json',$postJson);
 
+		 echo '<br/>';
+
 		 var_dump($res);
 	}
 
