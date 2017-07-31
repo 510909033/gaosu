@@ -151,17 +151,10 @@ class IndexController extends Controller {
 		 					array(
 		 						'name'=>urlencode('菜单二'),
 		 						'sub_button'=>array(
-		 							'name'=>'1',
 		 							'type'=>'view',
-		 							'key'=>'1',
+		 							'key'=>'item2',
 		 							'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
 		 							),
-		 							array(
-		 							'name'=>'2',
-									'type'=>'view',
-		 							'key'=>'2',
-		 							'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
-		 								),
 		 						),//第二个一级菜单
 		 					array(
 		 						'name'=>urlencode('菜单三'),
