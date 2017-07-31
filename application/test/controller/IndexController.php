@@ -147,20 +147,27 @@ class IndexController extends Controller {
 		 						'type'=>'view',
 		 						'key'=>'item1',
 		 						'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
-		 						),
+		 						),//第一个一级菜单
 		 					array(
-		 						'name'=>urlencode('菜单一'),
-		 						'type'=>'view',
-		 						'key'=>'item2',
-		 						'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
-		 						),
+		 						'name'=>urlencode('菜单二'),
+		 						'sub_button'=>array(
+		 							'type'=>'view',
+		 							'key'=>'item2',
+		 							'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
+		 							),
+		 							array(
+									'type'=>'view',
+		 							'key'=>'item2',
+		 							'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
+		 								),
+		 						),//第二个一级菜单
 		 					array(
-		 						'name'=>urlencode('菜单一'),
+		 						'name'=>urlencode('菜单三'),
 		 						'type'=>'view',
 		 						'key'=>'item3',
 		 						'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
 		 						)
-		 					//第一个一级菜单
+		 					////第三个一级菜单
 		 			)
 		 		);
 		 echo '<hr/>';
