@@ -153,7 +153,7 @@ class IndexController extends Controller {
 		 						'sub_button'=>array(
 		 							'type'=>'view',
 		 							'name'=>'dfsdf',
-		 							'key'=>'itme32'
+		 							'key'=>'itme32',
 		 							'url'=>'http://baidu.com',
 		 							),
 		 						),//第二个一级菜单
