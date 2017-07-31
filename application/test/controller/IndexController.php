@@ -154,8 +154,7 @@ class IndexController extends Controller {
 		 							'type'=>'view',
 		 							'name'=>'dfsdf',
 		 							'key'=>'itme32',
-		 							'url'=>'http://baidu.com',
-		 							),
+		 							'url'=>'http://baidu.com'),
 		 						),//第二个一级菜单
 		 					array(
 		 						'name'=>urlencode('菜单3'),
