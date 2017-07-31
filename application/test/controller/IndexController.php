@@ -72,8 +72,8 @@ class IndexController extends Controller {
 				),
 				array(
 					'title'=>'qq',
-					'description'=>"qq is very cool",
-					'picUrl'=>'http://www.imooc.com/static/img/common/logo.png',
+					'description'=>"每一天，乐在沟通",
+					'picUrl'=>'http://android-artworks.25pp.com/fs08/2016/06/08/7/1_173210056691eb8d6f8398d53d320fac_con.png',
 					'url'=>'http://www.qq.com',
 				),
 			);
