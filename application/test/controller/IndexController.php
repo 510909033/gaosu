@@ -144,9 +144,9 @@ class IndexController extends Controller {
 		 			'button'=>array(
 		 					array(
 		 						'name'=>urlencode('菜单一'),
-		 						'type'=>'click',
+		 						'type'=>'view',
 		 						'key'=>'item1',
-		 						'url'=>'http://www.baidu.com'
+		 						'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
 		 						)
 		 					//第一个一级菜单
 		 			)
