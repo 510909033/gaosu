@@ -162,7 +162,9 @@ class IndexController extends Controller {
 		 					'url'=>'http://www.qq.com'
 		 					)		
 		 			),
-		 			);
+		 		);
+		 echo '<hr/>';
+		 var_dump($postArr);
 		 echo  $postJson = urldecode(json_encode($postArr));
 
 		 $res = $this->http_curlAction($url,'post','json',$postJson);
