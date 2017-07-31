@@ -65,16 +65,10 @@ class IndexController extends Controller {
 			$fromUser = $postObj->ToUserName;
 			$arr = array(
 				array(
-					'title'=>'imooc',
-					'description'=>"imooc is very cool",
-					'picUrl'=>'http://www.imooc.com/static/img/common/logo.png',
-					'url'=>'http://www.imooc.com',
-				),
-				array(
-					'title'=>'hao123',
-					'description'=>"hao123 is very cool",
-					'picUrl'=>'https://www.baidu.com/img/bdlogo.png',
-					'url'=>'http://www.hao123.com',
+					'title'=>'微信',
+					'description'=>"微信改变生活",
+					'picUrl'=>'https://res.wx.qq.com/a/wx_fed/weixin_portal/res/static/img/1EqrNF5.png',
+					'url'=>'https://weixin.qq.com/',
 				),
 				array(
 					'title'=>'qq',
