@@ -60,7 +60,7 @@ class IndexController extends Controller {
 		}
 	}
 
-	public function http_curlAction($url,$type='get',$res='json'){	
+	public function http_curlAction($url,$type='get',$res='json',$arr=''){	
 		//1.初始化curl
 		$ch = curl_init();
 		$url = 'http://www.baidu.com';
@@ -76,7 +76,12 @@ class IndexController extends Controller {
 		//4.关闭
 		curl_close($ch);
 		if($res == 'json'){
-			return json_decode($output,true);
+			echo curl_errno($ch);
+			if(curl_errno($ch)){
+				return curl_errno($ch);
+			}else{
+				return json_decode($output,true);
+			}
 		}
 	}
 		
