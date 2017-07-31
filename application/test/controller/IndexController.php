@@ -132,7 +132,8 @@ class IndexController extends Controller {
 		//创建微信菜单
 		//目前微信接口的调用方式都是通过curl post/get
 		header('content-type:text/html;charset=utf-8')
-		 echo $access_token = $this->getWxAccessTokenAction();
+		 $access_token = $this->getWxAccessTokenAction();
+		 
 		 $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token;
 		 $postArr = array(
 		 			'button'=>array(
