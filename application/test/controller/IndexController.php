@@ -63,7 +63,6 @@ class IndexController extends Controller {
 	public function http_curl($url,$type='get',$res='json',$arr=''){	
 		//1.初始化curl
 		$ch = curl_init();
-		$url = 'http://www.baidu.com';
 		//2.设置curl的参数
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
