@@ -147,6 +147,18 @@ class IndexController extends Controller {
 		 						'type'=>'view',
 		 						'key'=>'item1',
 		 						'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
+		 						),
+		 					array(
+		 						'name'=>urlencode('菜单一'),
+		 						'type'=>'view',
+		 						'key'=>'item1',
+		 						'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
+		 						),
+		 					array(
+		 						'name'=>urlencode('菜单一'),
+		 						'type'=>'view',
+		 						'key'=>'item1',
+		 						'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
 		 						)
 		 					//第一个一级菜单
 		 			)
