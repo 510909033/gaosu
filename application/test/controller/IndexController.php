@@ -137,10 +137,12 @@ class IndexController extends Controller {
 		 $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token;
 		 $postArr = array(
 		 			'button'=>array(
-		 					'name'=>urlencode('菜单一'),
+		 					array(
+		 						'name'=>urlencode('菜单一'),
 		 					'type'=>'click',
 		 					'key'=>'item1',
 		 					'url'=>'http://www.baidu.com'
+		 				)
 		 				)//第一个一级菜单		
 		 	);
 		 echo  $postJson = urldecode(json_encode($postArr));
