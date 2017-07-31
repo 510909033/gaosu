@@ -77,7 +77,7 @@ class IndexController extends Controller {
 		//curl_close($ch);
 		if($res == 'json'){
 			if(curl_errno($ch)){
-				return curl_errno($ch);
+				return curl_error($ch);
 			}else{
 				return json_decode($output,true);
 			}
