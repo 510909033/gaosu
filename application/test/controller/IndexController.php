@@ -107,6 +107,7 @@ class IndexController extends Controller {
 		$arr = json_decode($res, true);
 		curl_close( $ch );
 		var_dump( $arr );
+		return $arr;
 	}
 
 //返回access_token
@@ -135,7 +136,7 @@ class IndexController extends Controller {
 		header('content-type:text/html;charset=utf-8');
 		 $access_token = $this->getWxAccessTokenAction();
 
-		 $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token;
+		 $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token['access_token'];
 		 echo $url;
 		 $postArr = array(
 		 			'button'=>array(
