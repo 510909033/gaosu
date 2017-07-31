@@ -136,6 +136,7 @@ class IndexController extends Controller {
 		 $access_token = $this->getWxAccessTokenAction();
 
 		 $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token;
+		 echo $url;
 		 $postArr = array(
 		 			'button'=>array(
 		 					array(
