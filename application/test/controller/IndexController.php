@@ -156,6 +156,11 @@ class IndexController extends Controller {
 		 								'name'=>urlencode('扫码带提示'),
 		 								'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex',
 		 								),
+		 							array(
+		 								'type'=>'view',
+		 								'name'=>urlencode('扫码带提示'),
+		 								'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex',
+		 								),
 		 							),
 		 						),//第二个一级菜单
 		 					array(
