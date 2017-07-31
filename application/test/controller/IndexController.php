@@ -165,13 +165,13 @@ class IndexController extends Controller {
 		 		);
 		 echo '<hr/>';
 		 var_dump($postArr);
-		 echo  $postJson = urldecode(json_encode($postArr));
+		 echo $postJson = urldecode(json_encode($postArr));
 
 		 $res = $this->http_curl($url,'post','json',$postJson);
 
 		 echo '<br/>';
 
-		 var_dump($res);
+		 printf($res);
 	}
 
 }//class end
