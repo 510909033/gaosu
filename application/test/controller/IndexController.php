@@ -76,7 +76,6 @@ class IndexController extends Controller {
 		//4.关闭
 		
 		if($res == 'json'){
-			echo curl_errno($ch);
 			if(curl_errno($ch)){
 				return curl_errno($ch);
 			}else{
@@ -132,18 +131,21 @@ class IndexController extends Controller {
 	public function definedItemAction(){
 		//创建微信菜单
 		//目前微信接口的调用方式都是通过curl post/get
+		header('content-type:text/html;charset=utf-8')
 		 $access_token = $this->getWxAccessTokenAction();
 		 $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token;
 		 $postArr = array(
 		 			'button'=>array(
-		 					'name'=>'132',
+		 					'name'=>urlencode('菜单一'),
 		 					'type'=>'click',
 		 					'key'=>'item1',
 		 					'url'=>'http://www.baidu.com'
 		 				)//第一个一级菜单		
 		 	);
-		 echo  $postJson = json_encode($postArr);
+		 echo  $postJson = urldecode(json_encode($postArr));
+
 		 $res = $this->http_curlAction($url,'post','json',$postJson);
+
 		 var_dump($res);
 	}
 
