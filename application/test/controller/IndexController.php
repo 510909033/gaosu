@@ -60,7 +60,7 @@ class IndexController extends Controller {
 		}
 	}
 
-	public function http_curlAction($url,$type='get',$res='json',$arr=''){	
+	public function http_curl($url,$type='get',$res='json',$arr=''){	
 		//1.初始化curl
 		$ch = curl_init();
 		$url = 'http://www.baidu.com';
@@ -167,7 +167,7 @@ class IndexController extends Controller {
 		 var_dump($postArr);
 		 echo  $postJson = urldecode(json_encode($postArr));
 
-		 $res = $this->http_curlAction($url,'post','json',$postJson);
+		 $res = $this->http_curl($url,'post','json',$postJson);
 
 		 echo '<br/>';
 
