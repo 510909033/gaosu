@@ -138,9 +138,11 @@ class IndexController extends Controller {
 
 		 $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token['access_token'];
 		 echo $url;
+/*		 $auth = new AuthExtend();
+         $accessToken = $auth->getAccessToken(false);*/
 		 $postArr = array(
 		 			'button'=>array(
-		 					array(
+		 				array(
 		 					'name'=>urlencode('菜单一'),
 		 					'type'=>'click',
 		 					'key'=>'item1',
@@ -153,12 +155,13 @@ class IndexController extends Controller {
 		 						'type'=>'click',
 		 						'key'=>'songs',
 		 						),//第一个二级菜单
+		 					),
 		 				array(
 		 					'name'=>urlencode('菜单三'),
 		 					'type'=>'view',
 		 					'url'=>'http://www.qq.com'
 		 					)		
-		 			),
+		 			
 		 		);
 		 echo '<hr/>';
 		 var_dump($postArr);
