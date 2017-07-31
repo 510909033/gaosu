@@ -152,9 +152,8 @@ class IndexController extends Controller {
 		 						'name'=>urlencode('菜单二'),
 		 						'sub_button'=>array(
 		 							'type'=>'view',
-		 							'name'=>'dfsdf',
-		 							'key'=>'itme32',
-		 							'url'=>'http://baidu.com',
+		 							'name'=>urlencode('扫码带提示'),
+		 							'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex',
 		 							'sub_button'=>array(),
 		 							),
 		 						),//第二个一级菜单
