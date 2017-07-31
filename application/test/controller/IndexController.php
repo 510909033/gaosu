@@ -154,12 +154,6 @@ class IndexController extends Controller {
 		 						'key'=>'songs',
 		 						),//第一个二级菜单
 		 				array(
-		 					'name'=>urlencode('电影'),
-		 					'tyee'=>'click',
-		 					'url'=>'http://www.baidu.com',
-		 					),//第二个一级菜单
-		 				),//第二个一级菜单
-		 				array(
 		 					'name'=>urlencode('菜单三'),
 		 					'type'=>'view',
 		 					'url'=>'http://www.qq.com'
