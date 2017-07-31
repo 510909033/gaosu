@@ -151,9 +151,11 @@ class IndexController extends Controller {
 		 					array(
 		 						'name'=>urlencode('菜单二'),
 		 						'sub_button'=>array(
-		 							'type'=>'view',
+		 							array(
+									'type'=>'view',
 		 							'name'=>'dfsdf',
 		 							'url'=>'http://baidu.com',
+		 								),
 		 							),
 		 						),//第二个一级菜单
 		 					array(
