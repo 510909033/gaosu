@@ -147,20 +147,8 @@ class IndexController extends Controller {
 		 						'type'=>'click',
 		 						'key'=>'item1',
 		 						'url'=>'http://www.baidu.com'
-		 					),//第一个一级菜单
-		 					array(
-		 						'name'=>urlencode('菜单二'),
-		 						'sub_button'=>array(
-		 							'name'=>urlencode('歌曲'),
-		 							'type'=>'click',
-		 							'key'=>'songs',
-		 							),//第一个二级菜单
-		 						),
-		 					array(
-		 						'name'=>urlencode('菜单三'),
-		 						'type'=>'view',
-		 						'url'=>'http://www.qq.com'
-		 					)		
+		 						)
+		 					//第一个一级菜单
 		 			)
 		 		);
 		 echo '<hr/>';
