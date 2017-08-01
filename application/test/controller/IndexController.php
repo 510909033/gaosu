@@ -305,10 +305,10 @@ class IndexController extends Controller {
 		 $postArr = array(
 		 			'button'=>array(
 		 					array(
-		 						'name'=>urlencode('菜单一'),
+		 						'name'=>urlencode('用户绑定'),
 		 						'type'=>'view',
 		 						'key'=>'item1',
-		 						'url'=>'http://gs.jltengfang.com/index.php/way/user/bindindex'
+		 						'url'=>'http://gs.jltengfang.com/user'
 		 						),//第一个一级菜单
 		 					array(
 		 						'name'=>urlencode('菜单二'),
