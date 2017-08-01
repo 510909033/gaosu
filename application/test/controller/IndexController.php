@@ -102,17 +102,14 @@ class IndexController extends Controller {
 				$ch = curl_init();
 				$url = 'http://wthrcdn.etouch.cn/weather_mini?city='.urlencode($postObj->Content);
 				$str = file_get_contents($url);  //调用接口获得天气数据
-    			//这一步很重要
     			$result= gzdecode($str);   //解压
-    			//end
    				echo  $result;
  				
 				//执行HTTP请求
-				/*curl_setopt($ch,CURLOPT_URL,$url);
-				$res = curl_exec($ch);
-				$arr = json_decode($res,true);
+				
+				$arr = json_decode($result,true);
 				$content = $arr['data']['city'];
-*/
+
 
 		}
 	}
