@@ -20,7 +20,7 @@ class AuthController extends Controller
         $redirect_uri = url('way/auth/return_url','','',true);//一般不变
 
         if (!input('state')){
-            $state = urlencode(url('way/user/bindindex','','',true));
+            $state = urlencode(url('way/user/index','','',true));
         }else{
             $state = urlencode(input('state'));//解析code最后跳转的url 包含http
         }
