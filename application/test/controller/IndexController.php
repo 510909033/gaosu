@@ -59,7 +59,7 @@ class IndexController extends Controller {
 			}
 		}
 
-		//用户发送tuwen1关键字的时候，回复一个单图文
+		//用户发送腾放关键字的时候，回复一个单图文
 		if( strtolower($postObj->MsgType) == 'text' && trim($postObj->Content)=='腾放' ){
 			$toUser = $postObj->FromUserName;
 			$fromUser = $postObj->ToUserName;
@@ -98,6 +98,22 @@ class IndexController extends Controller {
 			echo sprintf($template, $toUser, $fromUser, time(), 'news');
 
 			//注意：进行多图文发送时，子图文个数不能超过10个
+		}else{
+				$ch = curl_init();
+				$url = 'http://apis.baidu.com/apistore/weatherservice/cityid?=101010100';
+				$header = array(
+					'apikey:a79124c4594c2e5a0799a39ea8f64c87',
+					);
+ 				//添加apikey到header
+				curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
+				curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+				//执行HTTP请求
+				curl_setopt($ch,CURLOPT_URL,$url);
+				$res = curl_exec($ch);
+				$arr = json_decode($res,true);
+				$content = $arr['retData']['weather'].'<br/>'['retData']['temp'];
+
+
 		}
 	}
 
