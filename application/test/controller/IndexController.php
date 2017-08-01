@@ -215,7 +215,7 @@ class IndexController extends Controller {
 		include("weather_cityId.php");
 		$c_name=$weather_cityId[$n];
 		if(!empty($c_name)){
-			$json=file_get_contents("http://m.weather.com.cn/data/".$c_name.".html");
+			$json=file_get_contents("http://www.weather.com.cn/data/".$c_name.".html");
 			return json_decode($json);
 		} else {
 			return null;
