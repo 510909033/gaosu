@@ -115,7 +115,7 @@ class IndexController extends Controller {
 	}*/
 
 
-	 public function responseMsg()
+	 public function responseMsgAction()
     {
 		//get post data, May be due to the different environments
 		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
@@ -145,7 +145,7 @@ class IndexController extends Controller {
         }
     }
 
-	public function handleText($postObj)
+	public function handleTextAction($postObj)
 	{
 		$fromUsername = $postObj->FromUserName;
 		$toUsername = $postObj->ToUserName;
@@ -181,7 +181,7 @@ class IndexController extends Controller {
 		}
 	}
 
-	public function handleEvent($object)
+	public function handleEventAction($object)
 	{
 		$contentStr = "";
         switch ($object->Event)
@@ -197,7 +197,7 @@ class IndexController extends Controller {
         return $resultStr;
     }
     
-    public function responseText($object, $content, $flag=0)
+    public function responseTextAction($object, $content, $flag=0)
     {
         $textTpl = "<xml>
 					<ToUserName><![CDATA[%s]]></ToUserName>
@@ -211,7 +211,7 @@ class IndexController extends Controller {
         return $resultStr;
     }
 
-	private function weather($n){
+	private function weatherAction($n){
 		include("weather_cityId.php");
 		$c_name=$weather_cityId[$n];
 		if(!empty($c_name)){
