@@ -12,7 +12,7 @@ class IndexController extends Controller {
 	
 	public function indexAction(){
 
-			$this->reponseMsgAction();
+			$this->responseMsgAction();
 
 	}
 	
