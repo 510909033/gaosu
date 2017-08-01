@@ -129,10 +129,10 @@ class IndexController extends Controller {
 				switch($RX_TYPE)
 				{
 					case "text":
-						$resultStr = $this->handleText($postObj);
+						$resultStr = $this->handleTextAction($postObj);
 						break;
 					case "event":
-						$resultStr = $this->handleEvent($postObj);
+						$resultStr = $this->handleEventAction($postObj);
 						break;
 					default:
 						$resultStr = "Unknow msg type: ".$RX_TYPE;
@@ -193,7 +193,7 @@ class IndexController extends Controller {
 				$contentStr = "Unknow Event: ".$object->Event;
 				break;
         }
-        $resultStr = $this->responseText($object, $contentStr);
+        $resultStr = $this->responseTextAction($object, $contentStr);
         return $resultStr;
     }
     
