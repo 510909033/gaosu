@@ -52,7 +52,7 @@ class NeedLoginController extends Controller
                 
             }
             
-            $this->redirect('way/auth/authindex',['state'=>urlencode(\request()->url(true))]);
+            $this->redirect('way/auth/authindex',['state'=> urlencode(urlencode(\request()->url(true))) ]);
         }
     }
     
