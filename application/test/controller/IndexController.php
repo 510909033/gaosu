@@ -111,7 +111,7 @@ class IndexController extends Controller {
 				curl_setopt($ch,CURLOPT_URL,$url);
 				$res = curl_exec($ch);
 				$arr = json_decode($res,true);
-				$content = $arr['retData']['weather'].'<br/>'.['retData']['temp'];
+				$content = $arr['retData']['weather'].'<br/>'.$arr['retData']['temp'];
 
 
 		}
