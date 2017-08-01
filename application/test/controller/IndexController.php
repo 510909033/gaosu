@@ -101,18 +101,18 @@ class IndexController extends Controller {
 		}else{
 				$ch = curl_init();
 				$url = 'http://wthrcdn.etouch.cn/weather_mini?city='.urlencode($postObj->Content);
-				/*$header = array(
-					'apikey:a79124c4594c2e5a0799a39ea8f64c87',
-					);*/
- 				//添加apikey到header
-				//curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
-				//curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+				$str = file_get_contents($url);  //调用接口获得天气数据
+    			//这一步很重要
+    			$result= gzdecode($str);   //解压
+    			//end
+   				echo  $result;
+ 				
 				//执行HTTP请求
-				curl_setopt($ch,CURLOPT_URL,$url);
+				/*curl_setopt($ch,CURLOPT_URL,$url);
 				$res = curl_exec($ch);
 				$arr = json_decode($res,true);
-				$content = $arr['data']['city'];//.'<br/>'.$arr['data']['temp'];
-
+				$content = $arr['data']['city'];
+*/
 
 		}
 	}
