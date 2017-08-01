@@ -100,7 +100,7 @@ class IndexController extends Controller {
 			//注意：进行多图文发送时，子图文个数不能超过10个
 		}else{
 				$ch = curl_init();
-				$url = 'http://wthrcdn.etouch.cn/weather_mini?city=%E5%90%89%E6%9E%97';
+				$url = 'http://wthrcdn.etouch.cn/weather_mini?city='.urlencode($postObj->Content);
 				/*$header = array(
 					'apikey:a79124c4594c2e5a0799a39ea8f64c87',
 					);*/
