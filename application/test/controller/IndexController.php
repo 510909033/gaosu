@@ -100,18 +100,18 @@ class IndexController extends Controller {
 			//注意：进行多图文发送时，子图文个数不能超过10个
 		}else{
 				$ch = curl_init();
-				$url = 'http://apis.baidu.com/apistore/weatherservice/cityid?=101010100';
-				$header = array(
+				$url = 'http://wthrcdn.etouch.cn/weather_mini?city=%E5%90%89%E6%9E%97';
+				/*$header = array(
 					'apikey:a79124c4594c2e5a0799a39ea8f64c87',
-					);
+					);*/
  				//添加apikey到header
-				curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
-				curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+				//curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
+				//curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
 				//执行HTTP请求
 				curl_setopt($ch,CURLOPT_URL,$url);
 				$res = curl_exec($ch);
 				$arr = json_decode($res,true);
-				$content = $arr['retData']['weather'].'<br/>'.$arr['retData']['temp'];
+				$content = $arr['data']['city'];//.'<br/>'.$arr['data']['temp'];
 
 
 		}
