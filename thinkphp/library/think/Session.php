@@ -70,6 +70,9 @@ class Session
         if (isset($config['path'])) {
             session_save_path($config['path']);
         }
+        
+        
+        
         if (isset($config['domain'])) {
             ini_set('session.cookie_domain', $config['domain']);
         }
@@ -101,6 +104,7 @@ class Session
                 throw new ClassNotFoundException('error session handler:' . $class, $class);
             }
         }
+        
         if ($isDoStart) {
             session_start();
             self::$init = true;

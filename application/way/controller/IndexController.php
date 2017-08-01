@@ -21,7 +21,12 @@ class IndexController extends Controller
         Session::boot();
     }
     
-    public function indexAction(){
+    public function readAction(){
+        return '123';
+    }
+    
+    
+    public function indexAction($id=''){
         
         echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
         dump($_SESSION);
@@ -35,6 +40,10 @@ class IndexController extends Controller
         foreach ($arr as $text=>$link){
             echo "<a target='_blank' href='{$link}'>{$text}</a><br /><br />";
         }
+        
+        dump($id);
+        
+        dump($this->request->get());
     }
     
     public function testQrcodeAction(){

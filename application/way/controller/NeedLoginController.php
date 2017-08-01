@@ -27,6 +27,7 @@ class NeedLoginController extends Controller
     }
     
     protected function check(){
+       
         Session::boot();
         if (self::$debug_user_id){
             $this->debugTrace('debug_user_id模式,debug_user_id='.self::$debug_user_id);
@@ -35,6 +36,8 @@ class NeedLoginController extends Controller
                 exception('调试模式下，用户不存在，user_id='.self::$debug_user_id);
             }
             UserTool::init($user);
+            
+
         }
         
         if ( !UserTool::getIs_login() ){

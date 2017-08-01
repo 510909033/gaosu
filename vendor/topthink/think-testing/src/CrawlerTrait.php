@@ -73,6 +73,9 @@ trait CrawlerTrait
     {
         $this->currentUri = $this->prepareUrlForRequest($uri);
 
+    
+        
+        
         $request = Request::create(
             $this->currentUri, $method, $parameters,
             $cookies, $files, array_replace($this->serverVariables, $server)

@@ -42,10 +42,15 @@ class ConfigTool {
      */
     public static $ERRCODE__EXCEPTION = 1;
     /**
-     * 未细分的错误
+     * 常规错误
      * @var integer
      */
     public static $ERRCODE__COMMON = 2;
+    /**
+     * 程序不应该执行到此处
+     * @var integer
+     */
+    public static $ERRCODE__SHOULD_NOT_BE_DONE_HERE = 3;
     
     
     /**
@@ -68,4 +73,5 @@ class ConfigTool {
      * @var array
      */
     public static  $TABLE_WAY_USER_BIND_CAR__READONLY = ['user_id','car_number','openid','create_time'];
+
 }
