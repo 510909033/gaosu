@@ -455,11 +455,15 @@ trait InteractsWithPages
     {
         $uri = $this->prepareUrlForRequest($uri);
 
+      
+        
         $this->call($method, $uri, $parameters, $cookies, $files);
 
         $this->clearInputs()->followRedirects()->assertPageLoaded($uri);
 
         $this->currentUri = Request::instance()->url(true);
+        
+//         print($this->currentUri.PHP_EOL);
 
         $this->crawler = new Crawler($this->response->getContent(), $this->currentUri);
 

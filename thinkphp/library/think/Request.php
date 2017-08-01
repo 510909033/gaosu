@@ -239,6 +239,7 @@ class Request
             parse_str($queryString, $get);
             $options['get'] = isset($options['get']) ? array_merge($get, $options['get']) : $get;
         }
+        
 
         $server['REQUEST_URI']  = $info['path'] . ('' !== $queryString ? '?' . $queryString : '');
         $server['QUERY_STRING'] = $queryString;
@@ -253,6 +254,8 @@ class Request
         $options['domain']      = isset($info['scheme']) ? $info['scheme'] . '://' . $server['HTTP_HOST'] : '';
         $options['content']     = $content;
         self::$instance         = new self($options);
+        
+        
         return self::$instance;
     }
 

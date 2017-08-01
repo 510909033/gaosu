@@ -31,29 +31,13 @@ class WayUserBindCar extends Model
         return strtolower($value);
     }
     
-    /**
-     * @param unknown $data
-     * @return \app\common\model\WayUserBindCar|boolean
-     */
-    public function bindCar($data){
-        $hasBind = self::getOne(UserTool::getUser_id());
-        if (!$hasBind){
-            //如果没有绑定 
-            unset($data['id']);
-            $res =  $this->addOne($data);
-        }else{  
-            $res =  $this->saveOne($data,$hasBind);
-        }
-        
-        
-        if ($res){
-            $res = self::get($res->id);
-        }
-        
-        
-        return $res;
+    protected  function getCarNumberAttr($value)
+    {
+        return strtoupper($value);
     }
+
     
+
     private function setValidateRule(WayUserBindCarValidate $validate){
         $validate->rule('reg_time','require|number|gt:0|lt:'.time());
         $validate->message('reg_time.lt' , '车辆注册时间不能大于当前时间');
@@ -64,7 +48,7 @@ class WayUserBindCar extends Model
      * @param unknown $data
      * @return \app\common\model\WayUserBindCar|boolean
      */
-    private function addOne($data){
+    public function addOne($data){
         
         /**
          * @var WayUserBindCarValidate $validate
@@ -72,8 +56,9 @@ class WayUserBindCar extends Model
         $validate = Loader::validate('WayUserBindCarValidate');
         $this->setValidateRule($validate);
         
-        if($validate->batch()->check($data)){
-            return $this->create($data , ConfigTool::$TABLE_WAY_USER_BIND_CAR__ADD_CAR_ALLOW_FIELD);
+        if($validate->batch(false)->check($data)){
+            $bind =  $this->create($data , ConfigTool::$TABLE_WAY_USER_BIND_CAR__ADD_CAR_ALLOW_FIELD);
+            return self::get($bind->id);
         }else{
             $this->error = $validate->getError();
             return false;
@@ -85,7 +70,7 @@ class WayUserBindCar extends Model
      * @param unknown $data
      * @return \app\common\model\WayUserBindCar|false
      */
-    private function saveOne($data,WayUserBindCar $hasBind){
+    public function saveOne($data,WayUserBindCar $hasBind){
     
         /**
          * @var WayUserBindCarValidate $validate
@@ -100,10 +85,10 @@ class WayUserBindCar extends Model
         }
 
         //scene('save')->
-        if($validate->batch()->check($data)){
+        if($validate->batch(false)->check($data)){
             $res = $hasBind->allowField(ConfigTool::$TABLE_WAY_USER_BIND_CAR__SAVE_CAR_ALLOW_FIELD)->save($data);
             if (false !== $res){
-                return $hasBind;
+                return self::get($hasBind->id);
             }
            
             $this->error = '编辑车辆失败';

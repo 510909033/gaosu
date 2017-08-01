@@ -120,140 +120,142 @@
 var app = angular.module('myApp', []);
 </script>
 	
-	<script type="text/javascript">
-		var cb = document.getElementById("yes");
-		var btn = document.getElementById("zhuce");
-		(function() {
-			
-			btn.style.background = "#e0e0e0";
-			cb.onclick = function() {
-				if (cb.checked == true) {
-					document.getElementById("zhuce").disabled = false;
-					btn.style.background = "#2ba246";
-				} else {
-					document.getElementById("zhuce").disabled = true;
-					btn.style.background = "#e0e0e0";
-				}
-			}
-		})();
-	</script>
-	<!--不能为空。-->
-	<script>
-	var nm1 = document.getElementById("y1");
-	var nm2 = document.getElementById("y2");
-	function hide(){
-		nm1.style.display = "none";
-		nm2.style.display = "none";
-	}
-	function show(msg){
-		$("#y2 .y2_1").html(msg);
-		nm1.style.display = "block";
-		nm2.style.display = "block";
-		
-	}
-	
-	function hide(){
-		nm1.style.display = "none";
-		nm2.style.display = "none";
-	}
-	function show_loading(){
-		nm1.style.display = "block";
-		nm2.style.display = "block";
-		$("#y2 .y2_1").html("数据提交中。。。");
-	}
-		
-
+<script type="text/javascript">
+	var cb = document.getElementById("yes");
+	var btn = document.getElementById("zhuce");
 	(function() {
-		nm2.onclick = function() {
-			nm1.style.display = "none";
-			nm2.style.display = "none";
+		
+		btn.style.background = "#e0e0e0";
+		cb.onclick = function() {
+			if (cb.checked == true) {
+				document.getElementById("zhuce").disabled = false;
+				btn.style.background = "#2ba246";
+			} else {
+				document.getElementById("zhuce").disabled = true;
+				btn.style.background = "#e0e0e0";
+			}
 		}
 	})();
-	</script>
-	<!--loading加载。-->
-	<script>
+</script>
+<script>
+var nm1 = document.getElementById("y1");
+var nm2 = document.getElementById("y2");
+function hide_btn(){
+	nm1.style.display = "none";
+	nm2.style.display = "none";
+}
+function show(msg){
+	$("#y2 .y2_1").html(msg);
+	nm1.style.display = "block";
+	nm2.style.display = "block";
 	
-	var form_data = {$form};
-	if(typeof form_data.car_type_id =='undefined'){
-		form_data.car_type_id =0;
-	}
-	if(typeof form_data.car_color =='undefined'){
-		form_data.car_color = 0;
-	}
+}
+
+function hide(){
+	$("body").mLoading('hide');
+	//nm1.style.display = "none";
+	//nm2.style.display = "none";
+}
+function show_loading(){
+	$("body").mLoading('show');
+	//nm1.style.display = "block";
+	//nm2.style.display = "block";
+	//$("#y2 .y2_1").html("数据提交中。。。");
+}
 	
-	app.controller('myCtrl', function($scope,$http) {
-	    $scope.form_name = "绑定车辆";
-	    $scope.number123 = form_data.car_type_id;
-	    $scope.form_car_color = form_data.car_color;
-	    
-	    $http.get('{:url('way/user/getCarTypeJson')}').success(function (response) { 
-	 	   $scope.names = response.records;
-	 	});
-	   
-	    $http.get('{:url('way/user/getCarColorJson')}').success(function (response) { 
-	 	   $scope.repeat_car_color = response.records;
-	 	});
-	   
+
+(function() {
+	nm2.onclick = function() {
+		nm1.style.display = "none";
+		nm2.style.display = "none";
+	}
+})();
+</script>
+<script>
+
+var form_data = {$form};
+if(typeof form_data.car_type_id =='undefined'){
+	form_data.car_type_id =0;
+}
+if(typeof form_data.car_color =='undefined'){
+	form_data.car_color = 0;
+}
+
+app.controller('myCtrl', function($scope,$http) {
+    $scope.form_name = "绑定车辆";
+    $scope.number123 = form_data.car_type_id;
+    $scope.form_car_color = form_data.car_color;
+    
+    $http.get('{:url('way/user/getCarTypeJson')}').success(function (response) { 
+ 	   $scope.names = response.records;
+ 	});
+   
+    $http.get('{:url('way/user/getCarColorJson')}').success(function (response) { 
+ 	   $scope.repeat_car_color = response.records;
+ 	});
+   
+});
+
+
+	$(function() {
+		
+		
+		$("input[name='reg_time']").datetimePicker({title:"车辆注册时间",m:1});  //年月日
+		hide_btn();
+		
+		$("li input,.li_input_hidden").each(function(){
+			if(typeof form_data[$(this).attr('name')] != 'undefined' ){
+				$(this).val( form_data[$(this).attr('name')] );
+			}
+		})
+		
+		
+		var is_submit = false;
+		$("#form_id").submit(function(){
+			
+			
+			if(! $("#yes").prop("checked") ){
+				show("请勾选 吉林省高速缴费平台用户缴费协议");
+				return false;
+			}
+			
+			if(is_submit){
+				return false;
+			}
+			is_submit = true;
+	
+			$.ajax({
+				url:"{$form_url}",
+				data:$("#form_id").serialize()+'&_ajax=1&_method={$form_method}',
+				dataType:"json",
+				"type":"post",
+				beforeSend:function(){
+					show_loading();	
+				},
+				success:function(data){
+					hide();
+					if(0 === data.errcode){
+						show(data.html);
+						$("#y2 .btnok").click(function(){
+							location.href=data.view_url;
+						});
+					}else{
+						show(data.html);
+					}
+				},
+				complete:function(){
+					is_submit = false;
+				},
+			});
+			
+			return false;
+		});
+		
 	});
 	
 	
-		$(function() {
-			$("input[name='reg_time']").datetimePicker({title:"车辆注册时间",m:1});  //年月日
-			hide();
-			
-			$("li input,.li_input_hidden").each(function(){
-				if(typeof form_data[$(this).attr('name')] != 'undefined' ){
-					$(this).val( form_data[$(this).attr('name')] );
-				}
-			})
-			
-			
-			var is_submit = false;
-			$("#form_id").submit(function(){
-				
-			
-				if(! $("#yes").prop("checked") ){
-					show("请勾选 吉林省高速缴费平台用户缴费协议");
-					return false;
-				}
-				
-				if(is_submit){
-					return false;
-				}
-				is_submit = true;
-		
-				$.ajax({
-					url:"{:url('way/user/userBindCar?_ajax=1')}",
-					data:$("#form_id").serialize()+'&_ajax=1',
-					dataType:"json",
-					"type":"post",
-					beforeSend:function(){
-						show_loading();	
-					},
-					success:function(data){
-						hide();
-						if(0 === data.errcode){
-							show(data.html);
-							$("#y2 .btnok").click(function(){
-								location.href=data.view_url;
-							});
-						}else{
-							show(data.html);
-						}
-					},
-					complete:function(){
-						is_submit = false;
-					},
-				});
-				
-				return false;
-			});
-			
-		});
-		
-		
-		
-	</script>
+	
+</script>
 	
 	
 	

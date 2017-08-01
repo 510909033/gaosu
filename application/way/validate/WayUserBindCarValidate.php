@@ -26,14 +26,14 @@ class WayUserBindCarValidate extends Validate{
 //     ];
     
     protected $rule = [
-        'car_number' =>  'require|length:7|unique:way_user_bind_car',
+        'car_number' =>  'require|length:7|regex:/^[\x{4e00}-\x{9fa5}]{1}[a-z0-9]{6}$/ui|unique:way_user_bind_car',
         'user_id'  =>  'require|gt:0|number|unique:way_user_bind_car',
         'openid' =>  'require',
         'status' =>  'require|number|in:0,1,2',
         'verify' =>  'require|number|in:0,1,2,3',
         'create_time' =>  'require|number|gt:0',
         'car_color' =>  'require|number|gt:0',
-        'username' =>  'require',
+        'username' =>  'require|regex:/^[\x{4e00}-\x{9fa5}]+$/u',
         'identity_card' =>  'require|min:15|max:18',
         'phone' =>  'require|number|length:11',
         'car_type_id' =>  'require|number|gt:0',
@@ -45,12 +45,14 @@ class WayUserBindCarValidate extends Validate{
     ];
     
     protected $message = [
+        'car_number.regex'=>'车牌号格式为一位汉字+6位字母数字组合' ,
         'car_number'=>'请填写车牌号',
         'car_number.unique'=>'车牌号已存在',  
         'user_id.unique'=>'您已绑定过车辆',
         'opendid'=>'读取用户信息失败',
         'car_color'=>'请填写车辆颜色',
-        'username'=>'请填写车主姓名',
+        'username.require'=>'请填写车主姓名',
+        'username.regex'=>'车主姓名只能为中文',
         'identity_card' =>  '请填写身份证号码',
         'phone' =>  '请填写手机号码',
         'car_type_id' =>  '请选择车型',

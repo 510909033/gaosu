@@ -16,18 +16,87 @@ use app\common\tool\TmpTool;
 use think\helper\Time;
 use app\common\model\WayCarType;
 use app\common\model\SysConfig;
+use think\Session;
+use think\View;
+use youwen\exwechat\ErrorCode;
 
 class UserController extends NeedLoginController
 {
+    
+    public function testAction(){
+        $config=[
+            
+        ];
+       
+//         Session::init($config);
+      
+        return 'test';
+    }
  
+    public function indexAction(){
+        
+        
+        $wayUserBindCar = WayUserBindCar::get( array('user_id'=>UserTool::getUser_id()));
+        
+        
+        if ($wayUserBindCar){
+            $this->redirect('way/user/read',['id'=>$wayUserBindCar->id] );
+        }else{
+            $this->redirect('way/user/create');
+        }
+    }
+    
+    public function createAction(){
+        if (WayUserBindCar::getOne(UserTool::getUser_id())){
+            exception('您已绑定了车辆');
+        }
+        
+        View::share('form_url' , url('way/user/save'));
+        View::share('form_method','post');
+        
+        return $this->read(0);
+    }
+    
+    public function readAction($id){
+        
+//         $list = glob('../*.php');
+        
+//         dump($list);exit;
+//         $pattern = '/^[\x{4e00}-\x{9fa5}]+$/u';
+//         var_dump(preg_match($pattern, '王宝田'));
+//         var_dump(preg_match("/^[".chr(0xa1)."-".chr(0xff)."A-Za-z0-9_]+$/",'王宝田'));
+//         exit;
+        
+        
+        if (!WayUserBindCar::getOne(UserTool::getUser_id())){
+            exception('您尚未绑定车辆');
+        }
+        
+        
+        $vars = [
+            'id'=>$id,
+        ];
+        View::share('form_url' , url('way/user/update' , $vars));
+        View::share('form_method','put');
+        
+        return $this->read($id);
+    }
+    
+    
+    public function saveAction(){
+        return $this->userBindCar(true,false);
+    }
+    
+    public function updateAction(){
+        return $this->userBindCar(false,true);
+    }
+    
     /**
      * 车辆绑定显示页
      * @param number $id
      * @return \think\response\View
      */
-    public function bindIndexAction($id=0){
-        
-        
+    private function read($id){
         $vars = [];
         $form = [];
         try {
@@ -42,8 +111,9 @@ class UserController extends NeedLoginController
                     'user_id'=>UserTool::getUser_id()
                 ];
                
+                
                 $wayUserBindCar = WayUserBindCar::where($where)->find();
-            
+                
             
                 if ($wayUserBindCar){
                     $form = $wayUserBindCar;
@@ -62,7 +132,8 @@ class UserController extends NeedLoginController
             $vars['form'] = '[]';
         }
         
-        return \view('',$vars);
+ 
+        return \view('bindindex',$vars);
     }
 
 
@@ -72,22 +143,17 @@ class UserController extends NeedLoginController
 
     /**
      * 用户绑定车辆
+     * errcode
      * 
      */
-    public function userBindCarAction(){
+    private function userBindCar($is_add,$is_update){
         
-        $json = [];
+        $json =[];
         try {
-            if (!$this->request->isAjax()){
-                exception('不是ajax提交');
-            }
-            
-//             WayUserBindCar::destroy(['user_id'=>UserTool::getUser_id()]);
-            
-            
+            usleep(2000);
             $wayUserBindCar = new WayUserBindCar();
             
-            $data = $this->request->post();
+            $data = $this->request->param();
             
             $data['user_id'] = UserTool::getUser_id();
             $data['openid'] = UserTool::getUni_account();
@@ -101,16 +167,22 @@ class UserController extends NeedLoginController
             
             $data['reg_time'] = strtotime($data['reg_time']);
             
-            //log debug
-            $this->debugLogUserBindCarAction($data);
+            if ($is_add && !$is_update){
+//                 unset($data['id']);
+                $data['id'] = 0;
+                $res = $wayUserBindCar->addOne($data);
+            }else if (!$is_add && $is_update){
+                $hasBind = WayUserBindCar::getOne(UserTool::getUser_id());
+                $res = $wayUserBindCar->saveOne($data,$hasBind);
+            }else{
+                \exception('错误的条件,file='.__FILE__.',line='.__LINE__ , ConfigTool::$ERRCODE__SHOULD_NOT_BE_DONE_HERE);
+            }
             
-            $res = $wayUserBindCar->bindCar($data);
             if (!$res){
                 $json['errcode'] = ConfigTool::$ERRCODE__COMMON;
                 $json['html'] = implode('<br />', (array)$wayUserBindCar->getError());
-         
-                $json['error'] = ($wayUserBindCar->getError());
-                $json['debug']['res'] = $res;
+                $json['unit']['error'] = $wayUserBindCar->getError();
+          
             }else{
                 if(!$res->car_qrcode_path){
                     WayUserBindCar::save_car_qrcode_path($res);
@@ -118,20 +190,24 @@ class UserController extends NeedLoginController
                 
                 $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
                 $json['html'] = '绑定车辆成功';
-                $json['view_url'] = url('way/user/bindindex',['id'=>$res->id]);
+                $json['view_url'] = url('way/user/read',['id'=>$res->id]);
             }
         } catch (\Exception $e) {
             $json['errcode'] = ConfigTool::$ERRCODE__EXCEPTION;
             $json['html'] = $e->getMessage();
+            $json['unit']['error'] = $e->getMessage();
             if (ConfigTool::IS_LOG_TMP){
-                SysLogTmp::log('绑定车辆出现异常', ($e->getMessage()) , 0 ,__METHOD__);
+                $log_content = print_r($json,true) ;
+                SysLogTmp::log('绑定车辆出现异常', $log_content , 0 ,__METHOD__);
             }
-            TmpTool::arrayToArrayFile($e);
         }
    
-        $json['method'] = $this->request->method();
         
-        TmpTool::arrayToArrayFile($json,__FILE__);
+        if (ConfigTool::IS_LOG_TMP){
+            $log_content = print_r($json,true) ;
+            SysLogTmp::log('绑定车辆结果,method='.$this->request->method().',id='.input('id'), print_r(array('json'=>$json,'data'=>$data),true) , 0 ,__METHOD__);
+        }
+        
         return json($json);
         
     }
