@@ -184,7 +184,7 @@ class IndexController extends Controller
                 $contentStr = "抱歉，没有查到\"" . $postObj->Content . "\"的天气信息！";
             } else {
                 $contentStr = "【" . $data['data']['city'] . "天气预报】\n" .
-                    '当前温度' . $data['data']['wendu'] . '\n'.
+                    '当前温度:' . $data['data']['wendu'] . '<br/>'.
                     '温馨提示'.$data['data']['ganmao'].'\n';
             }
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
