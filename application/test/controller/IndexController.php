@@ -160,7 +160,7 @@ class IndexController extends Controller
     public function handleText($postObj)
     {
         
-        Log::order_log(json_encode($postObj), '接收信息');
+
         $fromUsername = $postObj->FromUserName;
         $toUsername = $postObj->ToUserName;
         $keyword = trim($postObj->Content);
@@ -173,13 +173,12 @@ class IndexController extends Controller
 					<Content><![CDATA[%s]]></Content>
 					<FuncFlag>0</FuncFlag>
 					</xml>";
-        if (! empty($keyword)) {
+        if (!empty($keyword)) {
             $msgType = "text";
-            
+
             // 天气
             $data = $this->weatherAction($postObj);
             
-            Log::order_log($data, '天气信息');
             if (empty($data['data'])) {
                 $contentStr = "抱歉，没有查到\"" . $postObj->Content . "\"的天气信息！";
             } else {
@@ -187,11 +186,11 @@ class IndexController extends Controller
                     '当前温度:' . $data['data']['wendu'] . "\n".
                     '温馨提示:'.$data['data']['ganmao']."\n".
                     "【 今日天气】\n" .
-                    '最高温度：'.$data['data']['high'][0]."\n".
-                    '最低温度：'.$data['data']['low'][0]."\n".
-                    '风力：'.$data['data']['fengli'][0]."\n".
-                    '风向：'.$data['data']['风向'][0]."\n".
-                    '天气类型：'.$data['data']['type'][0]."\n";
+                    '最高温度：'.$data['data']['forecast'][0]['high']."\n".
+                    '最低温度：'.$data['data']['forecast'][0]['low']."\n".
+                    '风力：'.$data['data']['forecast'][0]['fengli']."\n".
+                    '风向：'.$data['data']['forecast'][0]['fengxiang']."\n".
+                    '天气类型：'.$data['data']['forecast'][0]['type']."\n";
                     
             }
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
@@ -237,7 +236,7 @@ class IndexController extends Controller
         // $c_name=$weather_cityId[$n];
         SysLogTmp::log('weatherAction', (string) $postObj->Content, 0, __LINE__);
         
-        if (! empty($postObj->Content)) {
+        if (!empty($postObj->Content)) {
             $json = file_get_contents("compress.zlib://http://wthrcdn.etouch.cn/weather_mini?city=" . $postObj->Content);
             SysLogTmp::log('天气结果', $json, 0, __FILE__);
             
