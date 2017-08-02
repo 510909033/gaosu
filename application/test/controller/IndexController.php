@@ -183,13 +183,13 @@ class IndexController extends Controller
             } else {
                 $contentStr = "【" . $data['data']['city'] . "天气预报】\n".
                     '当前温度:' . $data['data']['wendu'] . "\n".
-                    '温馨提示:'.$data['data']['ganmao']."\n".
-                    "【 今日天气】\n" .
+                    '温馨提示:'.$data['data']['ganmao']."\n";
+  /*                   "【 今日天气】\n" .
                     '最高温度：'.$data['data']['forecast'][0]['high']."\n".
                     '最低温度：'.$data['data']['forecast'][0]['low']."\n".
                     '风力：'.$data['data']['forecast'][0]['fengli']."\n".
                     '风向：'.$data['data']['forecast'][0]['风向']."\n".
-                    '天气类型：'.$data['data']['forecast'][0]['type']."\n";
+                    '天气类型：'.$data['data']['forecast'][0]['type']."\n"; */
                     
             }
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
