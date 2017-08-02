@@ -173,7 +173,7 @@ class IndexController extends Controller
 					<Content><![CDATA[%s]]></Content>
 					<FuncFlag>0</FuncFlag>
 					</xml>";
-        if (! empty($keyword)) {
+        if (!empty($keyword)) {
             $msgType = "text";
             
             // 天气
