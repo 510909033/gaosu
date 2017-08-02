@@ -11,6 +11,15 @@ class IndexController extends Controller {
 
         
     }
+    
+    public function aaaAction(){
+        
+        $json=file_get_contents("compress.zlib://http://wthrcdn.etouch.cn/weather_mini?city=北京");
+        
+        echo $json;
+        dump(json_decode($json,true));
+        
+    }
 
 	
 	public function indexAction(){
@@ -217,9 +226,11 @@ class IndexController extends Controller {
 		//include("weather_cityId.php");
 		//$c_name=$weather_cityId[$n];
 	    SysLogTmp::log('weatherAction', (string)$postObj->Content, 0 , __LINE__);
+	    
 		if(!empty($postObj->Content)){
-			$json=file_get_contents("http://wthrcdn.etouch.cn/weather_mini?city=".$postObj->Content);
+			$json=file_get_contents("compress.zlib://http://wthrcdn.etouch.cn/weather_mini?city=".$postObj->Content);
 			SysLogTmp::log('天气结果', $json, 0, __FILE__);
+			
 			$json_arr= json_decode($json,true);
 			SysLogTmp::log('天气结果', print_r($json_arr,true), 0, __FILE__);
 			return $json_arr;
