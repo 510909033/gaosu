@@ -219,7 +219,8 @@ class IndexController extends Controller {
 	private function weatherAction($n,$postObj){
 		//include("weather_cityId.php");
 		//$c_name=$weather_cityId[$n];
-		if(!empty($postObj->Conten)){
+	    SysLogTmp::log('weatherAction', (string)$postObj->Content, 0 , __LINE__);
+		if(!empty($postObj->Content)){
 			$json=file_get_contents("http://wthrcdn.etouch.cn/weather_mini?city=".$postObj->Content);
 			$json_arr= json_decode($json,true);
 			return $json_arr;
