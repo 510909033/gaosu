@@ -177,7 +177,7 @@ class IndexController extends Controller
             $msgType = "text";
             // 天气
             $data = $this->weatherAction($postObj);
-            
+            Log::order_log(json_encode($data), '天气');
             if (empty($data['data'])) {
                 $contentStr = "抱歉，没有查到\"" . $postObj->Content . "\"的天气信息！";
             } else {
