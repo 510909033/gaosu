@@ -2,6 +2,7 @@
 namespace app\test\controller;
 
 use think\Controller;
+use app\common\model\SysLogTmp;
 class IndexController extends Controller {
 
 
@@ -13,7 +14,6 @@ class IndexController extends Controller {
 
 	
 	public function indexAction(){
-		
 			$this->responseMsgAction();
 
 	}
@@ -172,11 +172,11 @@ class IndexController extends Controller {
 			$str = mb_substr($keyword,-2,2,"UTF-8");
 			$str_key = mb_substr($keyword,0,-2,"UTF-8");
 			if($str == '天气' && !empty($str_key)){
-				$data = $this->weatherAction($str_key);
+				$data = $this->weatherAction($str_key,$postObj);
 				if(empty($data->data)){
 					$contentStr = "抱歉，没有查到\"".$str_key."\"的天气信息！";
 				} else {
-					$contentStr = "【".$json_arr['data']['city']."天气预报】\n".$json_arr['data']['aqi'];//.$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
+					$contentStr = "【".$data['data']['city']."天气预报】\n".$data['data']['aqi'];//.$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
 				}
 			}
 			$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
@@ -216,12 +216,12 @@ class IndexController extends Controller {
         return $resultStr;
     }
 
-	private function weatherAction($n){
+	private function weatherAction($n,$postObj){
 		//include("weather_cityId.php");
 		//$c_name=$weather_cityId[$n];
 		if(!empty($postObj->Conten)){
 			$json=file_get_contents("http://wthrcdn.etouch.cn/weather_mini?city=".$postObj->Content);
-			$json_arr= json_decode($json);
+			$json_arr= json_decode($json,true);
 			return $json_arr;
 		} else {
 			return null;
