@@ -169,16 +169,9 @@ class IndexController extends Controller {
 			$msgType = "text";
 
 			//天气
-			$str = mb_substr($keyword,-2,2,"UTF-8");
-			$str_key = mb_substr($keyword,0,-2,"UTF-8");
-			
-			if($str == '天气' && !empty($str_key)){
-				$data = $this->weatherAction($str_key,$postObj);
-			}else{
-			    $data = $this->weatherAction($postObj->content,$postObj);
-			}
+				$data = $this->weatherAction($postObj);
 			if(empty($data['data'])){
-			    $contentStr = "抱歉，没有查到\"".$str_key."\"的天气信息！";
+			    $contentStr = "抱歉，没有查到\"".$postObj->Content."\"的天气信息！";
 			} else {
 			    $contentStr = "【".$data['data']['city']."天气预报】\n".$data['data']['aqi'];//.$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
 			}
