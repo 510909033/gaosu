@@ -213,10 +213,10 @@ class IndexController extends Controller {
     }
 
 	private function weatherAction($n){
-		include("weather_cityId.php");
-		$c_name=$weather_cityId[$n];
-		if(!empty($c_name)){
-			$json=file_get_contents("http://wthrcdn.etouch.cn/weather_mini?city=长春";)//.$c_name);
+		//include("weather_cityId.php");
+		//$c_name=$weather_cityId[$n];
+		if(!empty($postObj->Conten)){
+			$json=file_get_contents("http://wthrcdn.etouch.cn/weather_mini?city=".$postObj->Content);
 			return json_decode($json);
 		} else {
 			return null;
