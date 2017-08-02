@@ -171,8 +171,8 @@ class IndexController extends Controller {
 				if(empty($data->data)){
 					$contentStr = "抱歉，没有查到\"".$str_key."\"的天气信息！";
 				} else {
-					$contentStr = "【".$data->data->city."天气预报】\n".$data->data->aqi." ".$data->data->fx."时发布"."\n\n实时天气\n";//.$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
-					var_dump($contentStr);
+					$contentStr = "【".$json['data']['city']."天气预报】\n".$json['data']['aqi'];//.$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
+					
 				}
 			}
 			$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
