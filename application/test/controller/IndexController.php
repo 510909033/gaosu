@@ -191,7 +191,7 @@ class IndexController extends Controller
                     '最低温度：'.$data['data']['low'][0]."\n".
                     '风力：'.$data['data']['fengli'][0]."\n".
                     '风向：'.$data['data']['风向'][0]."\n".
-                    '天气类型：'.$data['data']['type'][0]."\n".;
+                    '天气类型：'.$data['data']['type'][0]."\n";
                     
             }
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
