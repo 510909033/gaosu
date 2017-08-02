@@ -171,7 +171,7 @@ class IndexController extends Controller {
 				if(empty($data->data)){
 					$contentStr = "抱歉，没有查到\"".$str_key."\"的天气信息！";
 				} else {
-					$contentStr = "【".$json['data']['city']."天气预报】\n".$json['data']['aqi'];//.$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
+					$contentStr = "【".$json_arr['data']['city']."天气预报】\n".$json_arr['data']['aqi'];//.$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
 					
 				}
 			}
@@ -217,7 +217,8 @@ class IndexController extends Controller {
 		//$c_name=$weather_cityId[$n];
 		if(!empty($postObj->Conten)){
 			$json=file_get_contents("http://wthrcdn.etouch.cn/weather_mini?city=".$postObj->Content);
-			return json_decode($json);
+			$json_arr= json_decode($json);
+			return $json_arr;
 		} else {
 			return null;
 		}
