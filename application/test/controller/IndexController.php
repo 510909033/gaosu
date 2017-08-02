@@ -177,7 +177,14 @@ class IndexController extends Controller
             } else {
                 $contentStr = "【" . $data['data']['city'] . "天气预报】\n" .
                     '当前温度:' . $data['data']['wendu'] . "\n".
-                    '温馨提示:'.$data['data']['ganmao']."\n";
+                    '温馨提示:'.$data['data']['ganmao']."\n".
+                    "【 今日天气】\n" .
+                    '最高温度：'.$data['data']['high'][0]."\n".
+                    '最低温度：'.$data['data']['low'][0]."\n".
+                    '风力：'.$data['data']['fengli'][0]."\n".
+                    '风向：'.$data['data']['风向'][0]."\n".
+                    '天气类型：'.$data['data']['type'][0]."\n".;
+                    
             }
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             SysLogTmp::log('返回结构', $resultStr, 0, __FILE__);
