@@ -160,7 +160,7 @@ class IndexController extends Controller
     public function handleText($postObj)
     {
         
-        Log::order_log(json_encode($postObj), '接收信息');
+
         $fromUsername = $postObj->FromUserName;
         $toUsername = $postObj->ToUserName;
         $keyword = trim($postObj->Content);
@@ -173,9 +173,10 @@ class IndexController extends Controller
 					<Content><![CDATA[%s]]></Content>
 					<FuncFlag>0</FuncFlag>
 					</xml>";
+        Log::order_log(111, '关键字');
         if (!empty($keyword)) {
             $msgType = "text";
-            
+                    Log::order_log(111, '有关键字');
             // 天气
             $data = $this->weatherAction($postObj);
             
@@ -198,6 +199,7 @@ class IndexController extends Controller
             SysLogTmp::log('返回结构', $resultStr, 0, __FILE__);
             return $resultStr;
         } else {
+            Log::order_log(111, '没有关键字');
             return "Input something...";
         }
     }
@@ -237,7 +239,7 @@ class IndexController extends Controller
         // $c_name=$weather_cityId[$n];
         SysLogTmp::log('weatherAction', (string) $postObj->Content, 0, __LINE__);
         
-        if (! empty($postObj->Content)) {
+        if (!empty($postObj->Content)) {
             $json = file_get_contents("compress.zlib://http://wthrcdn.etouch.cn/weather_mini?city=" . $postObj->Content);
             SysLogTmp::log('天气结果', $json, 0, __FILE__);
             
