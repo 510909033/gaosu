@@ -3,12 +3,16 @@ namespace app\test\controller;
 
 use think\Controller;
 use app\common\model\SysLogTmp;
+use think\Log;
 
 class IndexController extends Controller
 {
-
+    //初始化
     protected function _initialize()
-    {}
+    {
+
+
+    }
 
     public function aaaAction()
     {
@@ -155,6 +159,8 @@ class IndexController extends Controller
 
     public function handleText($postObj)
     {
+        
+        Log::order_log($postObj, '接收信息');
         $fromUsername = $postObj->FromUserName;
         $toUsername = $postObj->ToUserName;
         $keyword = trim($postObj->Content);
@@ -172,6 +178,8 @@ class IndexController extends Controller
             
             // 天气
             $data = $this->weatherAction($postObj);
+            
+            Log::order_log($data, '天气信息');
             if (empty($data['data'])) {
                 $contentStr = "抱歉，没有查到\"" . $postObj->Content . "\"的天气信息！";
             } else {
