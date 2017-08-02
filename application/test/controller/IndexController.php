@@ -117,6 +117,8 @@ class IndexController extends Controller {
 
 	 public function responseMsgAction()
     {
+    	
+    	
 		//get post data, May be due to the different environments
 		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 
@@ -129,23 +131,24 @@ class IndexController extends Controller {
 				switch($RX_TYPE)
 				{
 					case "text":
-						$resultStr = $this->handleTextAction($postObj);
+						$resultStr = $this->handleText($postObj);
 						break;
 					case "event":
-						$resultStr = $this->handleEventAction($postObj);
+						$resultStr = $this->handleEvent($postObj);
 						break;
 					default:
 						$resultStr = "Unknow msg type: ".$RX_TYPE;
 						break;
 				}
 				echo $resultStr;
+				exit;
         }else {
         	echo "";
         	exit;
         }
     }
 
-	public function handleTextAction($postObj)
+	public function handleText($postObj)
 	{
 		$fromUsername = $postObj->FromUserName;
 		$toUsername = $postObj->ToUserName;
@@ -172,7 +175,6 @@ class IndexController extends Controller {
 					$contentStr = "抱歉，没有查到\"".$str_key."\"的天气信息！";
 				} else {
 					$contentStr = "【".$json_arr['data']['city']."天气预报】\n".$json_arr['data']['aqi'];//.$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
-					
 				}
 			}
 			$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
