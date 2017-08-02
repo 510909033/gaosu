@@ -3,6 +3,8 @@ namespace app\test\controller;
 
 use think\Controller;
 class IndexController extends Controller {
+
+
     protected function _initialize()
     {
 
@@ -11,7 +13,7 @@ class IndexController extends Controller {
 
 	
 	public function indexAction(){
-
+		
 			$this->responseMsgAction();
 
 	}
@@ -118,7 +120,7 @@ class IndexController extends Controller {
 	 public function responseMsgAction()
     {
     	
-    	
+
 		//get post data, May be due to the different environments
 		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 
@@ -170,7 +172,7 @@ class IndexController extends Controller {
 			$str = mb_substr($keyword,-2,2,"UTF-8");
 			$str_key = mb_substr($keyword,0,-2,"UTF-8");
 			if($str == '天气' && !empty($str_key)){
-				$data = $this->weather($str_key);
+				$data = $this->weatherAction($str_key);
 				if(empty($data->data)){
 					$contentStr = "抱歉，没有查到\"".$str_key."\"的天气信息！";
 				} else {
