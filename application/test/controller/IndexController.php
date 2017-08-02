@@ -173,29 +173,33 @@ class IndexController extends Controller
 					<Content><![CDATA[%s]]></Content>
 					<FuncFlag>0</FuncFlag>
 					</xml>";
+        Log::order_log(111, '关键字');
         if (!empty($keyword)) {
             $msgType = "text";
+                    Log::order_log(111, '有关键字');
             // 天气
             $data = $this->weatherAction($postObj);
-            Log::order_log(json_encode($data), '天气');
+            
+            Log::order_log($data, '天气信息');
             if (empty($data['data'])) {
                 $contentStr = "抱歉，没有查到\"" . $postObj->Content . "\"的天气信息！";
             } else {
-                $contentStr = "【" . $data['data']['city'] . "天气预报】\n".
+                $contentStr = "【" . $data['data']['city'] . "天气预报】\n" .
                     '当前温度:' . $data['data']['wendu'] . "\n".
-                    '温馨提示:'.$data['data']['ganmao']."\n";
-  /*                   "【 今日天气】\n" .
+                    '温馨提示:'.$data['data']['ganmao']."\n".
+                    "【 今日天气】\n" .
                     '最高温度：'.$data['data']['forecast'][0]['high']."\n".
                     '最低温度：'.$data['data']['forecast'][0]['low']."\n".
                     '风力：'.$data['data']['forecast'][0]['fengli']."\n".
-                    '风向：'.$data['data']['forecast'][0]['风向']."\n".
-                    '天气类型：'.$data['data']['forecast'][0]['type']."\n"; */
+                    '风向：'.$data['data']['forecast'][0]['fengxiang']."\n".
+                    '天气类型：'.$data['data']['forecast'][0]['type']."\n";
                     
             }
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             SysLogTmp::log('返回结构', $resultStr, 0, __FILE__);
             return $resultStr;
         } else {
+            Log::order_log(111, '没有关键字');
             return "Input something...";
         }
     }
