@@ -174,13 +174,11 @@ class IndexController extends Controller
 					<Content><![CDATA[%s]]></Content>
 					<FuncFlag>0</FuncFlag>
 					</xml>";
-        Log::order_log($keyword,'关键字');
         if (!empty($keyword)) {
             $msgType = "text";
             // 天气
             $data = $this->weatherAction($postObj);
             
-            Log::order_log($data, '天气信息');
             if (empty($data['data'])) {
                 $contentStr = "抱歉，没有查到\"" . $postObj->Content . "\"的天气信息！";
             } else {
