@@ -219,9 +219,12 @@ class IndexController extends Controller {
 	    SysLogTmp::log('weatherAction', (string)$postObj->Content, 0 , __LINE__);
 		if(!empty($postObj->Content)){
 			$json=file_get_contents("http://wthrcdn.etouch.cn/weather_mini?city=".$postObj->Content);
+			SysLogTmp::log('天气结果', $json, 0, __FILE__);
 			$json_arr= json_decode($json,true);
+			SysLogTmp::log('天气结果', print_r($json_arr,true), 0, __FILE__);
 			return $json_arr;
 		} else {
+		    SysLogTmp::log('天气结果-不应该出现这个结果', '', 0, __FILE__);
 			return null;
 		}
 	}
