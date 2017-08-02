@@ -160,7 +160,7 @@ class IndexController extends Controller
     public function handleText($postObj)
     {
         
-        Log::order_log($postObj, '接收信息');
+        Log::order_log(json_encode($postObj), '接收信息');
         $fromUsername = $postObj->FromUserName;
         $toUsername = $postObj->ToUserName;
         $keyword = trim($postObj->Content);
