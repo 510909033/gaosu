@@ -14,14 +14,6 @@ class IndexController extends Controller
 
     }
 
-    public function aaaAction()
-    {
-        $json = file_get_contents("compress.zlib://http://wthrcdn.etouch.cn/weather_mini?city=北京");
-        
-        echo $json;
-        dump(json_decode($json, true));
-    }
-
     public function indexAction()
     {
         $this->responseMsgAction();
@@ -145,6 +137,9 @@ class IndexController extends Controller
                 case "event":
                     $resultStr = $this->handleEvent($postObj);
                     break;
+                case "location":
+                    $resultStr = $this->handleEvent($postObj);
+                    break;
                 default:
                     $resultStr = "Unknow msg type: " . $RX_TYPE;
                     break;
@@ -214,6 +209,16 @@ class IndexController extends Controller
         }
         $resultStr = $this->responseTextAction($object, $contentStr);
         return $resultStr;
+    }
+    
+    public function handleEventAction($object)
+    {
+        //回复内容
+        $contentStr = "您发送的是地理位置信息";
+        //格式化字符串
+         $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+         //返回XML数据到微信客户端
+         echo $resultStr;
     }
 
     public function responseTextAction($object, $content, $flag = 0)
