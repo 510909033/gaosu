@@ -216,7 +216,7 @@ class IndexController extends Controller
         //回复内容
         $contentStr = "您发送的是地理位置信息";
         //格式化字符串
-        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+        
         //返回XML数据到微信客户端
         $resultStr = $this->responseTextAction($object, $contentStr);
         return $resultStr;
