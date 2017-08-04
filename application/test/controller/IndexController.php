@@ -126,6 +126,7 @@ class IndexController extends Controller
         
         // extract post data
         if (! empty($postStr)) {
+            SysLogTmp::log('微信API', print_r($postStr,true), 0, __FILE__.',line='.__LINE__);
             
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $RX_TYPE = trim($postObj->MsgType);
