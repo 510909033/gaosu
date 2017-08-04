@@ -224,18 +224,18 @@ class IndexController extends Controller
     public function event_subscribe($object)
     {
         $contentStr = "";
-        $contentStr = "感谢微信公众平台。" . "\n" . "目前平台功能如下：" . "\n" . "【1】 查天气，如输入：长春天气" . "\n" . " 更多内容，敬请期待...";
+        $contentStr = "感谢微信公众平台。" . "\n" . "目前平台功能如下：" . "\n" . "【1】 查天气，如输入：长春" . "\n" . " 更多内容，敬请期待...";
         $resultStr = $this->responseTextAction($object, $contentStr);
         return $resultStr;
     }
     
-//     public function event_VIEW($object)
-//     {
-//         $contentStr = "";
+    public function event_VIEW($object)
+    {
+        $contentStr = "";
        
-//         $resultStr = $this->responseTextAction($object, $contentStr);
-//         return $resultStr;
-//     }
+        $resultStr = $this->responseTextAction($object, $contentStr);
+        return $resultStr;
+    }
     
     
     
