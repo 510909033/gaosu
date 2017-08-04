@@ -131,20 +131,29 @@ class IndexController extends Controller
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $RX_TYPE = trim($postObj->MsgType);
             
-            switch ($RX_TYPE) {
-                case "text":
-                    $resultStr = $this->handleText($postObj);
-                    break;
-                case "event":
-                    $resultStr = $this->handleEvent($postObj);
-                    break;
-                case "location":
-                    $resultStr = $this->handleLocation($postObj);
-                    break;
-                default:
-                    $resultStr = "Unknow msg type: " . $RX_TYPE;
-                    break;
+            if (method_exists($this, $RX_TYPE)){
+                $resultStr = $this->$RX_TYPE($postObj);
+            }ELSE{
+                //
+                SysLogTmp::log('微信API'.$RX_TYPE.'事件方法尚未编写', print_r($postStr,true), 0, __FILE__.',line='.__LINE__);
+                $resultStr='';
             }
+            
+            
+//             switch ($RX_TYPE) {
+//                 case "text":
+//                     $resultStr = $this->handleText($postObj);
+//                     break;
+//                 case "event":
+//                     $resultStr = $this->handleEvent($postObj);
+//                     break;
+//                 case "location":
+//                     $resultStr = $this->handleLocation($postObj);
+//                     break;
+//                 default:
+//                     $resultStr = "Unknow msg type: " . $RX_TYPE;
+//                     break;
+//             }
             echo $resultStr;
             exit();
         } else {
@@ -153,7 +162,7 @@ class IndexController extends Controller
         }
     }
 
-    public function handleText($postObj)
+    public function text($postObj)
     {
         
 
@@ -197,7 +206,7 @@ class IndexController extends Controller
         }
     }
 
-    public function handleEventAction($object)
+    public function event($object)
     {
         $contentStr = "";
         switch ($object->Event) {
@@ -212,7 +221,7 @@ class IndexController extends Controller
         return $resultStr;
     }
     
-    public function handleLocationAction($object)
+    public function location($object)
     {
         //回复内容
         $contentStr = "您发送的是地理位置信息";
