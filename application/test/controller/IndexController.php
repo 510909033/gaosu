@@ -131,16 +131,25 @@ class IndexController extends Controller
         
         // extract post data
         if (! empty($postStr)) {
-            SysLogTmp::log('微信API', print_r($postStr,true), 0, __FILE__.',line='.__LINE__);
+            SysLogTmp::log('微信发送过来的数据', print_r($postStr,true), 0, __FILE__.',line='.__LINE__);
             
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $RX_TYPE = trim($postObj->MsgType);
             
-            if (method_exists($this, $RX_TYPE)){
-                $resultStr = $this->$RX_TYPE($postObj);
+            $event = $postObj->Event;
+            if ($event && $RX_TYPE){
+                $method = $RX_TYPE.'_'.$event;
+                //event_subscribe
+                //event_VIEW
+            }else if ($RX_TYPE){
+                $method = $RX_TYPE;
+            }
+            
+            if (method_exists($this, $method)){
+                $resultStr = $this->$method($postObj);
             }ELSE{
                 //
-                SysLogTmp::log('微信API'.$RX_TYPE.'事件方法尚未编写', print_r($postStr,true), 0, __FILE__.',line='.__LINE__);
+                SysLogTmp::log('微信API['.$method.']事件方法尚未编写', print_r($postStr,true), 0, __FILE__.',line='.__LINE__);
                 $resultStr='';
             }
             
@@ -212,20 +221,24 @@ class IndexController extends Controller
         }
     }
 
-    public function event($object)
+    public function event_subscribe($object)
     {
         $contentStr = "";
-        switch ($object->Event) {
-            case "subscribe":
-                $contentStr = "感谢微信公众平台。" . "\n" . "目前平台功能如下：" . "\n" . "【1】 查天气，如输入：长春天气" . "\n" . " 更多内容，敬请期待...";
-                break;
-            default:
-                $contentStr = "Unknow Event: " . $object->Event;
-                break;
-        }
+        $contentStr = "感谢微信公众平台。" . "\n" . "目前平台功能如下：" . "\n" . "【1】 查天气，如输入：长春天气" . "\n" . " 更多内容，敬请期待...";
         $resultStr = $this->responseTextAction($object, $contentStr);
         return $resultStr;
     }
+    
+//     public function event_VIEW($object)
+//     {
+//         $contentStr = "";
+       
+//         $resultStr = $this->responseTextAction($object, $contentStr);
+//         return $resultStr;
+//     }
+    
+    
+    
     
     public function location($object)
     {
