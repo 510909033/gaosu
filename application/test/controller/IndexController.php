@@ -243,7 +243,7 @@ class IndexController extends Controller
     public function location($object)
     {
         //回复内容
-        $contentStr = "您的位置："."\n"."纬度->".$object->Location_X."\n"."经度为：".$object->Location_Y;
+        $contentStr = "您的位置："."\n"."纬度: ".$object->Location_X."\n"."经度为：".$object->Location_Y;
         //格式化字符串
         
         //返回XML数据到微信客户端
