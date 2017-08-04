@@ -16,7 +16,12 @@ class IndexController extends Controller
 
     public function indexAction()
     {
-        $this->responseMsgAction();
+        try {
+            $this->responseMsgAction();
+        } catch (\Exception $e) {
+            SysLogTmp::log('微信api异常', $e->getMessage(), 0, __FILE__.',line='.__LINE__);
+        }
+        
     }
 
     /*
@@ -154,6 +159,7 @@ class IndexController extends Controller
 //                     $resultStr = "Unknow msg type: " . $RX_TYPE;
 //                     break;
 //             }
+            SysLogTmp::log('微信API'.$RX_TYPE.'返回结果', $resultStr, 0, __FILE__.',line='.__LINE__);
             echo $resultStr;
             exit();
         } else {
