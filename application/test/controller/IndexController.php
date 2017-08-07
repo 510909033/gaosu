@@ -431,7 +431,7 @@ class IndexController extends Controller
         $res = $this->http_curl($url, 'post', 'json', $postJson);
         
         echo '<br/>';
-        
+        SysLogTmp::log('返回结果', $res, 0, __FILE__);
         var_dump($res);
     }
 }//class end
