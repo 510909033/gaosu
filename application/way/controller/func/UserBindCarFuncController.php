@@ -18,8 +18,9 @@ class UserBindCarFuncController
      * 绑定车辆表功能
      */
     public function __construct(){
-        $this->qrcode_root = ROOT_PATH.'public'.DS;
-        $this->db_path = 'user_bind_car'.DS.'qrcode'.DS       ; 
+        $this->qrcode_root = dirname($_SERVER['SCRIPT_FILENAME']).DS;
+        $this->db_path = 'user_bind_car'.DS.'qrcode'.DS ; 
+    
         
     }
 
@@ -30,7 +31,7 @@ class UserBindCarFuncController
      */
     private function getSplitDir($id){
         
-        return ($id%1000).DS.($id%1000).DS.($id%1000).DS ;
+        return ($id%97).DS.($id%39).DS.($id%22).DS ;
     }
     
     

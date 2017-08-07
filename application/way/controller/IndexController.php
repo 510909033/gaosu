@@ -6,13 +6,9 @@ use think\Controller;
 use think\Session;
 use weixin\auth\AuthExtend;
 use app\way\controller\func\InitFunc;
-use app\way\controller\func\UserFuncController;
-use app\common\tool\UserTool;
 use app\way\controller\func\UserBindCarFuncController;
-use think\Env;
 use app\common\model\WayUserBindCar;
 use think\Url;
-use think\Log;
 
 class IndexController extends Controller
 {
