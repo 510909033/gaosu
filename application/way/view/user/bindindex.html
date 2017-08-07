@@ -1,30 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta
+	name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+/>
+<meta
+	http-equiv="X-UA-Compatible"
+	content="IE=edge,chrome=1"
+/>
 <!-- 优先使用 IE 最新版本和 Chrome -->
-<meta name="renderer" content="webkit">
+<meta
+	name="renderer"
+	content="webkit"
+>
 <!-- 360浏览器切换极速模式 -->
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta
+	http-equiv="Cache-Control"
+	content="no-siteapp"
+/>
 <!-- 禁止百度手机转码 -->
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta
+	http-equiv="Content-Type"
+	content="text/html; charset=utf-8"
+/>
 <title></title>
 <base href="__STATIC__/" />
-<link href="__CSS__/style.css" type="text/css" rel="stylesheet" />
-<link href="__CSS__/reset.css" type="text/css" rel="stylesheet" />
-<link rel="stylesheet" href="__CSS__/jquery.mloading.css">
-<link rel="stylesheet" href="__CSS__/validationEngine.jquery.css">
+<link
+	href="__CSS__/style.css"
+	type="text/css"
+	rel="stylesheet"
+/>
+<link
+	href="__CSS__/reset.css"
+	type="text/css"
+	rel="stylesheet"
+/>
+<link
+	rel="stylesheet"
+	href="__CSS__/jquery.mloading.css"
+>
+<link
+	rel="stylesheet"
+	href="__CSS__/validationEngine.jquery.css"
+>
 
 
-<script src="__JS__/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script
+	src="__JS__/jquery-1.8.3.min.js"
+	type="text/javascript"
+></script>
 <script src="__JS__/texiao1.js"></script>
 <script src="__JS__/jquery.mloading.js"></script>
 
 
-    <script src="__JS__/zepto.min.js"></script>
-    <script src="__JS__/picker.js"></script>
-	 <link rel="stylesheet" href="__CSS__/weui2.css">
+<script src="__JS__/zepto.min.js"></script>
+<script src="__JS__/picker.js"></script>
+<link
+	rel="stylesheet"
+	href="__CSS__/weui2.css"
+>
 
 <script src="__JS__/angularjs.js"></script>
 
@@ -33,8 +68,9 @@
 .formErrorContent {
 	color: #000000 !important;
 }
-.kuan{
-	margin-bottom:10rm  !important;
+
+.kuan {
+	margin-bottom: 10rm !important;
 }
 </style>
 </head>
@@ -42,102 +78,194 @@
 
 
 
-<form class="kscx_top" id="form_id" method="post" action="bind" ng-app="myApp" ng-controller="myCtrl">
-		<div class="zhuce clearfix"  >
+	<form
+		class="kscx_top"
+		id="form_id"
+		method="post"
+		action="bind"
+		ng-app="myApp"
+		ng-controller="myCtrl"
+	>
+		<div class="zhuce clearfix">
 			<span ng-bind="form_name"></span>
 		</div>
 		<ul>
 			<li class="xm_l1">车主姓名<span><input
-				 name="username" 
-					class="weui_input ws_ibj" type="text" placeholder="请输入车主姓名"
-					maxlength="5" /></span></li>
-			<li>身份证号<span><input class=" weui_input ws_ibj" 
-			 name="identity_card"  
-			 pattern="[0-9]*" 
-					type="text" placeholder="请输入省份证号" maxlength="18" /></span></li>
-			<li>手机号码<span><input class="weui_input ws_ibj" 
-					name="phone" id="telephone" type="text" 
-					pattern="[0-9]*" 
-					placeholder="请输入手机号码" maxlength="11" /></span></li>
-			<li>车牌号<span><input class="weui_input ws_ibj" type="text" 
-				 name="car_number" 
-					placeholder="请输入车牌号" /></span></li>
-			<li>车型<span><select    class="weui_input ws_ibj gais"  name="car_type_id" >
-						<option value="0" >请选择车型</option>
-						<option  value="{{ x.uni_id }}"  ng-selected="number123==x.uni_id" ng-repeat="x in names" ng-bind="x.name"></option>
-			
+					name="username"
+					class="weui_input ws_ibj"
+					type="text"
+					placeholder="请输入车主姓名"
+					maxlength="5"
+					id="username" 
+				/></span></li>
+			<li>身份证号<span><input
+			id="identity_card" 
+					class=" weui_input ws_ibj"
+					name="identity_card"
+					type="text"
+					placeholder="请输入省份证号"
+					maxlength="18"
+				/></span></li>
+			<li>手机号码<span><input
+			id="phone"
+					class="weui_input ws_ibj"
+					name="phone"
+					type="text"
+					pattern="[0-9]*"
+					placeholder="请输入手机号码"
+					maxlength="11"
+				/></span></li>
+			<li>车牌号<span><input
+			id="car_number"
+					class="weui_input ws_ibj"
+					type="text"
+					name="car_number"
+					placeholder="请输入车牌号"
+				/></span></li>
+			<li>车型<span><select
+			id="car_type_id"
+					class="weui_input ws_ibj gais"
+					name="car_type_id"
+				>
+						<option value="0">请选择车型</option>
+						<option
+							value="{{ x.uni_id }}"
+							ng-selected="number123==x.uni_id"
+							ng-repeat="x in names"
+							ng-bind="x.name"
+						></option>
+
 				</select></span></li>
-			<li>发动机号<span><input class="weui_input ws_ibj" 
-				 name="engine" 
-					type="text" placeholder="请输入发动机号" /></span></li>
-			<li>颜色<span><select    class="weui_input ws_ibj gais"  name="car_color" >
-						<option value="0" >请选择颜色</option>
-						<option  value="{{ x.id }}"  ng-selected="form_car_color==x.id" ng-repeat="x in repeat_car_color"
-						 ng-bind="x.value"></option>
-			
+			<li>发动机号<span><input
+			id="engine"
+					class="weui_input ws_ibj"
+					name="engine"
+					type="text"
+					placeholder="请输入发动机号"
+				/></span></li>
+			<li>颜色<span><select
+			id="car_color"
+					class="weui_input ws_ibj gais"
+					name="car_color"
+				>
+						<option value="0">请选择颜色</option>
+						<option
+							value="{{ x.id }}"
+							ng-selected="form_car_color==x.id"
+							ng-repeat="x in repeat_car_color"
+							ng-bind="x.value"
+						></option>
+
 				</select></span></li>
-			
-			<li>车辆注册时间<span><input class="weui_input ws_ibj" type="text" 
-				 name="reg_time" 
-					placeholder="请输入车辆注册时间" /></span></li>		
-					
-			<li>车架号<span><input class="weui_input ws_ibj" type="text" 
-				 name="chassis_number" 
-					placeholder="请输入车架号" /></span></li>		
-					
-			<li class="cl_l1">品牌<span><input 
-				 name="brand" 
-					class="weui_input ws_ibj" type="text" placeholder="请输出车辆品牌" /></span></li>
-					
-			
-			
-					
+
+			<li>车辆注册时间<span><input
+			id="reg_time"
+					class="weui_input ws_ibj"
+					type="text"
+					name="reg_time"
+					placeholder="请输入车辆注册时间"
+				/></span></li>
+
+			<li>车架号<span><input
+			id="chassis_number"
+					class="weui_input ws_ibj"
+					type="text"
+					name="chassis_number"
+					placeholder="请输入车架号"
+				/></span></li>
+
+			<li class="cl_l1">品牌<span><input
+			id="brand"
+					name="brand"
+					class="weui_input ws_ibj"
+					type="text"
+					placeholder="请输出车辆品牌"
+				/></span></li>
+
+
+
+
 		</ul>
 		<p class="clbd_p1">完善车辆信息，点击下面按钮扫描证件</p>
 		<div class="sb_logo">
-			<a href="#"><img src="images/sfz_logo_03.png" class="sb_s1"></a>
-			<a href="#"><img src="images/jsz_sb_03.png" class="sb_s2"></a>
+			<a href="#"><img
+				src="images/sfz_logo_03.png"
+				class="sb_s1"
+			></a> <a href="#"> <img
+				src="images/jsz_sb_03.png"
+				class="sb_s2"
+			>
+
+			</a>
+
+
 		</div>
 		<div class="ws_dj1">
-			<label><input type="checkbox" id="yes" name="_agree" /></label><span>我已阅读并同意《吉林省高速缴费平台用户缴费协议》</span>
-			<div class="kuan" style="margin-bottom:0.546875rem;">
-				<input class="li_input_hidden" type="hidden" name="id" value="0" />
-				<button id="zhuce" class="submit ws_qq" type="submit"
-					disabled="true">提交</button>
+			<label><input
+				type="checkbox"
+				id="yes"
+				name="_agree"
+			/></label><span>我已阅读并同意《吉林省高速缴费平台用户缴费协议》</span>
+			<div
+				class="kuan"
+				style="margin-bottom: 0.546875rem;"
+			>
+				<input
+					class="li_input_hidden"
+					type="hidden"
+					name="id"
+					value="0"
+				/>
+				<button
+					id="zhuce"
+					class="submit ws_qq"
+					type="submit"
+					disabled="true"
+				>提交</button>
 			</div>
 		</div>
-		
+
 	</form>
 
-	<div class="formErrorContent fengmian" id="y1">
-		<div class="tishi" id="y2">
+	<div
+		class="formErrorContent fengmian"
+		id="y1"
+	>
+		<div
+			class="tishi"
+			id="y2"
+		>
 			<p class="y2_1">数据加载中。。。</p>
-			<a class="btnok" href="JAVASCRIPT:;">确定</a>
+			<a
+				class="btnok"
+				href="JAVASCRIPT:;"
+			>确定</a>
 		</div>
 	</div>
 
-<script type="text/javascript" >
+	<script type="text/javascript">
 var app = angular.module('myApp', []);
 </script>
-	
+
 <script type="text/javascript">
-	var cb = document.getElementById("yes");
-	var btn = document.getElementById("zhuce");
-	(function() {
-		
-		btn.style.background = "#e0e0e0";
-		cb.onclick = function() {
-			if (cb.checked == true) {
-				document.getElementById("zhuce").disabled = false;
-				btn.style.background = "#2ba246";
-			} else {
-				document.getElementById("zhuce").disabled = true;
-				btn.style.background = "#e0e0e0";
-			}
+var cb = document.getElementById("yes");
+var btn = document.getElementById("zhuce");
+	
+
+(function() {
+	btn.style.background = "#e0e0e0";
+	cb.onclick = function() {
+		if (cb.checked == true) {
+			document.getElementById("zhuce").disabled = false;
+			btn.style.background = "#2ba246";
+		} else {
+			document.getElementById("zhuce").disabled = true;
+			btn.style.background = "#e0e0e0";
 		}
-	})();
+	}
+})();
 </script>
-<script>
+	<script>
 var nm1 = document.getElementById("y1");
 var nm2 = document.getElementById("y2");
 function hide_btn(){
@@ -171,7 +299,7 @@ function show_loading(){
 	}
 })();
 </script>
-<script>
+	<script>
 
 var form_data = {$form};
 if(typeof form_data.car_type_id =='undefined'){
@@ -198,7 +326,6 @@ app.controller('myCtrl', function($scope,$http) {
 
 
 	$(function() {
-		
 		
 		$("input[name='reg_time']").datetimePicker({title:"车辆注册时间",m:1});  //年月日
 		hide_btn();
@@ -246,6 +373,11 @@ app.controller('myCtrl', function($scope,$http) {
 				complete:function(){
 					is_submit = false;
 				},
+				error:function(data){
+					hide();
+					//alert(JSON.stringify(data))
+					show("系统错误请重试，或联系客服人员");
+				}
 			});
 			
 			return false;
@@ -256,22 +388,30 @@ app.controller('myCtrl', function($scope,$http) {
 	
 	
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<script>
+function Bind(){
+	this.isIPHONE = navigator.userAgent.toUpperCase().indexOf('IPHONE')!= -1;
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-<script>
+}
+
+
+
+
 
     /*判断是否为苹果*/
 
@@ -283,14 +423,9 @@ app.controller('myCtrl', function($scope,$http) {
 
     function objBlur(id,time){
 
-        //if(typeof id != 'string') throw new Error('objBlur()参数错误');
+        if(typeof id != 'string') throw new Error('objBlur()参数错误');
 
-        //var obj = document.getElementById(id),
-        var obj;
-        
-        obj = id.get(0);
-        
-        console.log('aaa');
+        var obj = document.getElementById(id),
 
         time = time || 0,
 
@@ -311,7 +446,6 @@ app.controller('myCtrl', function($scope,$http) {
         };
 
         if(obj){
-        	  console.log('bbbb');
 
             obj.addEventListener('focus', function(){
 
@@ -328,48 +462,45 @@ app.controller('myCtrl', function($scope,$http) {
     }
 
 
-    
+
     if(isIPHONE){
-    	$("input").each(function(){
-    		objBlur($(this),200);
-    	});
+        new objBlur('username');
+        new objBlur('identity_card');
+        new objBlur('phone');
+        new objBlur('car_number');
+        new objBlur('car_type_id');
+        new objBlur('engine');
+        new objBlur('car_color');
+        new objBlur('reg_time');
+        new objBlur('chassis_number');
+        new objBlur('brand');
     }
-</script>	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

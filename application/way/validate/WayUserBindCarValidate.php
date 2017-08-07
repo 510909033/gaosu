@@ -45,8 +45,10 @@ class WayUserBindCarValidate extends Validate{
     ];
     
     protected $message = [
+        'car_number'=>'车牌号选项错误',
+        'car_number.require'=>'请填写车牌号',
+        'car_number.length'=>'车牌号只能为7位字符',
         'car_number.regex'=>'车牌号格式为一位汉字+6位字母数字组合' ,
-        'car_number'=>'请填写车牌号',
         'car_number.unique'=>'车牌号已存在',  
         'user_id.unique'=>'您已绑定过车辆',
         'opendid'=>'读取用户信息失败',

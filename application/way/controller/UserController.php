@@ -147,6 +147,8 @@ class UserController extends NeedLoginController
      * 
      */
     private function userBindCar($is_add,$is_update){
+        //SELECT id,status,verify,qrcode_version,car_number FROM `way_user_bind_car` order by id desc limit 100
+        //return response('',500);
         
         $json =[];
         try {
@@ -194,6 +196,7 @@ class UserController extends NeedLoginController
             }
         } catch (\Exception $e) {
             $json['errcode'] = ConfigTool::$ERRCODE__EXCEPTION;
+            $json['code'] = $e->getCode();
             $json['html'] = $e->getMessage();
             $json['unit']['error'] = $e->getMessage();
             if (ConfigTool::IS_LOG_TMP){
