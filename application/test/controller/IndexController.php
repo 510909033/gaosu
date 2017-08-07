@@ -404,12 +404,12 @@ class IndexController extends Controller
                         array(
                             'type' => 'view',
                             'name' => urlencode('获取地理位置'),
-                            'url' => 'http://www.baidu.com'
+                            'url' => 'http://gs.jltengfang.com/index.php/'
                         ),
                         array(
                             'type' => 'view',
                             'name' => urlencode('扫码带提示'),
-                            'url' => 'http://gs.jltengfang.com/index.php/way/user/bindindex'
+                            'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
                         )
                     )
                 ), // 第二个一级菜单
