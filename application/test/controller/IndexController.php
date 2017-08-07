@@ -404,7 +404,7 @@ class IndexController extends Controller
                         array(
                             'type' => 'view',
                             'name' => urlencode('获取地理位置'),
-                            'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
+                            'url' => 'http://www.baidu.com'
                         ),
                         array(
                             'type' => 'view',
