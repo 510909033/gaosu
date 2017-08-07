@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+  <title></title>
+<script src=""http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+<body>
+
+</body>
+
+<script type="text/javascript">
+//微信环境中定位，获取当前经纬度，然后传入后台根据经纬度调取百度地图接口，获取城市名称。
+$(function(){
+getLoc();
+})
+
+
+//判断是否是微信内置浏览器
+function isWeiXin(){ 
+var ua = window.navigator.userAgent.toLowerCase(); 
+if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
+return true; 
+}else{ 
+return false; 
+} 
+} 
+
+function getLoc(){
+if(isWeiXin()){ 
+//通过config接口注入权限验证配置
+wx.config({
+  debug: false,
+  appId: "{$signPackage['appId']}",
+  timestamp: "{$signPackage['timestamp']}",
+  nonceStr: "{$signPackage['nonceStr']}",
+  signature: "{$signPackage['signature']}",
+  jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+      'checkJsApi',
+      'getLocation',
+    ]
+});
+//通过ready接口处理成功验证
+wx.ready(function () {
+
+//通过checkJsApi判断当前客户端版本是否支持指定获取地理位置
+wx.checkJsApi({
+  jsApiList: [
+      'getLocation'
+  ],
+  success: function (res) {
+      // alert(JSON.stringify(res));
+      // alert(JSON.stringify(res.checkResult.getLocation));
+      if (res.checkResult.getLocation == false) {
+          alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
+          return;
+      }
+  }
+});
+
+wx.getLocation(
+		{
+  type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+  success: function (res) {
+      var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+      var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+      var speed = res.speed; // 速度，以米/每秒计
+      var accuracy = res.accuracy; // 位置精度
+      $.ajax(
+    		  {
+        url:"{:U('Common/getCityLocation')}",
+        data:'latitude='+latitude+'&longitude='+longitude,
+        type:'post',
+        success:function(data){
+        alert(data);
+        console.log(data);
+        }
+      }
+    		  ) 
+  }
+}
+		);
+
+});
+}else{
+alert('请在微信环境中打开');
+}
+}  
+
+
+</script>
+
+</html>

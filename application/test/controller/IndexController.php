@@ -284,6 +284,27 @@ class IndexController extends Controller
             return null;
         }
     }
+    
+    public function getSignPackage(){
+        require '/Public/jssdk.php'; //引入jssdk文件
+        $jssdk = new \JSSDK($this->weixinConfig['appid'],$this->weixinConfig['appsecret']);
+        $signPackage = $jssdk->GetSignPackage();//获取
+        return $signPackage;
+    }
+    
+    //控制器方法，获取城市名称
+    public function getCityLocation(){
+        $latitude=I('post.latitude');//纬度
+        $longitude=I('post.longitude');//经度
+        $url="http://api.map.baidu.com/geocoder/v2/?ak=7GFnQy48lQeVefYZ3IDGfblcOrpo5Ttd&location=".$latitude.",".$longitude."&output=json&coordtype=gcj02ll";
+        $output=file_get_contents($url);
+        $address=json_decode($output,true);
+        $city_name=$address['result']['addressComponent']['city'];//获取城市名称
+        $city_code=$address['result']['cityCode'];//获取城市代码id
+        if(!empty($city_name)){//获取到城市的时候返回true
+            $this->ajaxReturn(array($city_name));
+        }
+    }
 
     public function http_curl($url, $type = 'get', $res = 'json', $arr = '')
     {
@@ -382,8 +403,8 @@ class IndexController extends Controller
                     'sub_button' => array(
                         array(
                             'type' => 'view',
-                            'name' => urlencode('扫码带提示'),
-                            'url' => 'http://gs.jltengfang.com/index.php/way/user/bindindex'
+                            'name' => urlencode('获取地理位置'),
+                            'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
                         ),
                         array(
                             'type' => 'view',
