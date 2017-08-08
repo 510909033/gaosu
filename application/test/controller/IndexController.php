@@ -292,7 +292,7 @@ class IndexController extends Controller
         return $signPackage;
     }
     
-    //控制器方法，获取城市名称
+    //获取城市名称    
     public function getCityLocation(){
         $latitude=I('post.latitude');//纬度
         $longitude=I('post.longitude');//经度
@@ -354,6 +354,10 @@ class IndexController extends Controller
         curl_close($ch);
         var_dump($arr);
         return $arr;
+    }
+    
+    public function a(){
+        return \view('weather');
     }
     
     // 返回access_token
