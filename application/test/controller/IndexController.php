@@ -197,7 +197,7 @@ class IndexController extends Controller
             $msgType = "text";
 
             // 天气
-            $data = $this->weatherAction($postObj);
+            $data = $this->weather1Action($postObj);
             
             if (empty($data['data'])) {
                 $contentStr = "抱歉，没有查到\"" . $postObj->Content . "\"的天气信息！";
@@ -266,7 +266,7 @@ class IndexController extends Controller
         return $resultStr;
     }
 
-    private function weatherAction($postObj)
+    private function weather1Action($postObj)
     {
         // include("weather_cityId.php");
         // $c_name=$weather_cityId[$n];
@@ -356,7 +356,7 @@ class IndexController extends Controller
         return $arr;
     }
     
-    public function a(){
+    public function weatherAction(){
         return \view('weather');
     }
     
@@ -408,12 +408,12 @@ class IndexController extends Controller
                         array(
                             'type' => 'view',
                             'name' => urlencode('获取地理位置'),
-                            'url' => 'http://gs.jltengfang.com/index.php/'
+                            'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
                         ),
                         array(
                             'type' => 'view',
                             'name' => urlencode('扫码带提示'),
-                            'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
+                            'url' => ''
                         )
                     )
                 ), // 第二个一级菜单
