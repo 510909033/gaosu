@@ -403,7 +403,7 @@ class IndexController extends Controller
                     'url' => 'http://gs.jltengfang.com/user'
                 ), // 第一个一级菜单
                 array(
-                    'name' => urlencode('菜单二'),
+                    'name' => urlencode('菜单2'),
                     'sub_button' => array(
                         array(
                             'type' => 'view',
