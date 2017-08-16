@@ -197,7 +197,7 @@ class IndexController extends Controller
             $msgType = "text";
 
             // 天气
-            $data = $this->weatherAction($postObj);
+            $data = $this->weather1Action($postObj);
             
             if (empty($data['data'])) {
                 $contentStr = "抱歉，没有查到\"" . $postObj->Content . "\"的天气信息！";
@@ -266,7 +266,7 @@ class IndexController extends Controller
         return $resultStr;
     }
 
-    private function weatherAction($postObj)
+    private function weather1Action($postObj)
     {
         // include("weather_cityId.php");
         // $c_name=$weather_cityId[$n];
@@ -292,7 +292,7 @@ class IndexController extends Controller
         return $signPackage;
     }
     
-    //控制器方法，获取城市名称
+    //获取城市名称    
     public function getCityLocation(){
         $latitude=I('post.latitude');//纬度
         $longitude=I('post.longitude');//经度
@@ -356,6 +356,10 @@ class IndexController extends Controller
         return $arr;
     }
     
+    public function weatherAction(){
+        return \view('weather');
+    }
+    
     // 返回access_token
     /*
      * public function getWxAccessTokenAction(){
@@ -399,17 +403,17 @@ class IndexController extends Controller
                     'url' => 'http://gs.jltengfang.com/user'
                 ), // 第一个一级菜单
                 array(
-                    'name' => urlencode('菜单二'),
+                    'name' => urlencode('菜单2'),
                     'sub_button' => array(
                         array(
                             'type' => 'view',
                             'name' => urlencode('获取地理位置'),
-                            'url' => 'http://gs.jltengfang.com/index.php/'
+                            'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
                         ),
                         array(
                             'type' => 'view',
                             'name' => urlencode('扫码带提示'),
-                            'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
+                            'url' => ''
                         )
                     )
                 ), // 第二个一级菜单
