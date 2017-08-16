@@ -62,7 +62,10 @@
 >
 
 <script src="__JS__/angularjs.js"></script>
-
+<script
+	type="text/javascript"
+	src="__JS__/jsencrypt.min.js"
+></script>
 
 <style>
 .formErrorContent {
@@ -96,10 +99,10 @@
 					type="text"
 					placeholder="请输入车主姓名"
 					maxlength="5"
-					id="username" 
+					id="username"
 				/></span></li>
 			<li>身份证号<span><input
-			id="identity_card" 
+					id="identity_card"
 					class=" weui_input ws_ibj"
 					name="identity_card"
 					type="text"
@@ -107,7 +110,7 @@
 					maxlength="18"
 				/></span></li>
 			<li>手机号码<span><input
-			id="phone"
+					id="phone"
 					class="weui_input ws_ibj"
 					name="phone"
 					type="text"
@@ -116,14 +119,14 @@
 					maxlength="11"
 				/></span></li>
 			<li>车牌号<span><input
-			id="car_number"
+					id="car_number"
 					class="weui_input ws_ibj"
 					type="text"
 					name="car_number"
 					placeholder="请输入车牌号"
 				/></span></li>
 			<li>车型<span><select
-			id="car_type_id"
+					id="car_type_id"
 					class="weui_input ws_ibj gais"
 					name="car_type_id"
 				>
@@ -137,14 +140,14 @@
 
 				</select></span></li>
 			<li>发动机号<span><input
-			id="engine"
+					id="engine"
 					class="weui_input ws_ibj"
 					name="engine"
 					type="text"
 					placeholder="请输入发动机号"
 				/></span></li>
 			<li>颜色<span><select
-			id="car_color"
+					id="car_color"
 					class="weui_input ws_ibj gais"
 					name="car_color"
 				>
@@ -159,7 +162,7 @@
 				</select></span></li>
 
 			<li>车辆注册时间<span><input
-			id="reg_time"
+					id="reg_time"
 					class="weui_input ws_ibj"
 					type="text"
 					name="reg_time"
@@ -167,7 +170,7 @@
 				/></span></li>
 
 			<li>车架号<span><input
-			id="chassis_number"
+					id="chassis_number"
 					class="weui_input ws_ibj"
 					type="text"
 					name="chassis_number"
@@ -175,11 +178,35 @@
 				/></span></li>
 
 			<li class="cl_l1">品牌<span><input
-			id="brand"
+					id="brand"
 					name="brand"
 					class="weui_input ws_ibj"
 					type="text"
 					placeholder="请输出车辆品牌"
+				/></span></li>
+
+
+			<li class="cl_l1">身份证正面<span><input
+					id="identity_image0"
+					name="identity_image0"
+					class="weui_input ws_ibj"
+					type="file"
+					placeholder="请上传身份证图片正面"
+				/></span></li>
+				
+			<li class="cl_l1">身份证反面<span><input
+					id="identity_image1"
+					name="identity_image1"
+					class="weui_input ws_ibj"
+					type="file"
+					placeholder="请上传身份证图片反面"
+				/></span></li>
+			<li class="cl_l1">行驶证<span><input
+					id="driving_license_image"
+					name="driving_license_image"
+					class="weui_input ws_ibj"
+					type="file"
+					placeholder="请上传身份证图片正面"
 				/></span></li>
 
 
@@ -243,62 +270,16 @@
 		</div>
 	</div>
 
+	<div
+		id="rsa_public_key"
+		style="display: none;"
+	>{$rsa_public_key}</div>
+
 	<script type="text/javascript">
 var app = angular.module('myApp', []);
 </script>
+<script  type="text/javascript" src="__JS__/way_user_index.js"></script>
 
-<script type="text/javascript">
-var cb = document.getElementById("yes");
-var btn = document.getElementById("zhuce");
-	
-
-(function() {
-	btn.style.background = "#e0e0e0";
-	cb.onclick = function() {
-		if (cb.checked == true) {
-			document.getElementById("zhuce").disabled = false;
-			btn.style.background = "#2ba246";
-		} else {
-			document.getElementById("zhuce").disabled = true;
-			btn.style.background = "#e0e0e0";
-		}
-	}
-})();
-</script>
-	<script>
-var nm1 = document.getElementById("y1");
-var nm2 = document.getElementById("y2");
-function hide_btn(){
-	nm1.style.display = "none";
-	nm2.style.display = "none";
-}
-function show(msg){
-	$("#y2 .y2_1").html(msg);
-	nm1.style.display = "block";
-	nm2.style.display = "block";
-	
-}
-
-function hide(){
-	$("body").mLoading('hide');
-	//nm1.style.display = "none";
-	//nm2.style.display = "none";
-}
-function show_loading(){
-	$("body").mLoading('show');
-	//nm1.style.display = "block";
-	//nm2.style.display = "block";
-	//$("#y2 .y2_1").html("数据提交中。。。");
-}
-	
-
-(function() {
-	nm2.onclick = function() {
-		nm1.style.display = "none";
-		nm2.style.display = "none";
-	}
-})();
-</script>
 	<script>
 
 var form_data = {$form};
@@ -324,67 +305,101 @@ app.controller('myCtrl', function($scope,$http) {
    
 });
 
+var encrypt = new JSEncrypt();
+var public_key=$("#rsa_public_key").html();
 
-	$(function() {
-		
-		$("input[name='reg_time']").datetimePicker({title:"车辆注册时间",m:1});  //年月日
-		hide_btn();
-		
-		$("li input,.li_input_hidden").each(function(){
-			if(typeof form_data[$(this).attr('name')] != 'undefined' ){
-				$(this).val( form_data[$(this).attr('name')] );
-			}
-		})
-		
-		
-		var is_submit = false;
-		$("#form_id").submit(function(){
-			
-			
-			if(! $("#yes").prop("checked") ){
-				show("请勾选 吉林省高速缴费平台用户缴费协议");
-				return false;
-			}
-			
-			if(is_submit){
-				return false;
-			}
-			is_submit = true;
+encrypt.setPublicKey(public_key);
+//var data = encrypt.encrypt("123456789");
+
+function getIsUploadImage(sel_id){
+	if(typeof $("#"+sel_id)[0].files[0] == 'undefined' ){
+		return encrypt.encrypt('');
+	}else{
+		return $("#"+sel_id)[0].files[0];
+	}
+}
+
+$(function() {
 	
-			$.ajax({
-				url:"{$form_url}",
-				data:$("#form_id").serialize()+'&_ajax=1&_method={$form_method}',
-				dataType:"json",
-				"type":"post",
-				beforeSend:function(){
-					show_loading();	
-				},
-				success:function(data){
-					hide();
-					if(0 === data.errcode){
-						show(data.html);
-						$("#y2 .btnok").click(function(){
-							location.href=data.view_url;
-						});
-					}else{
-						show(data.html);
-					}
-				},
-				complete:function(){
-					is_submit = false;
-				},
-				error:function(data){
-					hide();
-					//alert(JSON.stringify(data))
-					show("系统错误请重试，或联系客服人员");
-				}
-			});
-			
+	$("input[name='reg_time']").datetimePicker({title:"车辆注册时间",m:1});  //年月日
+	hide_btn();
+	
+	$("li input,.li_input_hidden").each(function(){
+		if(typeof form_data[$(this).attr('name')] != 'undefined' && $(this).attr('type') != 'file' ){
+			$(this).val( form_data[$(this).attr('name')] );
+		}
+	})
+	
+	
+	var is_submit = false;
+	var formData = {};
+	var th_input={};
+	$("#form_id").submit(function(){
+		
+		
+		if(! $("#yes").prop("checked") ){
+			show("请勾选 吉林省高速缴费平台用户缴费协议");
 			return false;
+		}
+		
+		if(is_submit){
+			return false;
+		}
+		is_submit = true;
+		
+		formData = new FormData();
+		
+		$("#form_id").find("input,select,textarea").each(function(){
+			th_input = $(this);
+			if(th_input.attr("type") == "file"){
+				return ;
+			}
+			formData.append( th_input.attr("name") , encrypt.encrypt (th_input.val() ) );
 		});
 		
+		formData.append("identity_image0", getIsUploadImage("identity_image0") );
+		formData.append("identity_image1", getIsUploadImage("identity_image1") );
+		formData.append("driving_license_image", getIsUploadImage("driving_license_image") );
+	
+		formData.append("_method" , '{$form_method}' );
+
+		$.ajax({
+			url:"{$form_url}",
+			//data:$("#form_id").serialize()+'&_ajax=1&_method={$form_method}',
+			data:formData,
+			dataType:"json",
+			"type":"post",
+			processData : false, 
+			contentType : false,
+			beforeSend:function(){
+				show_loading();	
+			},
+			success:function(data){
+				hide();
+				if(0 === data.errcode){
+					show(data.html);
+					$("#y2 .btnok").click(function(){
+						location.href=data.view_url;
+					});
+				}else{
+					show(data.html);
+				}
+			},
+			complete:function(){
+				is_submit = false;
+			},
+			error:function(data){
+				hide();
+				//alert(JSON.stringify(data))
+				show("系统错误请重试，或联系客服人员");
+			}
+		});
+		
+		return false;
 	});
 	
+});
+
 	
 	
 </script>
@@ -475,31 +490,8 @@ function Bind(){
         new objBlur('chassis_number');
         new objBlur('brand');
     }
+    
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </body>

@@ -1,15 +1,13 @@
 <?php
-
-namespace app\way\controller;
-
+namespace app\common\controller;
 use think\Controller;
 use think\Session;
 use app\common\tool\UserTool;
 use app\common\model\SysUser;
 use app\common\tool\ConfigTool;
 use think\Env;
-mb_internal_encoding("UTF-8");
-class NeedLoginController extends Controller
+use app\common\interf\IPriviCheckInterf;
+class NeedLoginController extends TopBaseController
 {
     
     
@@ -22,21 +20,23 @@ class NeedLoginController extends Controller
     
     public function __construct(){
         self::$debug_user_id = Env::get('debug.user_id');
-        parent::__construct();
+        //验证是否登录
         $this->check()  ;
+        parent::__construct();
     }
     
     protected function check(){
-       
         Session::boot();
-        if (self::$debug_user_id){
-            $this->debugTrace('debug_user_id模式,debug_user_id='.self::$debug_user_id);
-            $user = SysUser::get(self::$debug_user_id);
-            if (!$user){
-                exception('调试模式下，用户不存在，user_id='.self::$debug_user_id);
+        if ( !UserTool::getIs_login() ){
+            if (self::$debug_user_id){
+                $this->debugTrace('debug_user_id模式,debug_user_id='.self::$debug_user_id);
+                $user = SysUser::get(self::$debug_user_id);
+                if (!$user){
+                    exception('调试模式下，用户不存在，user_id='.self::$debug_user_id);
+                }
+                UserTool::init($user);
+    
             }
-            UserTool::init($user);
-
         }
         
         if ( !UserTool::getIs_login() ){

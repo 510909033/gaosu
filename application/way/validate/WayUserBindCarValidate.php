@@ -42,6 +42,7 @@ class WayUserBindCarValidate extends Validate{
         'chassis_number' =>  'require',
         '_agree'=>'require|accepted',
         'reg_time' =>  'require',//1501084800
+        
     ];
     
     protected $message = [

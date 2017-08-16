@@ -38,7 +38,7 @@ class WayUserBindCar extends Model
 
     
 
-    private function setValidateRule(WayUserBindCarValidate $validate){
+    private static function setValidateRule(WayUserBindCarValidate $validate){
         $validate->rule('reg_time','require|number|gt:0|lt:'.time());
         $validate->message('reg_time.lt' , '车辆注册时间不能大于当前时间');
     }
@@ -46,19 +46,23 @@ class WayUserBindCar extends Model
     /**
      * 新绑定车辆唯一入口
      * @param unknown $data
-     * @return \app\common\model\WayUserBindCar|boolean
+     * @return \app\common\model\WayUserBindCar|false
+     * @throws \Exception
      */
     public function addOne($data){
-        
+        $model = new static;
         /**
          * @var WayUserBindCarValidate $validate
          */
         $validate = Loader::validate('WayUserBindCarValidate');
-        $this->setValidateRule($validate);
+        self::setValidateRule($validate);
         
         if($validate->batch(false)->check($data)){
-            $bind =  $this->create($data , ConfigTool::$TABLE_WAY_USER_BIND_CAR__ADD_CAR_ALLOW_FIELD);
-            return self::get($bind->id);
+            if ( $model->allowField(ConfigTool::$TABLE_WAY_USER_BIND_CAR__ADD_CAR_ALLOW_FIELD)->save($data) ){
+                return self::get($model->id);
+            }else{
+                exception('添加数据到表失败,error='.$model->getError(),ConfigTool::$ERRCODE__MODEL);
+            }
         }else{
             $this->error = $validate->getError();
             return false;
@@ -69,6 +73,7 @@ class WayUserBindCar extends Model
      * 新绑定车辆唯一入口
      * @param unknown $data
      * @return \app\common\model\WayUserBindCar|false
+     * @throws \Exception
      */
     public function saveOne($data,WayUserBindCar $hasBind){
     
@@ -76,23 +81,19 @@ class WayUserBindCar extends Model
          * @var WayUserBindCarValidate $validate
          */
         $validate = Loader::validate('WayUserBindCarValidate');
-        $this->setValidateRule($validate);
+        self::setValidateRule($validate);
 //         $validate->rule('car_number' , 'require|eq:'.$hasBind->car_number);
         
         if ($hasBind->id != $data['id']){ 
-            $this->error = '系统错误';
-            return false;
+            exception('已绑定车辆表id和待修改的id不同，分别为：',$hasBind->id.'-'.$data['id'] , ConfigTool::$ERRCODE__COMMON  );
         }
 
-        //scene('save')->
         if($validate->batch(false)->check($data)){
             $res = $hasBind->allowField(ConfigTool::$TABLE_WAY_USER_BIND_CAR__SAVE_CAR_ALLOW_FIELD)->save($data);
-            if (false !== $res){
+            if (false !== $res){//有数据更改 1 ， 没有数据更改0 ，都算成功
                 return self::get($hasBind->id);
             }
-           
-            $this->error = '编辑车辆失败';
-            return false;
+            exception('sql失败,error='.$hasBind->getError(),ConfigTool::$ERRCODE__MODEL);
         }else{
             $this->error = $validate->getError();
             return false;
@@ -100,7 +101,7 @@ class WayUserBindCar extends Model
     }
     
     /**
-     * 获取用户绑定的唯一车辆
+     * 获取用户绑定的唯一车辆，只根据user_id条件查找
      * @param unknown $user_id
      */
     public static function getOne($user_id){

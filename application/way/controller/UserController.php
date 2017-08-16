@@ -19,6 +19,8 @@ use app\common\model\SysConfig;
 use think\Session;
 use think\View;
 use youwen\exwechat\ErrorCode;
+use think\File;
+use think\Validate;
 
 class UserController extends NeedLoginController
 {
@@ -54,25 +56,17 @@ class UserController extends NeedLoginController
         View::share('form_url' , url('way/user/save'));
         View::share('form_method','post');
         
+        
         return $this->read(0);
     }
     
     public function readAction($id){
-        
-//         $list = glob('../*.php');
-        
-//         dump($list);exit;
-//         $pattern = '/^[\x{4e00}-\x{9fa5}]+$/u';
-//         var_dump(preg_match($pattern, '王宝田'));
-//         var_dump(preg_match("/^[".chr(0xa1)."-".chr(0xff)."A-Za-z0-9_]+$/",'王宝田'));
-//         exit;
-        
-        
+
         if (!WayUserBindCar::getOne(UserTool::getUser_id())){
             exception('您尚未绑定车辆');
         }
         
-        
+     
         $vars = [
             'id'=>$id,
         ];
@@ -97,6 +91,10 @@ class UserController extends NeedLoginController
      * @return \think\response\View
      */
     private function read($id){
+        
+      
+        
+        
         $vars = [];
         $form = [];
         try {
@@ -133,6 +131,8 @@ class UserController extends NeedLoginController
         }
         
  
+        $vars['rsa_public_key'] = ConfigTool::$RSA_PUBLIC_KEY;
+        
         return \view('bindindex',$vars);
     }
 
@@ -140,6 +140,49 @@ class UserController extends NeedLoginController
     private function debugLogUserBindCarAction($array){
         TmpTool::arrayToArrayFile($array);
     }
+    
+    private function uploadImage($name){
+        if (!ConfigTool::$IS_UPLOAD_IDENTITY_IMAGE){
+            return '';
+        }
+        $file=  $this->request->file($name);
+        if (null === $file){
+            return '';
+        }
+        $path = INDEX_PATH.'upload'.DS;
+        $rule = ['size'=>2024000,'ext'=>'jpg,png,gif'];
+        $info  = $file->validate($rule)->move($path);
+        if ( $info ){
+            return $info->getSaveName();
+        }
+        $msg = is_array($file->getError())?implode('<br />', $file->getError()):$file->getError();
+        exception($msg , ConfigTool::$ERRCODE__COMMON);
+    }
+    
+    /**
+     * @param unknown $data
+     * @return true|array   true表示通过验证， array为数据验证失败
+     */
+    private function imageValidate_add($data){
+        if (input('unit')){
+            return true;
+        }
+        
+        $validate = new Validate();
+        $validate->rule('identity_image0' , 'require');
+        $validate->rule('identity_image1' , 'require');
+        $validate->rule('driving_license_image' , 'require');
+        
+        $validate->message('identity_image0' , '身份证正面图片必传');
+        $validate->message('identity_image1' , '身份证反面图片必传');
+        $validate->message('driving_license_image' , '行驶证图片必传');
+        
+        if ( ! $validate->check($data)){
+            return $validate->getError();
+        }
+        return true;
+    }
+    
 
     /**
      * 用户绑定车辆
@@ -155,26 +198,54 @@ class UserController extends NeedLoginController
             usleep(2000);
             $wayUserBindCar = new WayUserBindCar();
             
-            $data = $this->request->param();
+            //获取post数据
+            if ($this->request->isPut()){
+                $data = $this->request->put();
+            }else{
+                $data = $this->request->post();
+            }
+            
+            foreach ($data as $k=>$v){
+                if ($k == '_method'){
+                    continue;
+                }
+                $decrypted='';
+                $de_res=openssl_private_decrypt(base64_decode($v), $decrypted, ConfigTool::$RSA_PRIVATE_KEY);
+                if (!$de_res){
+                    exception('系统错误,field='.$k.',值为：'.$v.',line='.__LINE__.',method='.__METHOD__,ConfigTool::$ERRCODE__SHOULD_NOT_BE_DONE_HERE);
+                }
+                $data[$k] = $decrypted;
+                
+            }
+            
             
             $data['user_id'] = UserTool::getUser_id();
             $data['openid'] = UserTool::getUni_account();
-            
             $data['car_qrcode_path'] = '';
-            
-            
             $data['status'] = 0;
             $data['verify'] = 0;
             $data['create_time'] = time();
-            
             $data['reg_time'] = strtotime($data['reg_time']);
+            
+            $data['identity_image1'] = $this->uploadImage('identity_image1');
+            $data['identity_image0'] = $this->uploadImage('identity_image0');
+            $data['driving_license_image'] = $this->uploadImage('driving_license_image');
+            
             
             if ($is_add && !$is_update){
 //                 unset($data['id']);
                 $data['id'] = 0;
-                $res = $wayUserBindCar->addOne($data);
+                $res=null;
+                $res_validate = $this->imageValidate_add($data);
+                if (true === $res_validate){
+                    $res = $wayUserBindCar->addOne($data);
+                }else{
+                    \exception( '图片上传验证失败：'.var_export($res,true) ,ConfigTool::$ERRCODE__COMMON);
+                }
             }else if (!$is_add && $is_update){
+                
                 $hasBind = WayUserBindCar::getOne(UserTool::getUser_id());
+       
                 $res = $wayUserBindCar->saveOne($data,$hasBind);
             }else{
                 \exception('错误的条件,file='.__FILE__.',line='.__LINE__ , ConfigTool::$ERRCODE__SHOULD_NOT_BE_DONE_HERE);
@@ -196,19 +267,21 @@ class UserController extends NeedLoginController
             }
         } catch (\Exception $e) {
             $json['errcode'] = ConfigTool::$ERRCODE__EXCEPTION;
-            $json['code'] = $e->getCode();
-            $json['html'] = $e->getMessage();
-            $json['unit']['error'] = $e->getMessage();
+            $json['debug']['e'] = $e;
+            $json['html'] = '系统错误';
             if (ConfigTool::IS_LOG_TMP){
                 $log_content = print_r($json,true) ;
-                SysLogTmp::log('绑定车辆出现异常', $log_content , 0 ,__METHOD__);
+                SysLogTmp::log('绑定车辆出现异常,json变量内容', $log_content , 0 ,__METHOD__);
+                SysLogTmp::log('绑定车辆出现异常,e=', var_export($e,true), 0 ,__METHOD__);
             }
         }
    
         
         if (ConfigTool::IS_LOG_TMP){
             $log_content = print_r($json,true) ;
-            SysLogTmp::log('绑定车辆结果,method='.$this->request->method().',id='.input('id'), print_r(array('json'=>$json,'data'=>$data),true) , 0 ,__METHOD__);
+            SysLogTmp::log('绑定车辆结果,method='.$this->request->method().',id='.input('id'), print_r(array('json'=>$json,'data'=>$data ,
+                'file'=>$this->request->file(),
+            ),true) , 0 ,__METHOD__);
         }
         
         return json($json);
