@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+</head>
+<body>
+    <form action="{:url('user/index1')}" method="post">
+    <input type="text" name = "search_name" value =>
+    <input type="submit" value = "提交">
+</form>
+<table border = "1px solid black" cellspacing="0">
+    <tr>
+        <td>id</td>
+        <td>title</td>
+        <td>url</td>
+        <td>create_time</td>
+    </tr>
+    {foreach name = "res" item = "vo"}
+        <tr>
+            <td>{$vo.id}</td>
+            <td>{$vo.phone}</td>
+            <td>{$vo.username}</td>
+            <td></td>
+        </tr>
+    {/foreach}
+</table>
+{$res}
+</body>
+</html>
