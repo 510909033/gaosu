@@ -17,11 +17,11 @@ class NeedLoginController extends TopBaseController
      */
     protected static $debug_user_id = null;
     
-    public function __construct(){
+    public function __construct(Request $request=null){
         self::$debug_user_id = Env::get('debug.user_id');
         //验证是否登录
         $this->check()  ;
-        parent::__construct();
+        parent::__construct($request);
     }
     
     protected function check(){
