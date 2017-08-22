@@ -17,7 +17,7 @@ class IndexController extends NeedLoginController //implements IPriviCheckInterf
     
     public function indexAction(){
         
-        $data = 'PHyLDGrpD+upNjP9D/RSazGD+1szvrlZDfOpeJ972ly1jvDBMVuj7Gog+cP92agfomoF6f+Rt66CbYbA6+5EXQZvYoLs7faoPKxe5AMEmQ9X589tJV4kPKnVVD3cTjE383YPiv5cGs5VXrXHnJmIR2SZitq3J3wivCbp09nr8TI=';
+        $data = 'UD50P/sHS2UjdfFgPAwjqJHcZRrwk3fL4827E7khahnkDrYMp1us7Im9omkttOvEQ7kaLo7BVj++Oe5qJd/YcPTWF/0DOW2i7vfUlGxFgkY9rbaNs0qiz5+tcN0M3g+7Luqdnc6OCvXK8dYhUSOcodM0NMJ3jW7I8t4gzNlrBKI=';
         $data = base64_decode($data);
         
         openssl_public_decrypt($data, $decrypted, ConfigTool::$RSA_PUBLIC_KEY);

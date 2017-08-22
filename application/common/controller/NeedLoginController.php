@@ -48,10 +48,12 @@ class NeedLoginController extends TopBaseController
                     'html'=>'尚未登录请登录',
                 ];
                 json($json)->send();
-                
             }
-            
-            $this->redirect('way/auth/authindex',['state'=> urlencode(urlencode(\request()->url(true))) ]);
+            if (defined('ADMIN_MODULE') && ADMIN_MODULE){
+                $this->redirect('admin/login/create',['state'=> urlencode(urlencode(\request()->url(true))) ]);
+            }else{
+                $this->redirect('way/auth/authindex',['state'=> urlencode(urlencode(\request()->url(true))) ]);
+            }
         }
     }
     

@@ -93,7 +93,7 @@ class UserBindCarFuncController
         $str =  $wayUserBindCar->car_number.','.$wayUserBindCar->qrcode_version.','.$time.','.$wayUserBindCar->id;
         
         if (openssl_private_encrypt($str, $crypted, ConfigTool::$RSA_PRIVATE_KEY)){
-            return base64_encode($crypted);
+            return '@@@@'.base64_encode($crypted).'$$$$';
         }
         exception('车辆二维码加密失败');
     }
