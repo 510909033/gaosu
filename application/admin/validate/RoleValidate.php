@@ -10,7 +10,7 @@ class RoleValidate extends Validate{
         'fid'=>'require',
         'status'=>'require',
         'is_nav'=>'require',
-        
+        'sort'=>'require'
         
     ];
     
@@ -20,6 +20,7 @@ class RoleValidate extends Validate{
             'fid'=>'require|integer',
             'status'=>'require|in:0,1',
             'is_nav'=>'require|in:0,1',
+            'sort'=>'require',
             
             'id'=>'require|integer|gt:0'
         ],
@@ -28,6 +29,7 @@ class RoleValidate extends Validate{
             'fid'=>'require|integer',
             'status'=>'require|in:0,1',
             'is_nav'=>'require|in:0,1',
+            'sort'=>'require',
         ]
     ];
     

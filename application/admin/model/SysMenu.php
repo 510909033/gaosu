@@ -31,4 +31,35 @@ class SysMenu extends Model
         }
         return true;
     }
+    
+    
+    
+    private static function _getList($fid,$status=null){
+        $where = [
+            'fid'=>$fid,
+            'status'=>$status,
+        ];
+        if (is_null($status)){
+            unset($where['status']);
+        }
+        $list = self::where($where)->order('sort asc,id asc')->select();
+        $new = [];
+        foreach ($list as $k=>$v){
+            $new [] = $v->toArray();
+        }
+        if ($new){
+            foreach ($new as $k=>$v){
+                $new[$k]['children'] = self::_getList($v['id']);
+            }
+    
+        }
+        return $new;
+    }
+    /**
+     * @param unknown $fid
+     * @return array
+     */
+    public static function getList($fid,$status=null){
+        return self::_getList($fid,$status);
+    }
 }

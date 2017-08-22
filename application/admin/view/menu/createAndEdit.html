@@ -1,0 +1,209 @@
+{include file="public/header" /}
+<body>
+	<div class="all_back">
+		<div class="header clearfix">
+			<img
+				src="images/header_logo1_03.png"
+				class="h_m1"
+			> <img
+				src="images/header_bt_03.png"
+				class="h_m2"
+			>
+			<div class="denglu">
+				<span><a
+					href="#"
+					class="d_a1"
+				>重新登录</a>|<a
+					href="#"
+					class="d_a2"
+				>注销登录</a></span>
+			</div>
+		</div>
+		<div class="welcome clearfix">
+			<p class="welcome_p1">欢迎您，XXX</p>
+			<p class="welcome_p2">
+				今天是<span id="shijian">2017年08月01日 星期二</span>
+			</p>
+		</div>
+		<div class="main clearfix">
+			{include file="public:left_main" /}
+			<div class="right_main">
+			<form method="post" id="form">
+			
+				<div class="form-group">
+					<label for="exampleInputEmail1">菜单名称</label> <input
+						type="text"
+						name="name"
+						value="{$model->name}"
+						class="form-control ws_left"
+						placeholder=""
+					>
+				</div>
+
+
+				
+				<div class="leibie">
+				    <p>上级id</p>
+				        {$form.pid.select.html}
+			    </div>
+
+
+
+				<div class="danxuan">
+					<p>是否启用</p>
+					<div class="radio">
+						<label> <input
+							type="radio"
+							name="status"
+							class="ws_dian"
+							value="0"
+							{if condition="$model->status eq 0"}checked{/if}
+						> 否
+						</label>
+					</div>
+					<div class="radio">
+						<label> <input
+							type="radio"
+							name="status"
+							class="ws_dian"
+							value="1"
+							{if condition="$model->status eq 1"}checked{/if}
+						> 是
+						</label>
+					</div>
+				</div>
+
+				<div class="danxuan">
+					<p>是否左侧显示</p>
+					<div class="radio">
+						<label> <input
+							type="radio"
+							name="left_menu"
+							class="ws_dian"
+							value="0"
+							{if condition="$model->left_menu eq 0"}checked{/if}
+						> 否
+						</label>
+					</div>
+					<div class="radio">
+						<label> <input
+							type="radio"
+							name="left_menu"
+							class="ws_dian"
+							value="1"
+							{if condition="$model->left_menu eq 1"}checked{/if}
+						> 是
+						</label>
+					</div>
+				</div>
+				
+				
+				<div class="form-group">
+					<label for="exampleInputEmail1">排序数字</label> <input
+						type="text"
+						name="sort"
+						value="{$model->sort}"
+						class="form-control ws_left"
+						placeholder=""
+					>
+				</div>
+
+				<div class="danxuan">
+					<p>菜单类型</p>
+					<div class="radio">
+						<label> <input
+							type="radio"
+							name="type"
+							class="ws_dian"
+							value="1"
+							{if condition="$model->type eq 1"}checked{/if}
+						> 链接地址
+						</label>
+					</div>
+					<div class="radio">
+						<label> <input
+							type="radio"
+							name="type"
+							class="ws_dian"
+							value="0"
+							{if condition="$model->type eq 0"}checked{/if}
+						> 文字
+						</label>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label for="exampleInputEmail1">模块</label> <input
+						type="text"
+						name="module"
+						value="{$model->module}"
+						class="form-control ws_left"
+						placeholder=""
+					>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">控制器</label> <input
+						type="text"
+						name="controller"
+						value="{$model->controller}"
+						class="form-control ws_left"
+						placeholder=""
+					>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">操作方法</label> <input
+						type="text"
+						name="action"
+						value="{$model->action}"
+						class="form-control ws_left"
+						placeholder=""
+					>
+				</div>
+
+				<input type="hidden" name="_method" value="{$form.method}" />
+				<button
+					type="button"
+					class="btn btn-info"
+					id="submit"
+				>提交</button>
+</form>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(".hide_bt").click(function() {
+			var width = $(".left_main").css("width");
+
+			if (width == '0px') {
+				$(".left_main").animate({
+					width : "20%"
+				}, 250);
+				$(".right_main").animate({
+					width : "79%"
+				}, 250);
+				$(".u1").show();
+			} else {
+				$(".left_main").animate({
+					width : "0px"
+				}, 250);
+				$(".right_main").animate({
+					width : "100%"
+				}, 250);
+				$(".u1").hide();
+			}
+		});
+		$('.l1').click(function() {
+			$(this).parent().find('li').attr('class', 'l1');
+			$(this).attr('class', 'select1');
+		});
+
+		
+		$('#submit').click(function() {
+			$.post('{$form.submit.url}' ,$("#form").serialize(),function(data){
+				alert(data.html);
+			} ,'json');
+		});
+	</script>
+</body>
+</html>

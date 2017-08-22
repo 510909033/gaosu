@@ -9,6 +9,9 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+mb_internal_encoding("UTF-8");
+date_default_timezone_set('PRC');
+
 define('THINK_VERSION', '5.0.10');
 define('THINK_START_TIME', microtime(true));
 define('THINK_START_MEM', memory_get_usage());

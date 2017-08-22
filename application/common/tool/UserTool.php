@@ -194,6 +194,11 @@ class UserTool {
     }
     
     
+    /**
+     * 获取用户所有权限
+     * @param unknown $user_id
+     * @return boolean
+     */
     public static function getAllPrivi($user_id){
         /*
          * 角色权限不会继承
@@ -256,15 +261,13 @@ EEE;
         $where = [
             'module'=>$module,
             'controller'=>$controller,
-            'action'=>$action
+            'action'=>$action,
+            'status'=>1,
         ];
         $line = SysMenu::get($where);
         
-        if($line && 1 == $line->status){
-            trace('权限菜单menu_id:'.$line->id,'debug');
+        if($line ){
             return false === array_search($line->id, self::getAllPrivi($user_id))?false:true;
-            
-            return true ;
         }else{
             $data=$where;
             $data['status'] = 1;

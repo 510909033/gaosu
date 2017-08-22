@@ -8,14 +8,15 @@ class MenuValidate extends Validate{
         'name'=>'require',
         'fid'=>'require|integer',
         'status'=>'require|in:0,1',
-        'module'=>'require|unique:sys_menu,module^controller^action',
-        'controller'=>'require',
-        'action'=>'require',
+        'module'=>'requireIf:type,1',
+        'controller'=>'requireIf:type,1',
+        'action'=>'requireIf:type,1',
         'left_menu'=>'require|in:0,1',
+        'sort'=>'require',
+        'type'=>'require',
     ];
     
     protected $message = [
-        'module.unique'=>'module^controller^action唯一',  
     ];
     
     

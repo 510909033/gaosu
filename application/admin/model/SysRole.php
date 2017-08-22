@@ -35,12 +35,15 @@ class SysRole extends Model
         return true;
     }
     
-    private static function _getList($fid){
+    private static function _getList($fid,$status=null){
         $where = [
             'fid'=>$fid,
-            'status'=>1,
+            'status'=>$status,
         ];
-        $list = self::where($where)->order('id asc')->select();
+        if (is_null($status)){
+            unset($where['status']);
+        }
+        $list = self::where($where)->order('sort asc,id asc')->select();
         $new = [];
         foreach ($list as $k=>$v){
             $new [] = $v->toArray();
@@ -57,8 +60,8 @@ class SysRole extends Model
      * @param unknown $fid
      * @return array
      */
-    public static function getList($fid){
-        return self::_getList($fid);
+    public static function getList($fid,$status=null){
+        return self::_getList($fid,$status);
     }
     
 }

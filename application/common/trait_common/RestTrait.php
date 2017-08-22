@@ -5,17 +5,32 @@ use think\Validate;
 use app\common\tool\ConfigTool;
 use think\Request;
 use think\Model;
-
+use think\View;
+/**
+ * 单表的增、改、删除操作
+ * @author Administrator
+ *
+ */
 trait RestTrait {
-    protected function _before_save(){
-       
-    }
-    protected function _before_update(){
-         
-    }
-    protected function _before_delete(){
-         
-    }
+    /**
+     * 增加数据时，配置相关
+     * @return array
+     */
+    abstract protected function _before_save();
+    /**
+     * 修改数据时，相关配置
+     * @return array 
+     */
+    abstract protected function _before_update();
+    /**
+     * 删除数据时，相关配置
+     * @return array
+     */
+    abstract protected function _before_delete();
+    /**
+     * 获取添加数据时的配置数组
+     * @return array
+     */
     public  function getAddConfig(){
         return $this->_before_save(); 
     }
@@ -28,6 +43,7 @@ trait RestTrait {
         return $config['modelname'];
     }
     
+
     
     /**
      * 保存新建的资源
@@ -91,6 +107,7 @@ trait RestTrait {
         
              
             $data = $this->request->put();
+            $data['id'] = $id;
         
             $res = $modelname::updateData($id,$data, $validate , $allowField);
             if (is_object($res)){

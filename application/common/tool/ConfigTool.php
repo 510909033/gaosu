@@ -92,6 +92,12 @@ class ConfigTool {
     public static $UPLOAD_VALIDATE_IDENTITY_IMAGE_CONFIG = ['size'=>2024000,'ext'=>'jpg,png,gif'];
     
     
+    /**
+     * 车辆二维码生成后有效期，秒
+     * @var integer
+     */
+    public static $WAY_USER_BIND_CAR_QRCODE_EXPIRE = 600;
+    
     public static $RSA_PUBLIC_KEY=<<<EEE
 -----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDZENYDeswh/AyX3Bp1S2o/bhIM

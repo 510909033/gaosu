@@ -6,15 +6,32 @@ use think\Controller;
 use app\admin\model\SysMenu;
 use app\admin\validate\MenuValidate;
 use app\admin\validate\RoleValidate;
+use app\admin\controller\html\LeftMenuController;
+use app\admin\controller\html\LeftMenuHtml;
+use app\common\tool\UserTool;
+use think\Loader;
 
 class MenuController extends Controller
 {
+    public function demoAction(){
+        
+        
+        
+    }
+    
     use \app\common\trait_common\RestTrait;
+    
+    
+    protected $page = 1;
+    protected $pagesize = null;
+    protected $route_prefix = 'admin/menu/';
+    
+    
     
     protected function _before_save(){
         return [
             'modelname'=>'\\'.SysMenu::class,
-            'allowField'=>['name','fid','status','module','controller','action','left_menu'],
+            'allowField'=>['name','fid','status','module','controller','action','left_menu','sort','type'],
             'validate'=>new MenuValidate(),
         ];
     }
@@ -22,7 +39,7 @@ class MenuController extends Controller
     protected function _before_update(){
         return [
             'modelname'=>'\\'.SysMenu::class,
-            'allowField'=>['name','fid','status','module','controller','action','left_menu'],
+            'allowField'=>['name','fid','status','module','controller','action','left_menu','sort','type'],
             'validate'=>new MenuValidate(),
         ];
     }
@@ -33,123 +50,181 @@ class MenuController extends Controller
         ];
     }
     
- 
-    
-    public function aAction(){
+    /**
+     * 显示资源列表
+     *
+     * @return \think\Response
+     */
+    public function indexAction()
+    {
+        $page=1;
+        $listRows=10;
+        $modelname='';
+        $vars = [];
+        $query=null;
+        $list = [];
         
-        $v = new RoleValidate();
-        $data=[
-            'name'=>'ddd',
-        ];
-        $v->scene('add')->check($data);
+       
         
-        dump($v->getError());
+        $modelname = $this->getModelname();
         
-//              D O N A L D
-//             +G E R A L D
-//         　 　R O B E R T
-/*
-                5 2 6 4 8 5
-                1 9 7 4 8 5
-                7 2 3 9 7 0
-106481
-597481
-703972
+        $list = $modelname::getList(0,null);
+        
+        $html = $this->getIndexHtml($list, 0);
 
-526485
-197485
-723970
-                
- */
-/*
-//              5ONAL5
-//             +GERAL5
-//         　 　ROBER0
- * 
- * 
- */
-
-
-        $d = 5;
-        $o=$n=$a=$l=$g=$e=$r=$b=$t=0;
-        $a = [];
-        for ($d=0;$d<=9;$d++){
-            for ($t=0;$t<=9;$t++){
-                if ( $d*2%10 == $t ){
-        for ($l=0;$l<=9;$l++){//l start
-            for ($r=0;$r<=9;$r++){// r start
-                if( ($l + $l + 1 )%10  == $r){
-                    //l + l = r
-                    for ($a=0;$a<=9;$a++){//a start
-                        for ($e=0;$e<=9;$e++){//e start
-                            if (  ( (($l + $l + 1 )) > 10 &&  ($a + $a + 1 )%10 == $e ) || ( (($l + $l + 1 )) <= 10 &&  ($a + $a  )%10 == $e)   ){
-                                for ($n=0;$n<=9;$n++){//n start
-                                    for ($b=0;$b<=9;$b++){// b start
-                                        if (  ($a*2 > 10 && ($n + $r + 1)%10  == $b) || $a*2 <= 10 && ($n + $r )%10  == $b   ){
-                                            for ($o=0;$o<=9;$o++){//o start
-                                                if (  ( ($n + $r) > 10 &&  ($o + $e + 1 )%10 == $o) || ( ($n + $r) <= 10 &&  ($o + $e  )%10 == $o) ){
-                                                    for ($g=0;$g<=9;$g++){//g start
-                                                       if ( ( ( $n + $r) > 10 &&  ($d + $g + 1 )%10 == $r ) ||  ( ( $n + $r) <= 10 &&  ($d + $g  )%10 == $r ) ){
-                                                            if  ( ($d + $g) < 9 ){ 
-                                                              
-                                                              if ( $d != $o && $d != $n && $d != $a && $d != $l
-                                                                    && $o != $n && $o != $a && $o != $l 
-                                                                    && $n != $a && $n != $l && $n != $g && $n !=$e 
-                                                                    && $g != $e && $g != $o && $g != $r && $g!= $t
-                                                                  && $a !=$e && $n != $r  && $o != $t && $o!=$b && $o!= $e && $r!=$o
-                                                                  && $d != $t 
-                                                                  ){
-                                                                
-                                                                   
-                                                                   
-                                                                   $aa = 'd,o,a,n,l,g,e,r,b,t';
-                                                                   $arr=[];
-                                                                   $arr = explode(',', $aa);
-                                                                   $new = [];
-                                                                   foreach ($arr as $v){
-                                                                       $new[$v] = $$v;
-                                                                   }
-                                                                   
-                                                                   if (count(array_unique(array_values($new))) != 10 ){
-                                                                       continue;
-                                                                   }
-                                                                   asort($new);
-                                                                   dump($new);
-                                                                   
-                                                                   echo $d.$o.$n.$a.$l.$d;
-                                                                   echo '<br />';
-                                                                   echo $g.$e.$r.$a.$l.$d;
-                                                                   echo '<br />';
-                                                                   echo $r.$o.$b.$e.$r.$t;
-                                                                   echo '<br />';
-                                                                   
-                                                                   foreach ($new as $k=>$v){
-                                                                       echo $k.'='.$v.'<br />';
-                                                                   }
-                                                                   echo '<hr />';
-                                                                   
-                                                              }
-                                                            }
-                                                       }
-                                                    }//g end
-                                                }
-                                            }//o end
-                                        }
-                                    }//b end
-                                }//n end
-                            }
-                        }//e end
-                    }//a end
-                }
-            }//r end
-            $l++;
-        }//l end
-                }
-            }//t end
-        }//d end
+        $vars['html']['list']['html'] = $html;
         
+        $vars['html']['add']['url'] = url($this->route_prefix.'create');
         
-        
+        return \view('',$vars);
     }
+    
+    private function getIndexHtml($list , $currentLevel){
+        $html = '';
+        static $level = 0;
+        $subfix='';
+    
+        foreach ($list as $k=>$v){
+    
+            $prefix = str_repeat('&nbsp;', $currentLevel*8);
+            $prefix .= $currentLevel==0?'': '└';
+    
+            
+            $name = $prefix.$v['name'].$subfix;
+
+            
+            $modify_url = url($this->route_prefix.'edit?id='.$v['id']);
+        $html .=<<<EEE
+<tr>
+    <td>{$name}</td>
+    <td>{$currentLevel}</td>
+    <td>{$v['status']}</td>
+    <td>{$v['left_menu']}</td>
+    <td>{$v['sort']}</td>
+    <td>{$v['module']}</td>
+    <td>{$v['controller']}</td>
+    <td>{$v['action']}</td>
+    <td>
+        <button type="button" class="btn btn-warning xx" onclick="location.href='{$modify_url}';" >修改</button>
+    </td>
+</tr>        
+EEE;
+    
+        if ($v['children']){
+            $level++;
+            $eq = false;
+            $html .=$this->getIndexHtml($v['children'],$currentLevel+1);
+        }
+        }
+        return $html;
+    }
+    
+    private function createAndEdit($id=0,$form){
+        $modelname = $this->getModelname();
+        
+        if ($id){
+            $model = $modelname::get($id);
+        }else{
+            $model = new $modelname();
+            $model->name = '';
+            $model->id=0;
+            $model->left_menu = 1;
+            $model->status = 1;
+            $model->fid=0;
+            $model->sort = 0;
+            $model->type = 1;
+            $model->module='';
+            $model->controller='';
+            $model->action='';
+        }
+        
+        $list = $modelname::getList(0);
+        $vars['form']['pid']['select']['html'] = $this->getHtmlPid($list,$model);
+        
+        $vars['model'] = $model;
+        
+        $vars=array_merge_recursive($vars,$form);
+        return \view('createAndEdit',$vars);
+    }
+    
+    private function _getHtmlPid($list , $currentLevel,$model){
+        $html = '';
+        static $level = 0;
+        $subfix='';
+
+        foreach ($list as $k=>$v){
+          
+            $prefix = str_repeat('&nbsp;', $currentLevel*4);
+            
+//             $subfix = '--'.$v['id'].'|'.$v['fid'];
+            $selected =  $v['id'] === $model->fid?"selected":"";
+            $html .= '<option value="'.$v['id'].'" '.$selected.' >'.$prefix.$v['name'].$subfix.'</option>';
+            
+            if ($v['children']){
+                $level++;
+                $eq = false;
+                $html .=$this->_getHtmlPid($v['children'],$currentLevel+1,$model);
+            }
+        }
+        return $html;
+    }
+    private function getHtmlPid($list,$model){
+        $html ='<select name="fid" class="form-control">';
+        $selected =  0 === $model->id?"selected":"";
+        $html .= '<option value="0" '.$selected.'>顶级菜单</option>';
+        $html .=$this->_getHtmlPid($list,0,$model);
+        $html .='</select>';
+        return $html;
+    }
+    
+
+    /**
+     * 显示创建资源表单页.
+     *
+     * @return \think\Response
+     */
+    public function createAction()
+    {
+        $form = [];
+        $form['form']['submit']['url'] = url($this->route_prefix.'save');
+        $form['form']['method'] = 'post';
+        
+        
+        return $this->createAndEdit(0,$form);
+    }
+
+
+    /**
+     * 显示指定的资源
+     *
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function read($id)
+    {
+        //
+    }
+
+    /**
+     * 显示编辑资源表单页.
+     *
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function editAction($id)
+    {
+        $form = [];
+        $form['form']['submit']['url'] = url($this->route_prefix.'update',['id'=>$id]);
+        $form['form']['method'] = 'put';
+        
+        return $this->createAndEdit($id,$form);
+    }
+
+
+    public static function getLeftMenu(){
+        return LeftMenuHtml::getLeftMenu(UserTool::getUser_id()    );
+    }
+    
+    
     
 }
