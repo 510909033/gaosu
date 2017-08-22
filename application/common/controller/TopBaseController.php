@@ -13,11 +13,10 @@ use think\Request;
 class TopBaseController extends Controller
 {
     public function __construct(Request $request=null){
-        
+        parent::__construct($request);
         if ( $this instanceof IPriviCheckInterf ){
             $this->checkPrivi();
         }
-        parent::__construct($request);
     }
     
     /**
