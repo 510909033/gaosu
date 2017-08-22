@@ -57,7 +57,7 @@
 <p class="jfgl">用户管理</p>
     <div class="sousuo">
         <div class="sousuo_n">
-         <form action="{:url('UserList/index1')}" method="post">
+         <form action="{:url('admin/UserList/index1')}" method="post">
             <select class="form-control input-sm xiala" name="contents">
                 <option value ="username" >用户名</option>
                 <option value ="car_number" {$select.car_number}>车牌号</option>
@@ -178,7 +178,7 @@
 
     //获取详情
     function getDetail(id){
-        $.getJSON('{:url('UserList/getDetail')}',{'id':id},function(date){
+        $.getJSON('{:url('admin/UserList/getDetail')}',{'id':id},function(date){
             $('#name').html(date.username);
             $('#phone').html(date.phone);
             $('#identity_card').html(date.identity_card);
