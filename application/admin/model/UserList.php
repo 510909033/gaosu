@@ -4,7 +4,7 @@ namespace app\admin\model;
 use think\Model;
 use think\Db;
 
-class User extends Model
+class UserList extends Model
 {
 	protected $table='way_user_bind_car';//表名
 
