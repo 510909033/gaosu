@@ -6,6 +6,7 @@ use app\common\tool\UserTool;
 use app\common\model\SysUser;
 use app\common\tool\ConfigTool;
 use think\Env;
+use think\Request;
 class NeedLoginController extends TopBaseController
 {
     
