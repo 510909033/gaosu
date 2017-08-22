@@ -178,7 +178,7 @@
 
     //获取详情
     function getDetail(id){
-        $.getJSON('/admin/userlist/getDetail',{'id':id},function(date){
+        $.getJSON('{:url('UserList/getDetail')}',{'id':id},function(date){
             $('#name').html(date.username);
             $('#phone').html(date.phone);
             $('#identity_card').html(date.identity_card);
