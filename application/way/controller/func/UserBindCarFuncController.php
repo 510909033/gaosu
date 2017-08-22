@@ -4,6 +4,8 @@ namespace app\way\controller\func;
 
 use think\Controller;
 use app\common\model\WayUserBindCar;
+use app\common\tool\ConfigTool;
+use crypt\driver\Rsa;
 /**
  * 绑定车辆表功能
  * @author Administrator
@@ -73,7 +75,7 @@ class UserBindCarFuncController
                 return $db_file;
             }
         }
-        \QRcode::png( $text ,$outfile , \QR_ECLEVEL_L , $size=30,$margin=4);
+        \QRcode::png( $text ,$outfile , \QR_ECLEVEL_L , $size=6,$margin=4);
         if (is_file($outfile)){
             return $db_file;
         }
@@ -84,11 +86,16 @@ class UserBindCarFuncController
      * 车辆二维码文字生成规则，此规则确定后不可改变
      * @param WayUserBindCar $wayUserBindCar
      * @return string 二维码text
-     * @todo
+     * @throws \Exception
      */
     private function encrypt_qrcode_text(WayUserBindCar $wayUserBindCar){
+        $time  = time() + ConfigTool::$WAY_USER_BIND_CAR_QRCODE_EXPIRE;
+        $str =  $wayUserBindCar->car_number.','.$wayUserBindCar->qrcode_version.','.$time.','.$wayUserBindCar->id;
         
-        return $wayUserBindCar->car_number.','.$wayUserBindCar->qrcode_version.','.$wayUserBindCar->id;
+        if (openssl_private_encrypt($str, $crypted, ConfigTool::$RSA_PRIVATE_KEY)){
+            return base64_encode($crypted);
+        }
+        exception('车辆二维码加密失败');
     }
     
     /**
@@ -98,7 +105,10 @@ class UserBindCarFuncController
      * @todo
      */
     private function decrypt_qrcode_text(string $encrypt_qrcode_text){
-        
+        if (openssl_public_decrypt(base64_decode($encrypt_qrcode_text), $decrypted, ConfigTool::$RSA_PUBLIC_KEY)){
+            return $decrypted;
+        }
+        exception('车辆二维码解密失败');
     }
     
     

@@ -1,200 +1,240 @@
 <?php
+
 namespace app\admin\controller;
 
-use think\Controller;//引入控制器
-use think\Request;//引入request
-use think\Paginator;
-use think\Db;
-use app\admin\model\User;//引入模型层
-header("content-type:text/html;charset=UTF-8");//防乱码
+use think\Controller;
+use think\Request;
+use app\common\model\SysUser;
+use app\common\validate\RegValidate;
+use app\admin\model\SysRole;
+use app\data\controller\v3\LoginController;
+use think\Validate;
+use app\common\tool\ConfigTool;
+use app\common\model\SysConfig;
 
-class UserController extends Controller
+class UserController 
 {
-     //表单页面
-    public function indexAction()
+    use \app\common\trait_common\RestTrait;
+    protected $page = 1;
+    protected $pagesize = null;
+    protected $route_prefix = 'admin/user/';
+    
+    protected function _before_save(){
+        return [
+            'modelname'=>'\\'.get_class(new SysUser()),
+            'allowField'=>['uni_account' , 'password' ,'sort' , 'regtime' , 'type'],
+            'validate'=>new RegValidate(),
+        ];
+    }
+    
+    protected function _before_update(){
+        return [
+            'modelname'=>'\\'.get_class(new SysUser()),
+            'allowField'=>['uni_account' , 'password' ,'sort' , 'regtime' , 'type'],
+            'validate'=>new RegValidate(),
+        ];
+    }
+    
+    protected function _before_delete(){
+        return [
+            'modelname'=>'\\'.get_class(new SysUser()),
+        ];
+    }
+    /**
+     * 显示资源列表
+     *
+     * @return \think\Response
+     */
+    public function index()
     {
-        $user = new User;//实例化model
-        $res = $user->paginate(5);
-        
-        if(empty($_POST['contents']))
-        {
-           $_POST['contents'] = "username";
-
-           $contents = $_POST['contents'];
-
-           $search_name = input('search_name');
-
-           $this->assign('res', $res);
-
-
-            $select = [];
-            $select['username'] = "";
-            $select['phone'] = "";
-            $select['car_number'] = "";
-            $select['brand'] = "";
-
-         
-      
-
-
-
-            $this->assign('select' , $select)  ;
-
-           return $this->fetch('show');
-
-        }
-        
+        //
     }
 
-   
-
-    public function index1Action()
+    /**
+     * 显示创建资源表单页.
+     *
+     * @return \think\Response
+     */
+    public function createAction()
     {
-
-
-
-        $search_name = input('search_name');
-        $search = ['query'=>[]];
-        $search['query']['search_name'] = $search_name;
-        if( input('contents') )
-        {
-            $contents = input('contents');
-
-             /*dump($contents);
-             die;*/
-            $res = Db::name('way_user_bind_car')->where("$contents",'like',"%{$search_name}%")->paginate(5,false,[
-            'query' => request($contents)->param(),]);
-            
-            $this -> assign('res',$res);
-
-            $this -> assign('search_name',$search_name);
-
-            $var = [];
-            $select = [];
-            $select['username'] = "";
-            $select['phone'] = "";
-            $select['car_number'] = "";
-            $select['brand'] = "";
-
-            $select[$contents] ='selected';
-
-            $this->assign('select' , $select)  ;
-
-            return $this->fetch('show');
-
-
-        }
+                $form = [];
+        $form['form']['submit']['url'] = url($this->route_prefix.'save');
+        $form['form']['method'] = 'post';
         
-        /*$search_name = input('search_name');
-        $search = ['query'=>[]];
-        $search['query']['search_name'] = $search_name;
-        $res = Db::name('sys_user')->where('phone','like',"%{$search_name}%") ->paginate(5,false,$search);
-        $this -> assign('res',$res);
-        $this->assign('search_name',$search_name);
-        return $this->fetch();*/
+        
+        return $this->createAndEdit(0,$form);
     }
-
-    //添加
-    public function insert()
-    {
-        
-        $Request=Request::instance();//调用Request中instance方法
-        $data=$Request->post();//接值
-        //print_r($data);
-        $user=new User;//实例化model
-        $result=$user->insertData($data);//执行添加语句
-        if($result)
-        {   
-            return Redirect('Index/show');
-            //echo "<script>alert('新增成功');localtion.href='{:url('Index/show')}'</script>";
-            //$this->success('新增成功','Index/show');
+    
+    private function createAndEdit($id=0,$form){
+        $modelname = $this->getModelname();
+    
+        if ($id){
+            $model = $modelname::get($id);
         }else{
-            $this->error('新增失败');
+            $model = new $modelname();
+            $model->id = 0;
+            $model->uni_account = '';
         }
-
+    
+    
+        $vars['model'] = $model;
+    
+        $vars=array_merge_recursive($vars,$form);
+        return \view('createAndEdit',$vars);
     }
+    
 
-   //展示
-   /*public function showAction()
-   {
-     $user=new User;//实例化model
-     $arr=$user->show();//执行查询
-     return view('show',['arr'=>$arr]);
-   }*/
-
-   //删除
-   public function delete()
-   {
-   $Request=Request::instance();
-   $id=$Request->get('id');
-   $user=new User;
-   $result=$user->deleteData($id);
-   if($result)
-   {
-    return Redirect('Index/show');
-   }else{
-    $this->error('删除失败');
-   } 
-   }
-
-   //修改页面
-   public function update()
-   {
-    $Request=Request::instance();
-    $id=$Request->get('id');
-    $user=new User;
-    $res=$user->findData($id);//查询单条
-    //print_r($res);die;
-    return view('update',['res'=>$res]);
-   }
-
-   //执行修改
-   public function save()
-   {
-    $Request=Request::instance();
-    $id=$Request->post('uid');
-    $Request=Request::instance();
-    $data=$Request->post();//接修改之后的数据
-    $user=new User;
-    $result=$user->updateData($data,$id);//修该语句
-    if($result)
-    {
-    return Redirect('Index/show');
-    }else{
-        $this->error('修改失败');
-    }
-
-
-   }
-
-   public function getDetailAction(){
-
-      $id = $_GET['id'];
-      
-      if($id == NULL){
-
-        alert('数据异常');
-
-      }else{
-
-         $data = Db::name('way_user_bind_car')->find(array('id'=>$id));
-
-      if ($data['create_time']&&!empty($data['create_time']))
-          
-
-            $data['create_time'] = date('Y-m-d H:i:s',$data['create_time']);  
-
-            $status = config('status');
-
-            $data['verify'] =  $status[$data['status']];
-
-          echo !empty($data) ? json_encode($data,JSON_UNESCAPED_UNICODE) : json_encode(array());
-
-          //var_dump($data);die;
-          
+    private function validateSaveAndUpdate(){
+        $data = [];
+        $data['uni_account'] = input('uni_account');
+        $data['type'] = SysConfig::REG_TYPE_ADMIN;
+        $data['solt'] = '12345';
+        $data['regtime'] = time();
+        $data['subscribe'] = 0;
+        $data['create_time'] = time();
+        $data['user_type'] = SysConfig::REG_USER_TYPE__PERSONAL;
         
-      }
-     
-   }
-}
+        $password = input('password');
+        $repeat_password = input('repeat_password');
+        
+        
+        if (!Validate::eq($password,$repeat_password)){
+            exception('两次密码不同');
+        }
+        if (!$password){
+            $password = $data['uni_account'];
+            //                 exception('密码必填');
+        }
+        
+        
+        
+        $data['password'] = sha1($password.$data['solt']);
+        return $data;
+    }
+    
+    /**
+     * 保存新建的资源
+     *
+     * @param  \think\Request  $request
+     * @return \think\Response
+     */
+    public function saveAction(Request $request)
+    {
+        try {
+            $json = [];
+            
+            $data = $this->validateSaveAndUpdate();
+            
+            $regResult=SysUser::regApi($data);
+            if ( 0 === $regResult['err'] ){
+                $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
+                $json['html'] = '添加成功';
+                $json['url']['edit_role'] = url('admin/userrole/edit?id='.$regResult['user_model']->id);
+            }else{
+                $json['errcode'] = ConfigTool::$ERRCODE__COMMON;
+                $json['html'] = implode('<br />'.PHP_EOL, (array)$regResult['reason']);
+                $json['debug']['err'] = $regResult['reason'];
+            }
+        } catch (\Exception $e) {
+            $json['errcode'] = ConfigTool::$ERRCODE__COMMON;
+            $json['html'] = $e->getMessage();
+        }
+        
+        
+        return json($json);
+    }
 
+    /**
+     * 显示指定的资源
+     *
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function read($id)
+    {
+        //
+    }
+
+    /**
+     * 显示编辑资源表单页.
+     *
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function editAction($id)
+    {
+        
+        
+        $form = [];
+        $form['form']['submit']['url'] = url($this->route_prefix.'update',['id'=>$id]);
+        $form['form']['method'] = 'put';
+        
+        return $this->createAndEdit($id,$form);
+    }
+
+    /**
+     * 保存更新的资源
+     *
+     * @param  \think\Request  $request
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function updateAction(Request $request, $id)
+    {
+        try {
+            $json = [];
+        
+            $user = SysUser::get($id);
+            if (!$user){
+                exception('要编辑的用户不存在');
+            }
+            $data = [];
+            $data['uni_account'] = input('uni_account');
+            
+            $password = input('password');
+            $repeat_password = input('repeat_password');
+            
+            $isExistUser = SysUser::get(['uni_account'=>$data['uni_account'],'type'=>SysConfig::REG_TYPE_ADMIN ]);
+            if ($isExistUser && $isExistUser->id != $user->id){
+                exception('账号已经存在');
+            }
+
+            
+            if (!Validate::eq($password,$repeat_password)){
+                exception('两次密码不同');
+            }
+            if ($password){
+                $data['password'] = sha1($password.$user->solt);
+            }
+            
+            $res = $user->save($data);
+            
+        
+            if ( false !== $res ){
+                $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
+                $json['html'] = '修改成功';
+                $json['url']['next_page'] = url('admin/userrole/edit?id='.$id);
+            }else{
+                $json['errcode'] = ConfigTool::$ERRCODE__COMMON;
+                $json['html'] = '修改失败';
+            }
+        } catch (\Exception $e) {
+            $json['errcode'] = ConfigTool::$ERRCODE__COMMON;
+            $json['html'] = $e->getMessage();
+        }
+        
+        
+        return json($json);
+    }
+
+    /**
+     * 删除指定资源
+     *
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function delete($id)
+    {
+        //
+    }
+}

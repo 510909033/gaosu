@@ -9,6 +9,7 @@ use app\way\controller\func\InitFunc;
 use app\way\controller\func\UserBindCarFuncController;
 use app\common\model\WayUserBindCar;
 use think\Url;
+use think\Build;
 
 class IndexController extends Controller
 {
@@ -26,6 +27,8 @@ class IndexController extends Controller
         
         echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
         dump($_SESSION);
+        
+        Build::module('admin');
         
         $arr = [];
         $arr['初始化config表数据'] = url('way/index/initconfig');

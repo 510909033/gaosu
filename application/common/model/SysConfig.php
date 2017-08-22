@@ -30,6 +30,11 @@ class SysConfig extends Model
     const REG_TYPE_EMAIL = 3;
     const REG_TYPE_USERNAME = 4;
     /**
+     * 后台添加
+     * @var integer
+     */
+    const REG_TYPE_ADMIN = 5;
+    /**
      * 用户类型 ，user_type 个人
      * @var integer
      */

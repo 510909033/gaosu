@@ -36,7 +36,6 @@ class NeedLoginController extends Controller
                 exception('调试模式下，用户不存在，user_id='.self::$debug_user_id);
             }
             UserTool::init($user);
-            
 
         }
         
