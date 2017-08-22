@@ -3,19 +3,16 @@
 namespace app\admin\controller;
 
 use think\Controller;
-use app\common\tool\UserTool;
 use app\common\controller\NeedLoginController;
-use app\common\interf\IPriviCheckInterf;
-use crypt\CryptExtend;
-use crypt\driver\Rsa;
 use app\common\tool\ConfigTool;
+use app\common\model\WayRecord;
 
 class IndexController extends NeedLoginController //implements IPriviCheckInterf
 {
     
     public function sqlAction(){
         
-        
+        $wayRecord = new WayRecord();
     }
     
     public function indexAction(){

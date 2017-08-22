@@ -6,7 +6,6 @@ use app\common\tool\UserTool;
 use app\common\model\SysUser;
 use app\common\tool\ConfigTool;
 use think\Env;
-use app\common\interf\IPriviCheckInterf;
 class NeedLoginController extends TopBaseController
 {
     
