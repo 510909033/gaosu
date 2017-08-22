@@ -45,9 +45,9 @@ class UserController
      *
      * @return \think\Response
      */
-    public function index()
+    public function indexAction()
     {
-        //
+        return '用户首页';
     }
 
     /**
