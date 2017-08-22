@@ -11,7 +11,7 @@ class UserMenuController extends Controller
     use  \app\common\trait_common\RestTrait;
    protected function _before_save(){
         return [
-            'modelname'=>'\\'.SysUserMenu::class,
+            'modelname'=>'\\'.get_class(new SysUserMenu()),
             'allowField'=>['user_id','menu_id','allow'],
             'validate'=>new UserMenuValidate(),
         ];
@@ -19,7 +19,7 @@ class UserMenuController extends Controller
     
     protected function _before_update(){
         return [
-            'modelname'=>'\\'.SysUserMenu::class,
+            'modelname'=>'\\'.get_class(new SysUserMenu()),
             'allowField'=>['user_id','menu_id','allow'],
             'validate'=>new UserMenuValidate(),
         ];
@@ -27,7 +27,7 @@ class UserMenuController extends Controller
     
     protected function _before_delete(){
         return [
-            'modelname'=>'\\'.SysUserMenu::class,
+            'modelname'=>'\\'.get_class(new SysUserMenu()),
         ];
     }
 }

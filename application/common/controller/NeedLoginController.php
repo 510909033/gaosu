@@ -43,7 +43,7 @@ class NeedLoginController extends TopBaseController
             
             if ($this->request->isAjax()){
                 $json = [
-                    'status' => 0 ,
+                    'errcode' => 0 ,
                     'reason'=>ConfigTool::$JSON_REASON_NEED_LOGIN,
                     'html'=>'尚未登录请登录',
                 ];

@@ -30,7 +30,7 @@ class MenuController extends Controller
     
     protected function _before_save(){
         return [
-            'modelname'=>'\\'.SysMenu::class,
+            'modelname'=>'\\'.get_class(new SysMenu()),
             'allowField'=>['name','fid','status','module','controller','action','left_menu','sort','type'],
             'validate'=>new MenuValidate(),
         ];
@@ -38,7 +38,7 @@ class MenuController extends Controller
     
     protected function _before_update(){
         return [
-            'modelname'=>'\\'.SysMenu::class,
+            'modelname'=>'\\'.get_class(new SysMenu()),
             'allowField'=>['name','fid','status','module','controller','action','left_menu','sort','type'],
             'validate'=>new MenuValidate(),
         ];
@@ -46,7 +46,7 @@ class MenuController extends Controller
     
     protected function _before_delete(){
         return [
-            'modelname'=>'\\'.SysMenu::class,
+            'modelname'=>'\\'.get_class(new SysMenu()),
         ];
     }
     

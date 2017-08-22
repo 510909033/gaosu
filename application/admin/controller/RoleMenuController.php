@@ -16,7 +16,7 @@ class RoleMenuController extends Controller
     use  \app\common\trait_common\RestTrait;
    protected function _before_save(){
         return [
-            'modelname'=>'\\'.SysRoleMenu::class,
+            'modelname'=>'\\'.get_class(new SysRoleMenu()),
             'allowField'=>['role_id','menu_id','allow'],
             'validate'=>new RoleMenuValidate(),
         ];
@@ -24,7 +24,7 @@ class RoleMenuController extends Controller
     
     protected function _before_update(){
         return [
-            'modelname'=>'\\'.SysRoleMenu::class,
+            'modelname'=>'\\'.get_class(new SysRoleMenu()),
             'allowField'=>['role_id','menu_id','allow'],
             'validate'=>new RoleMenuValidate(),
         ];
@@ -32,7 +32,7 @@ class RoleMenuController extends Controller
     
     protected function _before_delete(){
         return [
-            'modelname'=>'\\'.SysRoleMenu::class,
+            'modelname'=>'\\'.get_class(new SysRoleMenu()),
         ];
     }
     

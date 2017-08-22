@@ -21,7 +21,7 @@ class UserController
     
     protected function _before_save(){
         return [
-            'modelname'=>'\\'.SysUser::class,
+            'modelname'=>'\\'.get_class(new SysUser()),
             'allowField'=>['uni_account' , 'password' ,'sort' , 'regtime' , 'type'],
             'validate'=>new RegValidate(),
         ];
@@ -29,7 +29,7 @@ class UserController
     
     protected function _before_update(){
         return [
-            'modelname'=>'\\'.SysUser::class,
+            'modelname'=>'\\'.get_class(new SysUser()),
             'allowField'=>['uni_account' , 'password' ,'sort' , 'regtime' , 'type'],
             'validate'=>new RegValidate(),
         ];
@@ -37,7 +37,7 @@ class UserController
     
     protected function _before_delete(){
         return [
-            'modelname'=>'\\'.SysUser::class,
+            'modelname'=>'\\'.get_class(new SysUser()),
         ];
     }
     /**

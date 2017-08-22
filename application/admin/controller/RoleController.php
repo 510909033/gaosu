@@ -24,7 +24,7 @@ class RoleController extends Controller
     
     protected function _before_save(){
         return [
-            'modelname'=>'\\'.SysRole::class,
+            'modelname'=>'\\'.get_class(new SysRole()),
             'allowField'=>['name','fid','status','is_nav','desc','sort'],
             'validate'=>new RoleValidate(),
         ];
@@ -32,7 +32,7 @@ class RoleController extends Controller
     
     protected function _before_update(){
         return [
-            'modelname'=>'\\'.SysRole::class,
+            'modelname'=>'\\'.get_class(new SysRole()),
             'allowField'=>['name','fid','status','is_nav','desc','sort'],
             'validate'=>new RoleValidate(),
         ];
@@ -40,7 +40,7 @@ class RoleController extends Controller
     
     protected function _before_delete(){
         return [
-            'modelname'=>'\\'.SysRole::class,
+            'modelname'=>'\\'.get_class(new SysRole()),
         ];
     }
     
