@@ -1,0 +1,99 @@
+ <script type="text/javascript" src="js/jquery.fancybox.js"></script>
+    <script type="text/javascript" src="js/jquery.fancybox-thumbs.js"></script>
+<script src="js/jquery.mloading.js"></script>
+<link href="css/index.css" rel="stylesheet">
+<link href="css/jquery.mloading.css" type="text/css" rel="stylesheet" />
+
+
+
+
+
+
+
+ var lmain = $(".left_main").height();
+    var rmain = $(".right_main").height();
+    if(lmain>rmain){
+        $(".right_main").css("height",lmain)
+    }else{
+        $(".left_main").css("height",rmain)
+    }
+
+
+    $(".l1 p").click(function(){
+        var zhuangtai = $(this).parent().find('.u2').css("display");
+
+        if(zhuangtai=="block"){
+            $(this).parent().find('.u2').hide()
+        }else{
+            $(this).parent().find('.u2').show()
+        }
+    });
+
+    $(".l1 p").hover(function(){
+        $(this).css("color","#d41b99");
+    },function(){
+        $(this).css("color","");
+    });
+    $(".l2").hover(function(){
+        $(this).css("color","#d41b99");
+    },function(){
+        $(this).css("color","");
+    });
+
+
+
+
+
+    $(function(){
+        $(".bt2").ready(function(){
+//            $("body").mLoading();
+        });
+    });
+
+
+
+
+
+
+
+<div class="tanchukuang xqxx">
+        <div class="ws_ip clearfix">
+            <p class="yhqq">用户详情</p>
+            <ul>
+                <li>姓名：<span>温度计</span></li>
+                <li>手机号：<span>温度计</span></li>
+                <li>身份证号：<span>温度计</span></li>
+                <li>注册时间：<span>温度计</span></li>
+                <li>车牌号：<span>温度计</span></li>
+                <li>发动机号：<span>温度计</span></li>
+                <li>车辆识别码：<span> AAAAAAAAAAAAAAAA</span></li>
+                <li>车型：<span>温度计</span></li>
+                <li>品牌：<span>温度计</span></li>
+                <li>颜色：<span>温度计</span></li>
+                <li>审核状态：<span>温度计</span></li>
+                <li>用户状态：<span>温度计</span></li>
+            </ul>
+            <div class="g_kuan clearfix">
+                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="1"><img src="images/header_bj_01.jpg"></a></div>
+                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="2"><img src="images/header_bj_01.jpg"></a></div>
+                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="3"><img src="images/header_bj_01.jpg"></a></div>
+                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="4"><img src="images/header_bj_01.jpg"></a></div>
+            </div>
+        </div>
+        <div class="anniu clearfix">
+
+            <button type="button" class="btn btn-danger bt4 bottom0">关闭</button>
+        </div>
+
+    </div>
+
+
+
+
+<ul class="u2">
+                <li class="l2">用户管理</li>
+                <li class="l2">用户管理</li>
+                <li class="l2">用户管理</li>
+                <li class="l2">用户管理</li>
+            </ul>
+
