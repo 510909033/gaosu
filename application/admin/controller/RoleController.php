@@ -11,7 +11,7 @@ use app\common\model\SysLogTmp;
 use think\db\Query;
 use think\Route;
 
-class RoleController extends Controller
+class RoleController extends   PublicController
 {
     use \app\common\trait_common\RestTrait;
     protected $page = 1;
@@ -58,6 +58,7 @@ class RoleController extends Controller
         $query=null;
         $list = [];
         
+        
 //         \app\admin\controller\MenuController::getLeftMenu();
         
 //         exit;
@@ -91,7 +92,10 @@ class RoleController extends Controller
 
             
             $modify_url = url($this->route_prefix.'edit?id='.$v['id']);
-            $edit_url = url('admin/rolemenu/edit?id='.$v['id']);
+            $edit_url = url('admin/RoleMenu/edit?id='.$v['id']);
+            $delete_url = url($this->route_prefix.'delete?id='.$v['id']);
+            
+    
             
         $html .=<<<EEE
 <tr>
@@ -103,7 +107,8 @@ class RoleController extends Controller
     <td>{$v['desc']}</td>
     <td>
         <button type="button" class="btn btn-warning xx" onclick="location.href='{$modify_url}';" >修改</button>
-        <button type="button" class="btn btn-warning xx" onclick="location.href='{$edit_url}';" >编辑权限</button>    
+        <button type="button" class="btn btn-warning xx" onclick="location.href='{$edit_url}';" >编辑权限</button>  
+        <button type="button" class="btn btn-warning xx" onclick="location.href='{$delete_url}';" >删除</button>    
     </td>
 </tr>        
 EEE;
@@ -166,7 +171,7 @@ EEE;
     private function getHtmlPid($list,$model){
         $html ='<select name="fid" class="form-control">';
         $selected =  0 === $model->id?"selected":"";
-        $html .= '<option value="0" '.$selected.'>请选择</option>';
+        $html .= '<option value="0" '.$selected.'>顶级角色</option>';
         $html .=$this->_getHtmlPid($list,0,$model);
         $html .='</select>';
         return $html;
@@ -215,7 +220,27 @@ EEE;
         return $this->createAndEdit($id,$form);
     }
 
-
-
+    public function deleteAction($id){
+        $msg='';
+        $modelname = $this->getModelname();
+        try {
+            $where=[
+                'fid'=>$id,
+            ];
+            if ($modelname::get($where)){
+                exception($msg='角色包含子角色，不能删除');
+            }
+            $res = $modelname::deleteOne($id);
+            if (true !== $res){
+                exception($msg=$res);
+            }
+        } catch (\Exception $e) {
+            $msg = $e->getMessage();
+        }
+        if ('' === $msg){
+            $this->success('success',null,'',1);
+        }
+        $this->error($msg);
+    }
 
 }

@@ -1,0 +1,22 @@
+<!-- header clearfix -->
+<!-- welcome clearfix -->
+<div class="header clearfix">
+    <img src="images/header_logo1_03.png" class="h_m1">
+    <img src="images/header_bt_03.png" class="h_m2">
+    <div class="denglu">
+        <span><a href="#" class="d_a1">重新登录</a>|<a href="javascript:;"  class="d_a2 js_logout">注销登录</a></span>
+    </div>
+</div>
+<div class="welcome clearfix">
+    <p class="welcome_p1">欢迎您，{:\\app\\common\\tool\\UserTool::getUni_account()}</p>
+    <p class="welcome_p2">今天是<span id="shijian">{:date('Y-m-d')}</span></p>
+</div>
+<script>
+$(function(){
+
+	$(".js_logout").click(function(){
+	
+		location.href="{:url('admin/logout/logout')}";
+	});
+});
+</script>

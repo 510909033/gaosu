@@ -12,7 +12,7 @@ use think\Validate;
 use app\common\tool\ConfigTool;
 use app\common\model\SysConfig;
 
-class UserController 
+class UserController extends PublicController
 {
     use \app\common\trait_common\RestTrait;
     protected $page = 1;
@@ -47,7 +47,16 @@ class UserController
      */
     public function indexAction()
     {
-        return '用户首页';
+        $vars=[];
+        $user = new SysUser();
+        $where=[];
+        $paginate = $user->getQuery()->where($where)->order('id','desc')->paginate(20,false);
+        
+        $arr = $paginate->toArray();
+        $vars['html']['list']['data'] = $arr['data'];
+        $vars['html']['list']['page'] = $paginate->render();
+        
+        return \view('index',$vars);
     }
 
     /**
@@ -97,6 +106,9 @@ class UserController
         $password = input('password');
         $repeat_password = input('repeat_password');
         
+        if (!Validate::is($data['uni_account'],'require')){
+            exception('用户名必填');
+        }
         
         if (!Validate::eq($password,$repeat_password)){
             exception('两次密码不同');
@@ -129,7 +141,7 @@ class UserController
             if ( 0 === $regResult['err'] ){
                 $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
                 $json['html'] = '添加成功';
-                $json['url']['edit_role'] = url('admin/userrole/edit?id='.$regResult['user_model']->id);
+                $json['url']['next_page'] = url('admin/UserRole/edit?id='.$regResult['user_model']->id);
             }else{
                 $json['errcode'] = ConfigTool::$ERRCODE__COMMON;
                 $json['html'] = implode('<br />'.PHP_EOL, (array)$regResult['reason']);

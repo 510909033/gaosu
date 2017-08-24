@@ -197,7 +197,7 @@ class UserTool {
     /**
      * 获取用户所有权限
      * @param unknown $user_id
-     * @return boolean
+     * @return false|array
      */
     public static function getAllPrivi($user_id){
         /*
@@ -245,13 +245,23 @@ select sm.id menu_id
 			allow=1
 ) as a	 ) as b       
 EEE;
-			$list = Db::query($sql );
+		//管理员
+        if ($user_id == ConfigTool::ADMIN_ID){
+            $sql="select group_concat(id ) menu_ids from sys_menu ";
+        }
+        
+		$list = Db::query($sql );
         
         return isset($list[0]) && isset($list[0]['menu_ids']) ?explode(',', $list[0]['menu_ids']):false ;
     }
     
     public static function isPrivi($user_id='',$module='',$controller='',$action=''){
         $user_id = $user_id?$user_id:self::getUser_id();
+//         //管理员
+        if ($user_id == ConfigTool::ADMIN_ID){
+            return true;
+        }
+        
         $module = $module?$module:\request()->module();
         $controller = $controller?$controller:\request()->controller();
         $action = $action?$action:\request()->action();
@@ -275,9 +285,12 @@ EEE;
             $data['name'] = implode('-', $where);
             $data['left_menu'] = 0;
             $validate = new MenuValidate();
-            $contro = new MenuController();
-            $config = $contro->getAddConfig();
-            $allowField = $config['allowField'];
+//             $contro = new MenuController();
+//             $config = $contro->getAddConfig();
+//             $allowField = $config['allowField'];
+            
+            $allowField =['name','fid','status','module','controller','action','left_menu','sort','type'];
+            
             SysMenu::addData($data, $validate, $allowField);
         }
         return false;

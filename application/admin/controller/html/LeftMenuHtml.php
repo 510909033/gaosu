@@ -16,6 +16,10 @@ class LeftMenuHtml
         
         self::$privList = UserTool::getAllPrivi($user_id);
         
+        if (!self::$privList){
+            return '';
+        }
+        
         
         $html ='<div class="left_main">
     <div class="hide_bt"></div>';
@@ -25,10 +29,32 @@ class LeftMenuHtml
         return $html;
         
     }
+  
     
-    
+  
+
     private static function getHtml($list ,$level){
+        static $left_select=null;
+        if (is_null($left_select)){
+            $left_select = input('left_select');
+        }
+        
         $html = '<ul class="u1">';
+        
+        
+        $num = $level+1;
+        if ($num > 1){
+            $p_style='border-bottom:none;';
+            $span_style='background:none';
+            $li_style="padding-left:0;";
+            $level_2_style='';
+        }else{
+            $p_style='';
+            $span_style='';
+            $li_style="";
+            
+        }
+  
         
         foreach ($list as $k=>$v){
             
@@ -37,7 +63,7 @@ class LeftMenuHtml
             }
             
             if ( 1 == $v['type']){
-                $url = url($v['module'].'/'.$v['controller'].'/'.$v['action']);
+                $url = url($v['module'].'/'.$v['controller'].'/'.$v['action'],['left_select'=>$v['id']]);
             }else if (2 == $v['type']){
                 $url = 'javascript:;';
             }else{
@@ -45,10 +71,17 @@ class LeftMenuHtml
                 //不应该出现这个结果
             }
             
-            $html .= '<li class="l1"><p><span><a href="'.$url.'">'.$v['name'].'</a></span></p>';
+            $html .= '<li class="l'.$num.'" style="'.$li_style.'" ><p style="'.$p_style.'"><span style="'.$span_style.'"><a href="'.$url.'">'.$v['name'].'</a></span></p>';
             
             if ($v['children']){
-                $html .='<ul class="u2">';
+                $level_2_style='';
+                foreach ($v['children'] as $tmp_v){
+                    if ( !is_null($left_select) && $tmp_v['id'] == $left_select){
+                        $level_2_style = 'display:block;adsfasdf;';
+                    }
+                }
+                
+                $html .='<ul class="u2" style="'.$level_2_style.'">';
              
                 $html .=self::getHtml($v['children'] , $level+1);
              

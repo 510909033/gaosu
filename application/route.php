@@ -13,13 +13,14 @@ use think\Route;
 
 
 Route::resource('user' , 'way/User');
-Route::resource('role' , 'admin/Role');
-Route::resource('menu' , 'admin/Menu');
-Route::resource('rolemenu' , 'admin/RoleMenu');
-Route::resource('usermenu' , 'admin/UserMenu');
-Route::resource('userrole' , 'admin/UserRole');
-Route::resource('adminuser' , 'admin/User');
+// Route::resource('role' , 'admin/Role');
+// Route::resource('menu' , 'admin/Menu');
+// Route::resource('rolemenu' , 'admin/RoleMenu');
+// Route::resource('usermenu' , 'admin/UserMenu');
+// Route::resource('userrole' , 'admin/UserRole');
+// Route::resource('adminuser' , 'admin/User');
 
+// Route::resource('adminuser' , 'admin/User' , ['var'=>['adminuser'=>'left_select']] );
 
 // Route::resource('user1' , 'way/User');
 return [

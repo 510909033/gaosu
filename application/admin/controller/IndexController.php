@@ -3,12 +3,15 @@
 namespace app\admin\controller;
 
 use think\Controller;
-use app\common\controller\NeedLoginController;
 use app\common\tool\ConfigTool;
 use app\common\model\WayRecord;
 
-class IndexController extends NeedLoginController //implements IPriviCheckInterf
+class IndexController extends PublicController //implements IPriviCheckInterf
 {
+    protected function _initialize(){
+        parent::_initialize();
+        
+    }
     
     public function sqlAction(){
         

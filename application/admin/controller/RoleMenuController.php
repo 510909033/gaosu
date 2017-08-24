@@ -9,9 +9,8 @@ use app\admin\model\SysRole;
 use app\admin\model\SysMenu;
 use think\Db;
 use app\common\tool\ConfigTool;
-use function think\query;
 
-class RoleMenuController extends Controller
+class RoleMenuController extends PublicController
 {
     use  \app\common\trait_common\RestTrait;
    protected function _before_save(){
@@ -96,7 +95,7 @@ class RoleMenuController extends Controller
     </td>
     <td>
                 启用/禁用<input type="checkbox" name="allow_{$v['id']}" {$allow_checkbox} value="1" />  
-                </td>
+    </td>
 </tr>
 EEE;
     if ($v['children']){
@@ -110,58 +109,70 @@ EEE;
     
     
     public function addmenuAction($id){
+       
         $roleId = $id;
 //         $roleId = $this->request->get('id');
         $menuIdArr = $this->request->post('menu_id/a');
         $config = $this->getAddConfig();
         $allowField = $config['allowField'];
         $json = [];
-        if ($roleId && $menuIdArr){
+       
+        if ($roleId ){
             try {
-                
             
             Db::startTrans();
             $existMenuId = [];
-            foreach ($menuIdArr as $menu_id){
-                $existMenuId[] = $menu_id;
-                if ($this->request->post('allow_'.$menu_id)){
-                    $allow = 1;
-                }else{
-                    $allow = 2;
-                }
-                $data = [
-                    'role_id'=>$roleId,
-                    'menu_id'=>$menu_id,
-                    'allow'=>$allow,
-                ];
-                
-                //如果存在，则更新
-                $roleMenu = SysRoleMenu::get(['role_id'=>$roleId,'menu_id'=>$menu_id,]);
-                if ($roleMenu){
-                    if ($roleMenu->allow != $allow){
-                        $return = SysRoleMenu::updateData($roleMenu->id  , $data, new RoleMenuValidate(), $allowField);
+            
+            if ($menuIdArr){
+                foreach ($menuIdArr as $menu_id){
+                    $existMenuId[] = $menu_id;
+                    if ($this->request->post('allow_'.$menu_id)){
+                        $allow = 1;
+                    }else{
+                        $allow = 2;
+                    }
+                    $data = [
+                        'role_id'=>$roleId,
+                        'menu_id'=>$menu_id,
+                        'allow'=>$allow,
+                    ];
+                    
+                    //如果存在，则更新
+                    $roleMenu = SysRoleMenu::get(['role_id'=>$roleId,'menu_id'=>$menu_id,]);
+                    if ($roleMenu){
+                        if ($roleMenu->allow != $allow){
+                            $return = SysRoleMenu::updateData($roleMenu->id  , $data, new RoleMenuValidate(), $allowField);
+                            if (!is_object($return)){
+                                exception($return,ConfigTool::$ERRCODE__COMMON);
+                            }
+                        }
+                    }else{
+                        //不存在，则增加
+                        $return = SysRoleMenu::addData($data, new RoleMenuValidate(), $allowField);
                         if (!is_object($return)){
                             exception($return,ConfigTool::$ERRCODE__COMMON);
                         }
                     }
-                }else{
-                    //不存在，则增加
-                    $return = SysRoleMenu::addData($data, new RoleMenuValidate(), $allowField);
-                    if (!is_object($return)){
-                        exception($return,ConfigTool::$ERRCODE__COMMON);
-                    }
-                }
-            }//end foreach
-            
-            if ($existMenuId){
-                $where = '';
-                $roleMenuModel = new SysRoleMenu();
-                $updateData = ['allow'=>0];
-                
-                $roleMenuModel->save($updateData , function(\think\db\Query $query) use($roleId,$existMenuId){
-                    $query->where('role_id',$roleId)->whereNotIn('menu_id', $existMenuId);
-                });
+                }//end foreach
             }
+            
+            $where = '';
+            $roleMenuModel = new SysRoleMenu();
+//             $updateData = ['allow'=>0];
+            
+            $roleMenuModel->destroy(function(\think\db\Query $query) use($roleId,$existMenuId){
+                $query->where('role_id',$roleId);
+                if ($existMenuId){
+                    $query->whereNotIn('menu_id', $existMenuId);
+                }
+            });
+            
+//             $roleMenuModel->save($updateData , function(\think\db\Query $query) use($roleId,$existMenuId){
+//                 $query->where('role_id',$roleId);
+//                 if ($existMenuId){
+//                     $query->   whereNotIn('menu_id', $existMenuId);
+//                 }
+//             });
             
             Db::commit();
             $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
