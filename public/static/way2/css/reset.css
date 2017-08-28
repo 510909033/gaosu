@@ -1,0 +1,38 @@
+/*
+    *by:JasonJ
+    *Email:xiaoyi0228@vip.qq.com
+    *use：reset
+*/
+body,form,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dd,dt,p,hr,input,em{margin:0;padding:0;list-style:none;-webkit-text-size-adjust:none; vertical-align: middle; font-weight:normal;}
+body{ font-size:10px; color:#000; font-family:'\5FAE\8F6F\96C5\9ED1','Nanum Gothic',"Malgun Gothic",ngwoff,ngeot,nmwoff,nmeot,Dotum,Gulim,Tahoma,Geneva,sans-serif,verdana;}
+h1,h2,h3,h4,h5,h6{font-size:100%}
+table,img{border:none}ul{list-style:none}
+a{ color:#000; text-decoration:none;outline:none;}
+a:hover {color:#015ca6;text-decoration:none;}
+a:active {color:#000;text-decoration:none;}
+ol,ul {list-style:none;}
+fieldset,img {border:0;}
+i,em{ font-style:normal;}
+.left{ float:left;}
+.right{ float:right;}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}/* Hides from IE-mac \*/
+* html .clearfix{height:1%;}/* End hide from IE-mac */
+*+html .clearfix{min-height:1%;}
+.mt5{ margin-top:5px;}
+.mt10{ margin-top:10px;}
+.mt15{ margin-top:15px;}
+.mt20{ margin-top:20px;}
+.mt30{ margin-top:30px;}
+.mt40{ margin-top:40px;}
+.ml20{ margin-left:20px;}
+.mr20{ margin-right:20px;}
+.mr40{ margin-right:40px;}
+.none{ display:none;}
+.ellipsis{text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
+.center{ text-align:center;}
+.mcenter{ margin:0 10px;}
+.imgauto{ display: block; width: 100%;}
+
+
+
+
