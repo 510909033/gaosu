@@ -107,7 +107,7 @@ class ConfigTool {
      * 更新车辆时是否判断验证码
      * @var string
      */
-    public static  $WAY_USER_BIND_CAR__CHECK_YZM = FALSE;
+    public static  $WAY_USER_BIND_CAR__CHECK_YZM = true;
     /**
      * 绑定车辆图片mine值
      * @var string
