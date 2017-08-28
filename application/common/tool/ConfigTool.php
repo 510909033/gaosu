@@ -112,7 +112,8 @@ class ConfigTool {
      * 绑定车辆图片mine值
      * @var string
      */
-    public static $WAY_USER_BIND_CAR__IMAGE_MINE = 'image/png,image/jpg,image/jpeg,image/gif';
+//     public static $WAY_USER_BIND_CAR__IMAGE_MINE = 'image/png,image/jpg,image/jpeg,image/gif';
+    public static $WAY_USER_BIND_CAR__IMAGE_MINE = 'image/*';
     
     
     public static $RSA_PUBLIC_KEY=<<<EEE
