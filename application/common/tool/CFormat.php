@@ -939,8 +939,8 @@ class CFormat {
 	 * @param int $depth
 	 * @return string
 	 */
-	public static function jsonEncode($value, $options = JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE, $depth = 512) {
-		return json_encode($value, $options, $depth);
+	public static function jsonEncode($value, $options = JSON_UNESCAPED_UNICODE) {
+		return json_encode($value, $options);
 	}
 
 	/**

@@ -458,8 +458,12 @@ class IndexController extends Controller
 
         $singleSender = new SmsSingleSender($appid, $appkey);
 
+<<<<<<< HEAD
         // 假设模板内容为：测试短信，{1}，{2}，{3}，上学。`
         $params = array("123456",90);
+=======
+        $params = array("250250","666");
+>>>>>>> 2867b957548d6f4676474782c1d285fe64a25895
         $result = $singleSender->sendWithParam("86", $phoneNumber, $templId, $params, "", "", "");
         $rsp = json_decode($result);
         echo $result;

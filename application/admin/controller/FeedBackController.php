@@ -6,8 +6,9 @@ use think\Controller;
 use think\Db;
 use app\common\tool\AjaxTool;
 use app\common\tool\Verifier;
+use app\admin\controller\PublicController;
 
-class FeedBackController extends Controller
+class FeedBackController extends PublicController
 {
     public function indexAction(){
     	$num = 20 ;
