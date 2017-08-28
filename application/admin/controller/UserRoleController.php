@@ -99,39 +99,41 @@ EEE;
         $config = $this->getAddConfig();
         $allowField = $config['allowField'];
         $json = [];
-        if ($userId && $roleIdArr){
+        if ($userId){
             try {
         
         
                 Db::startTrans();
                 $existRoleId = [];
-                foreach ($roleIdArr as $role_id){
-                    $existRoleId[] = $role_id;
-                    $data = [
-                        'user_id'=>$userId,
-                        'role_id'=>$role_id,
-                    ];
-        
-                    //如果存在，则更新
-                    $userMenu = SysUserRole::get(['user_id'=>$userId,'role_id'=>$role_id,]);
-                    if (!$userMenu){
-                        //不存在，则增加
-                        $return = SysUserRole::addData($data, new UserRoleValidate(), $allowField);
-                        if (!is_object($return)){
-                            exception($return,ConfigTool::$ERRCODE__COMMON);
+                if ($roleIdArr){
+                    foreach ($roleIdArr as $role_id){
+                        $existRoleId[] = $role_id;
+                        $data = [
+                            'user_id'=>$userId,
+                            'role_id'=>$role_id,
+                        ];
+            
+                        //如果存在，则更新
+                        $userMenu = SysUserRole::get(['user_id'=>$userId,'role_id'=>$role_id,]);
+                        if (!$userMenu){
+                            //不存在，则增加
+                            $return = SysUserRole::addData($data, new UserRoleValidate(), $allowField);
+                            if (!is_object($return)){
+                                exception($return,ConfigTool::$ERRCODE__COMMON);
+                            }
                         }
-                    }
-                }//end foreach
-        
-                if ($existRoleId){
-                    $where = '';
-                    $userMenuModel = new SysUserRole();
-                    $updateData = ['allow'=>0];
-        
-                    $userMenuModel->destroy(function(\think\db\Query $query) use($userId,$existRoleId){
-                        $query->where('user_id',$userId)->whereNotIn('role_id', $existRoleId);
-                    });
+                    }//end foreach
                 }
+        
+                $where = '';
+                $userMenuModel = new SysUserRole();
+    
+                $userMenuModel->destroy(function(\think\db\Query $query) use($userId,$existRoleId){
+                    $query->where('user_id',$userId);
+                    if ($existRoleId){
+                        $query->whereNotIn('role_id', $existRoleId);
+                    }
+                });
         
                 Db::commit();
                 $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;

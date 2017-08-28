@@ -277,12 +277,13 @@ EEE;
         $line = SysMenu::get($where);
         
         if($line ){
-            return false === array_search($line->id, self::getAllPrivi($user_id))?false:true;
+            
+            return false === array_search($line->id, (array)self::getAllPrivi($user_id))?false:true;
         }else{
             $data=$where;
             $data['status'] = 1;
             $data['fid']=0;
-            $data['name'] = implode('-', $where);
+            $data['name'] = implode('-', $where); 
             $data['left_menu'] = 0;
             $validate = new MenuValidate();
 //             $contro = new MenuController();
@@ -295,6 +296,4 @@ EEE;
         }
         return false;
     }
-
-    
 }

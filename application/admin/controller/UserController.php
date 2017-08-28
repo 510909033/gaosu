@@ -50,6 +50,7 @@ class UserController extends PublicController
         $vars=[];
         $user = new SysUser();
         $where=[];
+        //where('uni_account','neq','')->
         $paginate = $user->getQuery()->where($where)->order('id','desc')->paginate(20,false);
         
         $arr = $paginate->toArray();

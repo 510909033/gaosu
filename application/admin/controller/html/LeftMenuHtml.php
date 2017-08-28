@@ -11,7 +11,6 @@ class LeftMenuHtml
     private static $privList;
     public static function getLeftMenu($user_id){
         
-        
         $list = SysMenu::getList(0);
         
         self::$privList = UserTool::getAllPrivi($user_id);
