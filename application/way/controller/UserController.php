@@ -177,8 +177,8 @@ class UserController extends \app\common\controller\NeedLoginController
             
             $json=[];
             //var_dump(VENDOR_PATH . 'SMS\SmsSender.php');die();
-            require_once VENDOR_PATH . 'SMS\SmsSender.php';
-            require_once VENDOR_PATH . 'SMS\SmsVoiceSender.php';
+            require_once VENDOR_PATH . 'SMS/SmsSender.php';
+            require_once VENDOR_PATH . 'SMS/SmsVoiceSender.php';
             
             $appid = 1400023627;
             $appkey = "091dbec841263da9db9b68b6bddc8098";
