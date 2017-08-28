@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use think\Controller;
 use app\common\controller\NeedLoginController;
+use app\common\interf\IPriviCheckInterf;
 
 //表示在后台模块
 defined('ADMIN_MODULE') ?'':define('ADMIN_MODULE', TRUE);
