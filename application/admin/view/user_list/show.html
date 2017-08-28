@@ -31,14 +31,27 @@
     <img src="images/header_bt_03.png" class="h_m2">
     <div class="denglu">
         <span><a href="#" class="d_a1">重新登录</a>|<a href="#" class="d_a2">注销登录</a></span>
-    </div>
-</div>
-<div class="welcome clearfix">
+    </div </div> <div class="welcome clearfix">
     <p class="welcome_p1">欢迎您，XXX</p>
     <p class="welcome_p2">今天是<span id="shijian">2017年08月01日 星期二</span></p>
 </div>
 <div class="main clearfix">
-<include file="common/menu" />
+<div class="left_main">
+    <div class="hide_bt"></div>
+    <ul class="u1">
+        <li class="l1"><p><span>用户管理</span></p>
+        <ul class="u2">
+                <li class="l2">用户管理</li>
+                <li class="l2">用户管理</li>
+                <li class="l2">用户管理</li>
+                <li class="l2">用户管理</li>
+            </ul></li>
+        <li class="l1"><p><span>缴费管理</span></p></li>
+        <li class="l1"><p><span>用户管理</span></p></li>
+        <li class="l1"><p><span>用户管理</span></p></li>
+        <li class="l1"><p><span>用户管理</span></p></li>
+    </ul>
+</div>
 <div class="right_main">
 <p class="jfgl">用户管理</p>
     <div class="sousuo">
@@ -61,6 +74,7 @@
 <!--列表开始-->
     <div class="table-responsive">
     <div class="tanchukuang xqxx">
+        <div class="zhezhu"></div>
         <div class="ws_ip clearfix">
             <p class="yhqq">用户详情</p>
 
@@ -75,9 +89,10 @@
                 <li>车型：<span id='car_type_id'></span></li>
                 <li>品牌：<span id='brand'></span></li>
                 <li>颜色：<span id='car_color'></span></li>
-                <li>审核状态：<span id='verify'></span></li>
-                <li>用户状态：<span id='identity_card'></span></li>
+                <li>审核状态：<span id='dis_verify'></span></li>
+                <li>用户状态：<span id='dis_status'></span></li>
             </ul>
+
             <div class="g_kuan clearfix">
                 <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="1"><img src="images/header_bj_01.jpg"></a></div>
                 <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="2"><img src="images/header_bj_01.jpg"></a></div>
@@ -85,9 +100,38 @@
                 <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="4"><img src="images/header_bj_01.jpg"></a></div>
             </div>
         </div>
+               
         <div class="anniu clearfix">
 
-            <button type="button" class="btn btn-danger bt4 bottom0">关闭</button>
+     
+
+            <button type="button" class="btn btn-success wxx" id="js_verify_0" style="display: none;">审核通过</button>
+            <button type="button" class="btn btn-warning wxx butongguo"  id="js_verify_1"  >审核未通过</button>
+            <button type="button" class="btn btn-danger bt4 bottom0" >关闭</button>
+
+        </div>
+
+        <div class="btgyy">
+        <form action="{:url('UserList/save')}" method="post">
+            <p class="wtg">未通过原因</p>
+            <div class="leibie">
+                <p class="lxdh">下拉框</p>
+                <select class="form-control" >
+                    <option value ="1">1</option>
+                    <option value ="2">2</option>
+                    <option value ="3">3</option>
+                    <option value ="4">4</option>
+                    <option value ="5">5</option>
+                </select>
+            </div>
+            <div class="ws_ip clearfix">
+                <p class="lxdh">问题描述：</p>
+                <textarea class="form-control wenben" rows="5" name="verify_reason" ></textarea>
+            </div>
+            <input type="hidden" name="id" id="id" value="">
+            <input type="submit" name="" class="btn btn-primary btn1 qd">
+            <button type="button" class="btn btn-danger bt4 bottom0"  style="margin-top: 12px">关闭</button>
+        </form>
         </div>
 
     </div>
@@ -101,11 +145,14 @@
                 <td>车牌号</td>
                 <td>品牌</td>
                 <td>创建时间</td>
+                <td>审核状态</td>
+                <td>用户状态</td>
                 <td>操作</td>
             </tr>
             </thead>
             <tbody>
-            {volist name="res" id="vo"}
+
+            {volist name="res" id="vo"}          
             <tr>
                 <td>{$vo.id}</td>
                 <td>{$vo.username}</td>
@@ -114,6 +161,8 @@
                 <td>{$vo.car_number}</td>
                 <td>{$vo.brand}</td>
                 <td>{$vo.create_time}</td>
+                <td>{$vo.dis_verify}</td>
+                <td>{$vo.dis_status}</td>
                 <td>
                     <button type="button" class="btn btn-success xx" onclick="getDetail({$vo.id})" >详情</button>
                     <button type="button" class="btn btn-warning xx">修改</button>
@@ -140,6 +189,18 @@
 </div>
 </div>
 <script>
+//未通过原因
+$(".butongguo").click(function(){
+    $(".btgyy").fadeIn();
+    $(".zhezhu").fadeIn();
+});
+$(".qd").click(function(){
+    $(".btgyy").fadeOut();
+    $(".zhezhu").fadeOut();
+})
+
+
+
     $(".hide_bt").click(function(){
         var width =  $(".left_main").css("width");
 
@@ -165,6 +226,7 @@
     //获取详情
     function getDetail(id){
         $.getJSON('{:url('admin/UserList/getDetail')}',{'id':id},function(date){
+            $('#id').val(date.id);
             $('#name').html(date.username);
             $('#phone').html(date.phone);
             $('#identity_card').html(date.identity_card);
@@ -175,12 +237,19 @@
             $('#chassis_number').html(date.chassis_number);//车辆识别码
             $('#car_type_id').html(date.car_type_id);//车型
             $('#car_color').html(date.car_color);//颜色
-            $('#verify').html(date.verify);//审核状态
-            
+            $('#dis_verify').html(date.dis_verify);//审核状态
+            $('#dis_status').html(date.dis_status);//用户状态
 
+            $('#verify_reason').html(date.verify_reason);//用户状态
 
+            if(date.verify == 0){
+                $("#js_verify_0").show();
+                $("#js_verify_1").show(); 
+            }else{
+                $("#js_verify_0").hide();
+                $("#js_verify_1").hide(); 
+            }
 
-            //alert(date);    
         })
     }
 
