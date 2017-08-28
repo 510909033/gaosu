@@ -93,11 +93,11 @@ class AuthExtend
     }
     
     
-    private function getAppkey(){
+    public function getAppkey(){
         return SysConfig::getValueBy(SysConfig::TYPE_WEIXIN_CONFIG, 'appid');
     }
     
-    private function getAppsecret(){
+    public function getAppsecret(){
         return SysConfig::getValueBy(SysConfig::TYPE_WEIXIN_CONFIG, 'appsecret');
     } 
 
