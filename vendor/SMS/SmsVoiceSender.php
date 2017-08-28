@@ -2,15 +2,15 @@
 
 // Works well with php5.3 and php5.6.
 
-namespace Qcloud\Sms;
+namespace vendor\SMS;
 
 require_once('SmsTools.php');
 
 class SmsVoiceVerifyCodeSender {
-    var $url;
-    var $appid;
-    var $appkey;
-    var $util;
+    public $url;
+    public $appid;
+    public $appkey;
+    public $util;
 
     function __construct($appid, $appkey) {
         $this->url = "https://yun.tim.qq.com/v5/tlsvoicesvr/sendvoice";

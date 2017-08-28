@@ -5,6 +5,11 @@ use think\Controller;
 use app\common\model\SysLogTmp;
 use think\Log;
 
+use vendor\SMS\SmsSingleSender;
+use vendor\SMS\SmsMultiSender;
+use vendor\SMS\SmsVoicePromtSender;
+use vendor\SMS\SmsVoiceVeriryCodeSender;
+
 class IndexController extends Controller
 {
     //初始化
@@ -438,4 +443,28 @@ class IndexController extends Controller
         SysLogTmp::log('返回结果', $res, 0, __FILE__);
         var_dump($res);
     }
-}//class end
+
+    public function testAction(){
+
+        //var_dump(VENDOR_PATH . 'SMS\SmsSender.php');die();
+        require_once VENDOR_PATH . 'SMS\SmsSender.php';
+        require_once VENDOR_PATH . 'SMS\SmsVoiceSender.php';        
+
+        $appid = 1400023627;
+        $appkey = "091dbec841263da9db9b68b6bddc8098";
+        $phoneNumber = "13224381123";
+        $templId = 9118;
+
+
+        $singleSender = new SmsSingleSender($appid, $appkey);
+
+        // 假设模板内容为：测试短信，{1}，{2}，{3}，上学。`
+        $params = array("123456");
+        $result = $singleSender->sendWithParam("86", $phoneNumber, $templId, $params, "", "", "");
+        $rsp = json_decode($result);
+        echo $result;
+        echo "<br>";
+
+    }
+
+}

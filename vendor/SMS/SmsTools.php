@@ -2,7 +2,7 @@
 
 // Works well with php5.3 and php5.6.
 
-namespace Qcloud\Sms;
+namespace vendor\SMS;
 
 class SmsSenderUtil {
     function getRandom() {
