@@ -18,16 +18,18 @@ class NeedLoginController extends TopBaseController
      */
     protected static $debug_user_id = null;
     
-    public function __construct(Request $request=null){
+
+    protected function _initialize(){
         self::$debug_user_id = Env::get('debug.user_id');
-        parent::__construct($request);
         //验证是否登录
-        $this->check()  ;
+        
+        $this->check() ;
+        parent::_initialize();
     }
     
     protected function check(){
         Session::boot();
-        if ( !UserTool::getIs_login() ){
+        if ( !UserTool::getIs_login() && !(defined('ADMIN_MODULE') && ADMIN_MODULE) ){
             if (self::$debug_user_id){
                 $this->debugTrace('debug_user_id模式,debug_user_id='.self::$debug_user_id);
                 $user = SysUser::get(self::$debug_user_id);
@@ -35,7 +37,6 @@ class NeedLoginController extends TopBaseController
                     exception('调试模式下，用户不存在，user_id='.self::$debug_user_id);
                 }
                 UserTool::init($user);
-    
             }
         }
         
@@ -50,7 +51,7 @@ class NeedLoginController extends TopBaseController
                 json($json)->send();
             }
             if (defined('ADMIN_MODULE') && ADMIN_MODULE){
-                $this->redirect('admin/login/create',['state'=> urlencode(urlencode(\request()->url(true))) ]);
+                $this->redirect('admin/login/index',['state'=> urlencode(urlencode(\request()->url(true))) ]);
             }else{
                 $this->redirect('way/auth/authindex',['state'=> urlencode(urlencode(\request()->url(true))) ]);
             }

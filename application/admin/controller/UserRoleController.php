@@ -10,7 +10,7 @@ use think\Db;
 use app\common\tool\ConfigTool;
 use app\common\model\SysUser;
 
-class UserRoleController extends Controller
+class UserRoleController extends PublicController
 {
     use  \app\common\trait_common\RestTrait;
    protected function _before_save(){
@@ -41,8 +41,10 @@ class UserRoleController extends Controller
         $vars=[];
         
         $list = SysRole::getList(0);
-        
+        $user = SysUser::get($id);
+        $vars['html']['list']['title'] = '修改用户角色：【'.$user->uni_account.'】';
         $vars['html']['list']['html'] = $this->getIndexHtml($id,$list, 0);
+        
         $vars['form']['submit']['url'] = url('admin/user_role/addrole?id='.$id);
        
         return \view('edit',$vars);
@@ -134,6 +136,7 @@ EEE;
                 Db::commit();
                 $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
                 $json['html'] = '编辑用户所属角色成功';
+                $json['url']['next_page'] = url('admin/user/index');
             } catch (\Exception $e) {
                 Db::rollback();
                 $json['errcode'] = ConfigTool::$ERRCODE__COMMON;

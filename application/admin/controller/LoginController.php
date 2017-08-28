@@ -42,7 +42,7 @@ class LoginController extends Controller
             if (true === $res ){
                 $json['errcode'] = 0;
                 $json['html'] = '登录成功';
-                $json['location']['href'] = url('admin/user/index');
+                $json['location']['href'] = url(ConfigTool::ADMIN_LOGIN_SUCCESS_URL);
             }else{
                 $json['errcode'] = ConfigTool::$ERRCODE__COMMON;
                 $json['html'] = $res;
@@ -53,5 +53,7 @@ class LoginController extends Controller
         }
         return \json($json);
     }
+    
+    
     
 }

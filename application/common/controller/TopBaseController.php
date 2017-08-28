@@ -10,10 +10,11 @@ use app\common\interf\IPriviCheckInterf;
 use think\Db;
 use app\common\model\SysLogTmp;
 use think\Request;
-class TopBaseController extends Controller
+class TopBaseController extends Controller implements IPriviCheckInterf
 {
-    public function __construct(Request $request=null){
-        parent::__construct($request);
+    
+    protected function _initialize(){
+        parent::_initialize();
         if ( $this instanceof IPriviCheckInterf ){
             $this->checkPrivi();
         }

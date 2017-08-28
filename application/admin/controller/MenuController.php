@@ -11,13 +11,8 @@ use app\admin\controller\html\LeftMenuHtml;
 use app\common\tool\UserTool;
 use think\Loader;
 
-class MenuController extends Controller
+class MenuController extends PublicController
 {
-    public function demoAction(){
-        
-        
-        
-    }
     
     use \app\common\trait_common\RestTrait;
     
@@ -73,6 +68,7 @@ class MenuController extends Controller
         $html = $this->getIndexHtml($list, 0);
 
         $vars['html']['list']['html'] = $html;
+        $vars['html']['list']['title'] = '菜单管理';
         
         $vars['html']['add']['url'] = url($this->route_prefix.'create');
         
@@ -92,8 +88,9 @@ class MenuController extends Controller
             
             $name = $prefix.$v['name'].$subfix;
 
-            
+            $role_set_url = url('admin/MenuRole/edit' , ['id'=>$v['id']]);
             $modify_url = url($this->route_prefix.'edit?id='.$v['id']);
+            $delete_url = url($this->route_prefix.'delete?id='.$v['id']);
         $html .=<<<EEE
 <tr>
     <td>{$name}</td>
@@ -105,7 +102,10 @@ class MenuController extends Controller
     <td>{$v['controller']}</td>
     <td>{$v['action']}</td>
     <td>
+    
+        <button type="button" class="btn btn-warning xx" onclick="location.href='{$role_set_url}';" >角色设置</button>
         <button type="button" class="btn btn-warning xx" onclick="location.href='{$modify_url}';" >修改</button>
+        <button type="button" class="btn btn-warning xx" onclick="location.href='{$delete_url}';" >删除</button>    
     </td>
 </tr>        
 EEE;
@@ -224,7 +224,28 @@ EEE;
     public static function getLeftMenu(){
         return LeftMenuHtml::getLeftMenu(UserTool::getUser_id()    );
     }
-    
+    public function deleteAction($id){
+        $msg='';
+        $modelname = $this->getModelname();
+        try {
+            $where=[
+                'fid'=>$id,
+            ];
+            if ($modelname::get($where)){
+                exception($msg='菜单包含子菜单，不能删除');
+            }
+            $res = $modelname::deleteOne($id);
+            if (true !== $res){
+                exception($msg=$res);
+            }
+        } catch (\Exception $e) {
+            $msg = $e->getMessage();
+        }
+        if ('' === $msg){
+            $this->success('success',null,'',1);
+        }
+        $this->error($msg);
+    }
     
     
 }

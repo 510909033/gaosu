@@ -5,11 +5,14 @@ namespace app\admin\controller;
 use think\Controller;
 use app\common\controller\NeedLoginController;
 
+//表示在后台模块
+defined('ADMIN_MODULE') ?'':define('ADMIN_MODULE', TRUE);
+/**
+ * 后台模块 父类
+ * @author Administrator
+ *
+ */
 class PublicController extends NeedLoginController
 {
-    protected function _initialize(){
-        //表示在后台模块
-        defined('ADMIN_MODULE') ?'':define('ADMIN_MODULE', TRUE);
-        
-    }
+ 
 }

@@ -12,6 +12,12 @@ namespace app\common\tool;
  *  ERRCODE__    错误代码
  */
 class ConfigTool {
+    const ADMIN_ID=1;
+    /**
+     * 默认后台登录成功后跳转地址
+     * @var string
+     */
+    const ADMIN_LOGIN_SUCCESS_URL = 'admin/role/index';
    /*
     * 常见日志
     *   获取access_token

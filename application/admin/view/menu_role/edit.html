@@ -6,33 +6,33 @@
 {include file="public/header_top" /}
 
 <div class="main clearfix">
-{include file="public/left_main" /}
+{include file="public:left_main" /}
 <div class="right_main">
     <p class="jfgl">{$html.list.title}</p>
     <div class="sousuo">
         {//include file="public:search" /}
-        <button type="button" class="btn btn-info bt2" onclick="location.href='{$html.add.url}'" >添加</button>
-        
+        <button type="button" class="btn btn-info bt2" onclick="submit();" >编辑权限</button>
     </div>
     <!--列表开始-->
     <div class="table-responsive ws_ding">
-  
+        
         <table class="table table-hover table-striped zidingyi yhgl ">
             <thead>
             <tr>
-                <td>菜单名称</td>
+                <td>角色名称</td>
                 <td>层级</td>
                 <td>状态</td>
-                <td>是否左侧导航</td>
+                <td>是否导航</td>
                 <td>排序</td>
-                <td>模块</td>
-                <td>控制器</td>
-                <td>方法</td>
-                <td>操作</td>
+                <td>描述</td>
+                <td>是否选中</td>
+                <td>启用/禁用权限</td>
             </tr>
             </thead>
             <tbody>
+            <form method="post" id="form">
             	{$html.list.html}
+            </form>	
             </tbody>
         </table>
 
@@ -43,9 +43,20 @@
 </div>
 </div>
 <script>
+//
 $("td").css("width","auto").css("text-align","left").css("padding-left","20px");
+$("input").css("float","none");
 
 
+//编辑角色
+function submit(){
+	$.post('{$form.submit.url}' ,$("#form").serialize(),function(data){
+		alert(data.html);
+		if( 0 == data.errcode){
+			location.href=data.url.next_page;
+		}
+	} ,'json');
+}
 
 </script>
 </body>

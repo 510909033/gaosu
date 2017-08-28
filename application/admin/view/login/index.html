@@ -17,6 +17,11 @@
     <script src="__STATIC__/role/js/jquery.pagination.js"></script>
     <script src="__STATIC__/role/js/bootstrap.min.js"></script>
     <script src="__STATIC__/role/js/xuanzhuan.js"></script>
+    
+    
+        <link href="__STATIC__/role/css/jquery.mloading.css" type="text/css" rel="stylesheet" />
+    <script src="__STATIC__/role/js/jquery.mloading.js"></script>
+    
 </head>
 <body>
 
@@ -28,8 +33,8 @@
         <div class="ws_denglu">
             <p class="gs_dl">用户登录（Login）</p>
             <input type="text" class="form-control yh_bj" id="inputEmail3" name="uni_account" placeholder="用户名">
-            <input type="text" class="form-control yh_bj1" id="inputEmail4" name="password" placeholder="密码">
-            <button type="button" class="btn btn-primary wigh" id="submit">登录</button>
+            <input type="password" class="form-control yh_bj1" id="inputEmail4" name="password" placeholder="密码">
+            <button type="submit" class="btn btn-primary wigh" id="submit">登录</button>
         </div>
     </div>
 </form>
@@ -167,10 +172,13 @@
     
     
 	$('#submit').click(function() {
+		$("body").mLoading("show");	
 		$.post('{$form.submit.url}' ,$("#form").serialize(),function(data){
-			alert(data.html);
+			$("body").mLoading("hide");
 			if( 0 == data.errcode){
 				location.href=data.location.href;
+			}else{
+				alert(data.html);
 			}
 		} ,'json');
 		return false;
