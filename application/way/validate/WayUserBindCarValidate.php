@@ -38,7 +38,7 @@ class WayUserBindCarValidate extends Validate{
         'phone' =>  'require|number|length:11',
         'car_type_id' =>  'require|number|gt:0',
         'engine' =>  'require',
-        'brand' =>  'require',
+       //'brand' =>  'require',
         'chassis_number' =>  'require',
         '_agree'=>'require|accepted',
         'reg_time' =>  'require',//1501084800

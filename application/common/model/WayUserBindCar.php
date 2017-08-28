@@ -127,4 +127,6 @@ class WayUserBindCar extends Model
         return false;
     }
     
+
+    
 }

@@ -86,6 +86,7 @@ class SysConfig extends Model
         return $model&&$model->id?$model->value:null;
     }
     
+
     
     public function init_table_data(){
         $config['微信配置'] = [

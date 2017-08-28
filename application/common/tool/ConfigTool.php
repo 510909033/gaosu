@@ -71,7 +71,7 @@ class ConfigTool {
      */
     public static  $TABLE_WAY_USER_BIND_CAR__ADD_CAR_ALLOW_FIELD = 
     ['username','identity_card','phone','car_number','car_type_id','engine','car_color','brand','user_id','openid','reg_time','chassis_number','car_qrcode_path','status','verify','create_time'
-       ,'identity_image0','identity_image1','driving_license_image', 
+       ,'identity_image0','identity_image1','driving_license_image0', 'driving_license_image1', 
     ];
     
     /**
@@ -80,7 +80,7 @@ class ConfigTool {
      */
     public static  $TABLE_WAY_USER_BIND_CAR__SAVE_CAR_ALLOW_FIELD = 
     ['username','identity_card','phone','car_number','car_type_id','engine','car_color','brand','user_id','openid','reg_time','chassis_number','status','verify','create_time'
-        ,'identity_image0','identity_image1','driving_license_image',
+        ,'identity_image0','identity_image1','driving_license_image0', 'driving_license_image1',
     ];
     
     
@@ -103,6 +103,17 @@ class ConfigTool {
      * @var integer
      */
     public static $WAY_USER_BIND_CAR_QRCODE_EXPIRE = 600;
+    /**
+     * 更新车辆时是否判断验证码
+     * @var string
+     */
+    public static  $WAY_USER_BIND_CAR__CHECK_YZM = FALSE;
+    /**
+     * 绑定车辆图片mine值
+     * @var string
+     */
+    public static $WAY_USER_BIND_CAR__IMAGE_MINE = 'image/png,image/jpg,image/jpeg,image/gif';
+    
     
     public static $RSA_PUBLIC_KEY=<<<EEE
 -----BEGIN PUBLIC KEY-----

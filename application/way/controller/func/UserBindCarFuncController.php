@@ -21,7 +21,7 @@ class UserBindCarFuncController
      */
     public function __construct(){
         $this->qrcode_root = dirname($_SERVER['SCRIPT_FILENAME']).DS;
-        $this->db_path = 'user_bind_car'.DS.'qrcode'.DS ; 
+        $this->db_path = 'static'.DS.'user_bind_car'.DS.'qrcode'.DS ; 
     
         
     }

@@ -12,7 +12,7 @@ defined('ADMIN_MODULE') ?'':define('ADMIN_MODULE', TRUE);
  * @author Administrator
  *
  */
-class PublicController extends NeedLoginController
+class PublicController extends NeedLoginController implements IPriviCheckInterf
 {
  
 }

@@ -21,18 +21,24 @@ use think\View;
 use youwen\exwechat\ErrorCode;
 use think\File;
 use think\Validate;
+use vendor\SMS\SmsSingleSender;
 
-class UserController extends NeedLoginController
+class UserController extends \app\common\controller\NeedLoginController
 {
+    private $yzm_key = 'yzm_user_bind_car';
     
     public function testAction(){
-        $config=[
-            
-        ];
-       
-//         Session::init($config);
+        $vars=[];
+        $auth = new \weixin\auth\AuthExtend();
+        $appId = $auth->getAppkey();
+        $appSecret = $auth->getAppsecret();
+        $jssdk = new \weixin\jssdk\Jssdk($appId, $appSecret);
+        
+        
+        
+        $vars['signPackage'] = $jssdk->getSignPackage();
       
-        return 'test';
+        return \view('demo_jssdk' , $vars);
     }
  
     public function indexAction(){
@@ -91,10 +97,6 @@ class UserController extends NeedLoginController
      * @return \think\response\View
      */
     private function read($id){
-        
-      
-        
-        
         $vars = [];
         $form = [];
         try {
@@ -123,17 +125,100 @@ class UserController extends NeedLoginController
             exception('系统错误');
         }
         
+        $image = new \stdClass();
+     
         if ($form){
-            $form->reg_time = date('Y-m-d' ,$form->reg_time);
+            $image->identity_image0 = $form->identity_image0?$form->identity_image0:'/way2/images/shenfenz_03.jpg';
+            $image->identity_image1 = $form->identity_image1?$form->identity_image1:'/way2/images/shenfenz_03.jpg';
+            $image->driving_license_image0 = $form->driving_license_image0?$form->driving_license_image0:'/way2/images/shenfenz_03.jpg';
+            $image->driving_license_image1 = $form->driving_license_image1?$form->driving_license_image1:'/way2/images/shenfenz_03.jpg';
+            
+            
+            $form->reg_time = date('Y-m-d' ,$form->getData('reg_time'));
             $vars['form'] = $form->toJson();
+            $vars['form_array'] = (array)$image;
+            $vars['reg_time'] = $form->reg_time;
         }else{
             $vars['form'] = '[]';
+            $image->identity_image0 = '/way2/images/shenfenz_03.jpg';
+            $image->identity_image1 ='/way2/images/shenfenz_03.jpg';
+            $image->driving_license_image0 = '/way2/images/shenfenz_03.jpg';
+            $image->driving_license_image1 = '/way2/images/shenfenz_03.jpg';
+            
+            $vars['form_array'] = (array)$image;
+            $vars['reg_time'] = date('Y-m-d' ,time());
         }
-        
  
+       
         $vars['rsa_public_key'] = ConfigTool::$RSA_PUBLIC_KEY;
         
-        return \view('bindindex',$vars);
+        
+        
+        
+        return \view('bindindex_version2',$vars);
+    }
+    
+    /**
+     * phone
+     * @return \think\response\Json
+     */
+    public function sendAction(){
+        try {
+            
+            $max_hours = 10;
+            $cache_key = 'cache_'.date('ymdH').UserTool::getUser_id();
+            $value = (int)cache($cache_key);
+            if ($value >= $max_hours){
+                exception('发送验证码数量达到了规则上限');
+            }
+            
+            cache($cache_key , $value+1);
+            
+            
+            $json=[];
+            //var_dump(VENDOR_PATH . 'SMS\SmsSender.php');die();
+            require_once VENDOR_PATH . 'SMS\SmsSender.php';
+            require_once VENDOR_PATH . 'SMS\SmsVoiceSender.php';
+            
+            $appid = 1400023627;
+            $appkey = "091dbec841263da9db9b68b6bddc8098";
+            $templId = 9117;
+            
+            $phoneNumber = input('phone');
+            
+            $key = 'yzm_user_bind_car';
+            $yzm = session($key);
+            if (!$yzm){
+                $yzm = rand(100000,999999);
+                session($key,$yzm);
+            }
+            
+            
+            $singleSender = new SmsSingleSender($appid, $appkey);
+            
+            // 假设模板内容为：测试短信，{1}，{2}，{3}，上学。`
+            $params = array($yzm,600);
+            $result = $singleSender->sendWithParam("86", $phoneNumber, $templId, $params, "", "", "");
+            //{"result":0,"errmsg":"OK","ext":"","sid":"8:8gVBbgkZ25Gqz5rDpac20170828","fee":1}
+            $rsp = json_decode($result,true);
+            if (strtoupper($rsp['errmsg']) == 'OK'){
+                $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
+                $json['html'] = '验证码发送成功';
+                $json['debug']['data'] = $rsp;
+            }else{
+                exception('api返回了错误结果');
+            }
+        } catch (\Exception $e) {
+            $json['errcode'] = ConfigTool::$ERRCODE__EXCEPTION;
+            $json['html'] = '验证码发送失败';
+            $json['debug']['e'] = $e->getMessage();
+        }
+        
+        return \json($json);
+    }
+    private function deleteYzmSession(){
+        $key = 'yzm_user_bind_car';
+        session($key,null);
     }
 
 
@@ -146,14 +231,17 @@ class UserController extends NeedLoginController
             return '';
         }
         $file=  $this->request->file($name);
+//         dump($this->request->file());
         if (null === $file){
             return '';
         }
-        $path = INDEX_PATH.'upload'.DS;
+        $path = dirname($_SERVER['SCRIPT_FILENAME']).DS.'static'.DS.'upload_way'.DS;
         $rule = ['size'=>2024000,'ext'=>'jpg,png,gif'];
         $info  = $file->validate($rule)->move($path);
+        
+        
         if ( $info ){
-            return $info->getSaveName();
+            return 'upload_way'.DS.$info->getSaveName();
         }
         $msg = is_array($file->getError())?implode('<br />', $file->getError()):$file->getError();
         exception($msg , ConfigTool::$ERRCODE__COMMON);
@@ -171,11 +259,14 @@ class UserController extends NeedLoginController
         $validate = new Validate();
         $validate->rule('identity_image0' , 'require');
         $validate->rule('identity_image1' , 'require');
-        $validate->rule('driving_license_image' , 'require');
+        $validate->rule('driving_license_image0' , 'require');
+        $validate->rule('driving_license_image1' , 'require');
+        
         
         $validate->message('identity_image0' , '身份证正面图片必传');
         $validate->message('identity_image1' , '身份证反面图片必传');
-        $validate->message('driving_license_image' , '行驶证图片必传');
+        $validate->message('driving_license_image0' , '行驶证正面图片必传');
+        $validate->message('driving_license_image1' , '行驶证反面图片必传');
         
         if ( ! $validate->check($data)){
             return $validate->getError();
@@ -196,6 +287,7 @@ class UserController extends NeedLoginController
         $json =[];
         try {
             usleep(2000);
+            
             $wayUserBindCar = new WayUserBindCar();
             
             //获取post数据
@@ -217,8 +309,18 @@ class UserController extends NeedLoginController
                 $data[$k] = $decrypted;
                 
             }
+            if (ConfigTool::$WAY_USER_BIND_CAR__CHECK_YZM){
+                $session_yzm = session($this->yzm_key);
+                if (!$session_yzm){
+                    exception('验证码超时，请重新获取验证码');
+                }
+                if ($data['yzm'] != $session_yzm){
+                    exception('验证码错误');
+                }
+            }
             
             
+          
             $data['user_id'] = UserTool::getUser_id();
             $data['openid'] = UserTool::getUni_account();
             $data['car_qrcode_path'] = '';
@@ -229,9 +331,11 @@ class UserController extends NeedLoginController
             
             $data['identity_image1'] = $this->uploadImage('identity_image1');
             $data['identity_image0'] = $this->uploadImage('identity_image0');
-            $data['driving_license_image'] = $this->uploadImage('driving_license_image');
+            $data['driving_license_image0'] = $this->uploadImage('driving_license_image0');
+            $data['driving_license_image1'] = $this->uploadImage('driving_license_image1');
             
             
+          
             if ($is_add && !$is_update){
 //                 unset($data['id']);
                 $data['id'] = 0;
@@ -243,6 +347,18 @@ class UserController extends NeedLoginController
                     \exception( '图片上传验证失败：'.var_export($res,true) ,ConfigTool::$ERRCODE__COMMON);
                 }
             }else if (!$is_add && $is_update){
+                if (!$data['identity_image0']){
+                    unset($data['identity_image0']);
+                }
+                if (!$data['identity_image1']){
+                    unset($data['identity_image1']);
+                }
+                if (!$data['driving_license_image0']){
+                    unset($data['driving_license_image0']);
+                }
+                if (!$data['driving_license_image1']){
+                    unset($data['driving_license_image1']);
+                }
                 
                 $hasBind = WayUserBindCar::getOne(UserTool::getUser_id());
        
@@ -264,10 +380,16 @@ class UserController extends NeedLoginController
                 $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
                 $json['html'] = '绑定车辆成功';
                 $json['view_url'] = url('way/user/read',['id'=>$res->id]);
+              
+                $json['data'] = $res;
+                $json['data']->dis_create_time = date('Y-m-d' , $res->getData('create_time'));
+                
+                //删除验证码session
+                $this->deleteYzmSession();
             }
         } catch (\Exception $e) {
             $json['errcode'] = ConfigTool::$ERRCODE__EXCEPTION;
-            $json['debug']['e'] = $e;
+            $json['debug']['e'] = $e->getMessage();
             $json['html'] = '系统错误';
             if (ConfigTool::IS_LOG_TMP){
                 $log_content = print_r($json,true) ;
@@ -287,6 +409,7 @@ class UserController extends NeedLoginController
         return json($json);
         
     }
+    
     
     
     public function getCarTypeJsonAction(){

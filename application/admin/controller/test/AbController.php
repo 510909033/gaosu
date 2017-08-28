@@ -32,7 +32,7 @@ class AbController extends Controller
     
     public function noAction(){
         return '';
-    
+        
     }
     
     public function bAction(){
