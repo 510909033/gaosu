@@ -603,7 +603,7 @@ function send_yzm(){
 	var data = {};
 	data.phone = $("[name='phone']").val();
 	$.post('{:url('way/user/send')}'  ,data ,function(data){
-		alert(data)
+	
 		if(0 == data.errcode){
 			show(data.html);
 		}else{
