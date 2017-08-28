@@ -50,6 +50,7 @@ class FeedBackController extends PublicController
 			array('id','required'),
 			array('id', 'int'),
 		));	
+		
 		if (true !== $verify)
 			AjaxTool::outputError($verify['msg']);
 
