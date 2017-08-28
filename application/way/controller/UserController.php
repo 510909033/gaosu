@@ -285,6 +285,7 @@ class UserController extends \app\common\controller\NeedLoginController
         //return response('',500);
         
         $json =[];
+        $syserrmsg='';
         try {
             usleep(2000);
             
@@ -312,10 +313,10 @@ class UserController extends \app\common\controller\NeedLoginController
             if (ConfigTool::$WAY_USER_BIND_CAR__CHECK_YZM){
                 $session_yzm = session($this->yzm_key);
                 if (!$session_yzm){
-                    exception('验证码超时，请重新获取验证码');
+                    exception($syserrmsg='验证码超时，请重新获取验证码');
                 }
                 if ($data['yzm'] != $session_yzm){
-                    exception('验证码错误');
+                    exception($syserrmsg='验证码错误');
                 }
             }
             
@@ -390,7 +391,7 @@ class UserController extends \app\common\controller\NeedLoginController
         } catch (\Exception $e) {
             $json['errcode'] = ConfigTool::$ERRCODE__EXCEPTION;
             $json['debug']['e'] = $e->getMessage();
-            $json['html'] = '系统错误';
+            $json['html'] = $syserrmsg?$syserrmsg:'系统错误';
             if (ConfigTool::IS_LOG_TMP){
                 $log_content = print_r($json,true) ;
                 SysLogTmp::log('绑定车辆出现异常,json变量内容', $log_content , 0 ,__METHOD__);
