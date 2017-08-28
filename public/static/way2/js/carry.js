@@ -16,9 +16,5 @@ function get_wh(){
     var bodyW = $(document.body).width();
     var fontSize = bodyW/10;
     $("html").css("font-size",fontSize);
-    $(window).resize(function(){
-        setTimeout(function(){
-            get_wh()
-        }, 0);
-    });
+
 }
