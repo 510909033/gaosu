@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> <!-- 优先使用 IE 最新版本和 Chrome -->
+    <meta name="renderer" content="webkit"> <!-- 360浏览器切换极速模式 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp" /> <!-- 禁止百度手机转码 -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>问题反馈</title>
+    <base href="__STATIC__/" />
+    <link href="__CSS__/style_s.css" type="text/css" rel="stylesheet" />
+    <link href="__CSS__/reset.css" type="text/css" rel="stylesheet" />
+    <link href="__CSS__/pagination.css" type="text/css" rel="stylesheet" />
+    <link href="__CSS__/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <script src="__JS__/jquery-1.10.1.min.js" type="text/javascript"></script>
+    <script src="__JS__/jquery.pagination.js"></script>
+    <script src="__JS__/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="baiping"></div>
+<div class="all_back">
+<div class="header clearfix">
+    <img src="images/header_logo1_03.png" class="h_m1">
+    <img src="images/header_bt_03.png" class="h_m2">
+    <div class="denglu">
+        <span><a href="#" class="d_a1">重新登录</a>|<a href="#" class="d_a2">注销登录</a></span>
+    </div>
+</div>
+<div class="welcome clearfix">
+    <p class="welcome_p1">欢迎您，XXX</p>
+    <p class="welcome_p2">今天是<span id="shijian">2017年08月01日 星期二</span></p>
+</div>
+<div class="main clearfix">
+<div class="left_main">
+    <div class="hide_bt"></div>
+    <ul class="u1">
+        <li class="l1"><p><span>用户管理</span></p>
+            <ul class="u2">
+                <li class="l2">用户管理</li>
+                <li class="l2">用户管理</li>
+                <li class="l2">用户管理</li>
+                <li class="l2">用户管理</li>
+            </ul></li>
+        <li class="l1"><p><span>缴费管理</span></p></li>
+        <li class="l1"><p><span>用户管理</span></p></li>
+        <li class="l1"><p><span>用户管理</span></p></li>
+        <li class="l1"><p><span>用户管理</span></p></li>
+    </ul>
+</div>
+<div class="right_main">
+    <p class="jfgl">用户管理</p>
+    <div class="sousuo">
+<!--         <div class="sousuo_n">
+            <select class="form-control input-sm xiala">
+                <option value ="volvo">Volvo</option>
+                <option value ="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select>
+            <input class="form-control input-sm shuru" type="text" placeholder=".input-sm">
+            <button type="button" class="btn btn-primary btn1">搜索</button>
+
+        </div> -->
+        <button type="button" class="btn btn-info bt2">添加</button>
+    </div>
+    <!--列表开始-->
+    <div class="table-responsive ws_ding">
+        <div class="tanchukuang pading10">
+            <p class="pl0">问题反馈</p>
+            <div class="ws_ip clearfix">
+                <p class="lxdh">联系电话：</p>
+                <input type="text" class="form-control" id="tel" aria-describedby="helpBlock2">
+            </div>
+            <div class="ws_ip clearfix">
+                <p class="lxdh">问题描述：</p>
+                <textarea  id="msg" class="form-control wenben" rows="5"></textarea>
+            </div>
+            <div class="anniu clearfix">
+                <button type="button" onclick="addfeedback()" class="btn btn-success bt3">确定</button>
+                <button type="button" class="btn btn-danger bt4"  >关闭</button>
+            </div>
+        </div>
+        <table class="table table-hover table-striped zidingyi yhgl">
+            <thead>
+            <tr>
+                <td>反馈编号</td>
+                <td>反馈时间</td>
+                <td>反馈内容</td>
+                <td>联系方式</td>
+                <td>反馈状态</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($data as $item) {?>
+                <tr>
+                    <td><?php if(isset($item['id'])&&!empty($item['id'])) echo $item['id']; ?></td>
+                    <td><?php if(isset($item['add_time'])&&!empty($item['add_time'])) echo $item['add_time']; ?></td>
+                    <td><?php if(isset($item['msg'])&&!empty($item['id'])) echo $item['msg']; ?></td>
+                    <td><?php if(isset($item['tel'])&&!empty($item['id'])) echo $item['tel']; ?></td>
+                    <td><?php if(isset($item['status'])&&$item['status']==0) echo '待解决'; else echo "已解决"; ?></td>
+                    <td>
+                        <?php if ($item['status']==0) { ?>
+                            <button type="button" class="btn btn-warning xx"  onclick="upstate(<?php echo $item['id'];?>)" >未处理</button>
+                        <?php } ?>
+                    </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+
+    </div>
+    <!--列表结束-->
+    <!--翻页开始-->
+    <div class="fanye_all">
+        <div class="fanye clearfix">
+            <div class="M-box3" style="float: right">
+                <?php if (isset($page)&&!empty($page)) echo $page; ?>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="__JS__/bootbox.min.js" ></script>
+
+
+
+
+
+<script>
+    //左右高度相等
+    var lmain = $(".left_main").height();
+    var rmain = $(".right_main").height();
+    if(lmain>rmain){
+        $(".right_main").css("height",lmain)
+    }else{
+        $(".left_main").css("height",rmain)
+    }
+
+    $(".baiping").height($(window).height());
+    //左侧下拉
+
+    $(".l1 p").click(function(){
+        var zhuangtai = $(this).parent().find('.u2').css("display");
+
+        if(zhuangtai=="block"){
+            $(this).parent().find('.u2').hide()
+        }else{
+            $(this).parent().find('.u2').show()
+        }
+    });
+
+    $(".l1 p").hover(function(){
+        $(this).css("color","#d41b99");
+    },function(){
+        $(this).css("color","");
+    });
+    $(".l2").hover(function(){
+        $(this).css("color","#d41b99");
+    },function(){
+        $(this).css("color","");
+    });
+
+
+    $(".bt2").click(function(){
+       $(".tanchukuang").fadeIn();
+        $(".baiping").fadeIn();
+    });
+
+
+    $(".bt4").click(function(){
+        $(".wenben").val("");
+        $(".form-control").val("");
+        $(".tanchukuang").fadeOut();
+        $(".baiping").fadeOut();
+    });
+
+
+
+
+    $(".hide_bt").click(function(){
+        var width =  $(".left_main").css("width");
+
+        if(width=='0px'){
+            $(".left_main").animate({width:"20%"},250);
+            $(".right_main").animate({width:"79%"},250);
+            $(".u1").show();
+        }else{
+            $(".left_main").animate({width:"0px"},250);
+            $(".right_main").animate({width:"100%"},250);
+            $(".u1").hide();
+        }
+    });
+
+
+    (function(){
+        var date = new Date(+new Date()+8*3600*1000).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'')
+
+//        alert(date);
+        $("#shijian").text(date);
+
+
+
+    })();
+
+    function addfeedback(){
+
+        var tel = $('#tel').val();
+        var msg = $('#msg').val();
+        if (!$.trim(tel)){
+                    bootbox.alert({
+                        size: "small",
+                        title: "错误",
+                        message: "电话号不能为空",
+                        callback: function(){
+                        }
+                    });
+            return false;
+        }
+        if (!$.trim(msg)){
+                    bootbox.alert({
+                        size: "small",
+                        title: "错误",
+                        message: "反馈问题不能为空",
+                        callback: function(){
+                        }
+                    });
+            return false;
+        }
+
+
+        $.ajax({
+            type: "POST",
+            url: "{:url('admin/FeedBack/add')}",
+            data: {tel:tel, msg:msg},
+            dataType: "json",
+            success: function(data){
+                if (data.state==0){
+                    bootbox.alert({
+                        size: "small",
+                        title: "通知",
+                        message: "添加成功",
+                        callback: function(){
+                            clear();
+                            location.reload();
+                        }
+                    });
+                }else{
+                    bootbox.alert({
+                        size: "small",
+                        title: "错误",
+                        message: data.msg,
+                        callback: function(){
+                        }
+                    });
+                }
+            }
+        });
+    }
+    function clear(){
+        $(".wenben").val("");
+        $(".form-control").val("");
+        $(".tanchukuang").fadeOut();
+        $(".baiping").fadeOut();
+    }
+    function upstate(id){
+        $.ajax({
+            type: "POST",
+            url: "{:url('admin/FeedBack/updateState')}",
+            data: {id:id},
+            dataType: "json",
+            success: function(data){
+                if (data.state==0){
+                    bootbox.alert({
+                        size: "small",
+                        title: "通知",
+                        message: "变更成功",
+                        callback: function(){
+                            clear();
+                            location.reload();
+                        }
+                    });
+                }
+                else{
+                    bootbox.alert({
+                        size: "small",
+                        title: "错误",
+                        message: data.msg,
+                        callback: function(){
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
+
+</script>
+</body>
+</html>
