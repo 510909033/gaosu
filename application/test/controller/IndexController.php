@@ -25,6 +25,7 @@ class IndexController extends Controller
             $this->responseMsgAction();
         } catch (\Exception $e) {
             SysLogTmp::log('微信api异常', $e->getMessage(), 0, __FILE__.',line='.__LINE__);
+            
         }
         
     }
