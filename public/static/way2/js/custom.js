@@ -72,6 +72,11 @@ function dianji(e){
         top: 'auto', // Top position relative to parent in px
         left: 'auto' // Left position relative to parent in px
     };
+	$('html').css('overflow','hidden');
+	$('body').css('overflow','hidden');
+	$('html').css('height','100%');
+	$('body').css('height','100%');
+
     var target = document.createElement("div");
     document.body.appendChild(target);
     var spinner = new Spinner(opts).spin(target);
