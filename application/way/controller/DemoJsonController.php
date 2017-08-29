@@ -39,6 +39,7 @@ class DemoJsonController
     public function sqliteAction(){
         //绑定信息数据
         $data = model('WayUserBindCar')->getAll();
+        var_dump($data);die();
 
 
 
