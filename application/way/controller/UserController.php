@@ -56,7 +56,7 @@ class UserController extends \app\common\controller\NeedLoginController
     
     public function createAction(){
         if (WayUserBindCar::getOne(UserTool::getUser_id())){
-            exception('您已绑定了车辆');
+            exception('您已绑定了车辆',ConfigTool::$ERRCODE__COMMON);
         }
         
         View::share('form_url' , url('way/user/save'));
@@ -69,7 +69,7 @@ class UserController extends \app\common\controller\NeedLoginController
     public function readAction($id){
 
         if (!WayUserBindCar::getOne(UserTool::getUser_id())){
-            exception('您尚未绑定车辆');
+            exception('您尚未绑定车辆',ConfigTool::$ERRCODE__COMMON);
         }
         
      
@@ -129,9 +129,9 @@ class UserController extends \app\common\controller\NeedLoginController
      
         if ($form){
             $image->identity_image0 = $form->identity_image0?$form->identity_image0:'/way2/images/shenfenz_03.jpg';
-            $image->identity_image1 = $form->identity_image1?$form->identity_image1:'/way2/images/shenfenz_03.jpg';
-            $image->driving_license_image0 = $form->driving_license_image0?$form->driving_license_image0:'/way2/images/shenfenz_03.jpg';
-            $image->driving_license_image1 = $form->driving_license_image1?$form->driving_license_image1:'/way2/images/shenfenz_03.jpg';
+            $image->identity_image1 = $form->identity_image1?$form->identity_image1:'/way2/images/aaaaa1.jpg';
+            $image->driving_license_image0 = $form->driving_license_image0?$form->driving_license_image0:'/way2/images/aaaaa2.jpg';
+            $image->driving_license_image1 = $form->driving_license_image1?$form->driving_license_image1:'/way2/images/aaaaa3.jpg';
             
             
             $form->reg_time = date('Y-m-d' ,$form->getData('reg_time'));
@@ -141,9 +141,9 @@ class UserController extends \app\common\controller\NeedLoginController
         }else{
             $vars['form'] = '[]';
             $image->identity_image0 = '/way2/images/shenfenz_03.jpg';
-            $image->identity_image1 ='/way2/images/shenfenz_03.jpg';
-            $image->driving_license_image0 = '/way2/images/shenfenz_03.jpg';
-            $image->driving_license_image1 = '/way2/images/shenfenz_03.jpg';
+            $image->identity_image1 ='/way2/images/aaaaa1.jpg';
+            $image->driving_license_image0 = '/way2/images/aaaaa2.jpg';
+            $image->driving_license_image1 = '/way2/images/aaaaa3.jpg';
             
             $vars['form_array'] = (array)$image;
             $vars['reg_time'] = date('Y-m-d' ,time());
@@ -169,7 +169,7 @@ class UserController extends \app\common\controller\NeedLoginController
             $cache_key = 'cache_'.date('ymdH').UserTool::getUser_id();
             $value = (int)cache($cache_key);
             if ($value >= $max_hours){
-                exception('发送验证码数量达到了规则上限');
+                exception('发送验证码数量达到了规则上限',ConfigTool::$ERRCODE__COMMON);
             }
             
             cache($cache_key , $value+1);
@@ -313,10 +313,10 @@ class UserController extends \app\common\controller\NeedLoginController
             if (ConfigTool::$WAY_USER_BIND_CAR__CHECK_YZM){
                 $session_yzm = session($this->yzm_key);
                 if (!$session_yzm){
-                    exception($syserrmsg='验证码超时，请重新获取验证码');
+                    exception($syserrmsg='验证码超时，请重新获取验证码',ConfigTool::$ERRCODE__COMMON);
                 }
                 if ($data['yzm'] != $session_yzm){
-                    exception($syserrmsg='验证码错误');
+                    exception($syserrmsg='验证码错误',ConfigTool::$ERRCODE__COMMON);
                 }
             }
             
@@ -345,7 +345,8 @@ class UserController extends \app\common\controller\NeedLoginController
                 if (true === $res_validate){
                     $res = $wayUserBindCar->addOne($data);
                 }else{
-                    \exception( '图片上传验证失败：'.var_export($res,true) ,ConfigTool::$ERRCODE__COMMON);
+                    \exception( $syserrmsg=$res_validate ,ConfigTool::$ERRCODE__COMMON);
+//                     \exception( '图片上传验证失败：'.var_export($res,true) ,ConfigTool::$ERRCODE__COMMON);
                 }
             }else if (!$is_add && $is_update){
                 if (!$data['identity_image0']){
@@ -391,7 +392,14 @@ class UserController extends \app\common\controller\NeedLoginController
         } catch (\Exception $e) {
             $json['errcode'] = ConfigTool::$ERRCODE__EXCEPTION;
             $json['debug']['e'] = $e->getMessage();
+            
+            if (!$syserrmsg && $e->getCode() == ConfigTool::$ERRCODE__COMMON){
+                $syserrmsg = $e->getMessage();
+            }
+            
             $json['html'] = $syserrmsg?$syserrmsg:'系统错误';
+            
+            
             if (ConfigTool::IS_LOG_TMP){
                 $log_content = print_r($json,true) ;
                 SysLogTmp::log('绑定车辆出现异常,json变量内容', $log_content , 0 ,__METHOD__);
@@ -406,6 +414,8 @@ class UserController extends \app\common\controller\NeedLoginController
                 'file'=>$this->request->file(),
             ),true) , 0 ,__METHOD__);
         }
+        
+        $json['debug']['post数据'] = $data;
         
         return json($json);
         

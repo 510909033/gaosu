@@ -13,9 +13,6 @@ use app\way\controller\func\UserBindCarFuncController;
 class WayUserBindCar extends Model
 {
 
-    
-
-    
     public function __construct($data=[]){
         $this->readonly = ConfigTool::$TABLE_WAY_USER_BIND_CAR__READONLY;
         parent::__construct($data);

@@ -172,7 +172,7 @@ function yincang(){
 						></option>
 			</select></li>
 			<li class="bd_li">品牌<input
-				name="car_number"
+				name="brand"
 				type="text"
 				class="ws_yh"
 				placeholder="请输入品牌"
@@ -312,6 +312,8 @@ function yincang(){
 		id="rsa_public_key"
 		style="display: none;"
 	>{$rsa_public_key}</div>
+	<div class="ios-overlay-show"></div>
+    <div class="m111"></div>
 </form>
 </body>
 
@@ -361,17 +363,6 @@ function yincang(){
 		return url;
 	}
 
-	//提示信息
-	$("#zhuce").click(function() {
-		var name = $("#username").val();
-		if (name == "") {
-			mui.alert('用户名不能为空', '提示', function() {
-				//回调函数。需要时候用
-			});
-		} else {
-			//win();
-		}
-	});
 
 	//显示成功界面
 	function win() {
@@ -383,7 +374,8 @@ function yincang(){
 		$.init();
 		var result = $('#result')[0];
 		var btns = $('.btn');
-
+		jQuery("[name='reg_time']").val("{$reg_time}");
+	
 		btns.each(function(i, btn) {
 			btn.addEventListener('tap', function() {
 				var optionsJson = this.getAttribute('data-options') || '{}';
@@ -483,13 +475,17 @@ function show(html){
 	});
 }
 $(function() {
-	
+	yincang();
+
 	//$("input[name='reg_time']").datetimePicker({title:"车辆注册时间",m:1});  //年月日
 	hide_btn();
 	
 	$("li input,.li_input_hidden").each(function(){
 		if(typeof form_data[$(this).attr('name')] != 'undefined' && $(this).attr('type') != 'file' ){
 			$(this).val( form_data[$(this).attr('name')] );
+			if( 'car_number' == $(this).attr('name')){
+				$(this).attr("readonly","readonly");
+			}
 		}
 	})
 	
