@@ -37,14 +37,18 @@ class DemoJsonController
     }
     
     public function sqliteAction(){
-       
+        //绑定信息数据
+        $data = model('WayUserBindCar')->getAll();
+
+
+
         $config = [
     // 数据库类型
     'type'           => 'sqlite',
     // 服务器地址
     'hostname'       => '127.0.0.1',
     // 数据库名
-    'database'       => 'c:/sqlite/a.db',
+    'database'       => '/a.db',
     // 用户名
     'username'       => 'root',
     // 密码
@@ -89,7 +93,7 @@ class DemoJsonController
       SALARY         REAL);
 EOF;
         set_time_limit(1200);
-//         $list = $db->execute($sql);
+         $list = $db->execute($sql);
         for ($i=5000;$i<15000;$i++){
             $data = [
                 'ID'=>$i,
