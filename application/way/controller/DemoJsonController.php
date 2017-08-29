@@ -3,8 +3,9 @@
 namespace app\way\controller;
 
 use think\Controller;
-use app\common\model\WayUserBindCar;
+//use app\common\model\WayUserBindCar;
 use think\db\Query;
+use app\way\model\WayUserBindCar;
 
 class DemoJsonController
 {
