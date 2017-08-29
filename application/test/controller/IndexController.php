@@ -28,6 +28,7 @@ class IndexController extends Controller
         }
         
     }
+   
 
     /*
      * // 接收事件推送并回复
