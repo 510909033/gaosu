@@ -236,7 +236,7 @@ class UserController extends \app\common\controller\NeedLoginController
             return '';
         }
         $path = dirname($_SERVER['SCRIPT_FILENAME']).DS.'static'.DS.'upload_way'.DS;
-        $rule = ['size'=>2024000,'ext'=>'jpg,png,gif'];
+        $rule = ConfigTool::$UPLOAD_VALIDATE_IDENTITY_IMAGE_CONFIG;
         $info  = $file->validate($rule)->move($path);
         
         

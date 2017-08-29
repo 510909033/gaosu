@@ -600,7 +600,7 @@ function send_yzm(){
 	$.post('{:url('way/user/send')}'  ,data ,function(data){
 	
 		if(0 == data.errcode){
-			show(data.html);
+			//show(data.html);
 		}else{
 			countdown=0;
 			show(data.html);
