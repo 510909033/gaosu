@@ -80,7 +80,6 @@ function dianji(e){
 //        duration: 2e3,
         spinner: spinner
     });
-    $("body,html").css({"overflow":"hidden"});
     return false;
 }
 
