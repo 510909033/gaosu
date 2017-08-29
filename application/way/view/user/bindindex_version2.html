@@ -530,7 +530,7 @@ $(function() {
 		formData.append("_method" , '{$form_method}' );
 
 		$.ajax({
-			url:"{$form_url}",
+			url:"/way/user/bind",
 			//data:$("#form_id").serialize()+'&_ajax=1&_method={$form_method}',
 			data:formData,
 			dataType:"json",
