@@ -84,14 +84,7 @@ function yincang(){
     </style>
 </head>
 <body>
-	<form
-		class="kscx_top"
-		id="form_id"
-		method="post"
-		action="bind"
-		ng-app="myApp"
-		ng-controller="myCtrl"
-	>
+	<form class="kscx_top" id="form_id" method="post" ng-app="myApp" ng-controller="myCtrl">
 	<div class="yhbd">
 		<p class="gexx">个人信息</p>
 		<ul class="bd_ul">
@@ -288,12 +281,7 @@ function yincang(){
 					name="id"
 					value="0"
 				/>
-					<button
-						id="zhuce"
-						class="submit ws_qq"
-						type="submit"
-						disabled="true"
-					>提交</button>
+					<button id="zhuce" class="submit ws_qq" type="submit" disabled="true" >提交</button>
 				</div>
 			</div>
 		</div>
@@ -530,11 +518,10 @@ $(function() {
 		formData.append("_method" , '{$form_method}' );
 
 		$.ajax({
-			url:"/way/user/bind",
-			//data:$("#form_id").serialize()+'&_ajax=1&_method={$form_method}',
+			url:"{$form_url}",
 			data:formData,
 			dataType:"json",
-			"type":"post",
+			type:"POST",
 			processData : false, 
 			contentType : false,
 			beforeSend:function(){
