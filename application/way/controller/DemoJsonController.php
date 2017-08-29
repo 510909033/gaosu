@@ -3,9 +3,8 @@
 namespace app\way\controller;
 
 use think\Controller;
-//use app\common\model\WayUserBindCar;
+use app\order\model\WayUserBindCar;
 use think\db\Query;
-use app\way\model\WayUserBindCar;
 
 class DemoJsonController
 {
@@ -39,8 +38,7 @@ class DemoJsonController
     
     public function sqliteAction(){
         //绑定信息数据
-        $data = model('WayUserBindCar')->getAll();
-        var_dump($data);die();
+        $cars = model('WayUserBindCar')->getAll();
 
 
 
@@ -88,25 +86,26 @@ class DemoJsonController
         $db = \db('test_insert');
         $sql =<<<EOF
       CREATE TABLE COMPANY
-      (ID INT PRIMARY KEY     NOT NULL,
-      NAME           TEXT    NOT NULL,
-      AGE            INT     NOT NULL,
-      ADDRESS        CHAR(50),
-      SALARY         REAL);
+      (ID INT PRIMARY KEY   NOT NULL,
+      CAR_NUMBER   TEXT     NOT NULL,
+      VERSION      TEXT     NOT NULL,
+      STATUS       TEXT     NOT NULL,
+      VERIFY       TEXT     NOT NULL,
+      );
 EOF;
-        set_time_limit(1200);
-         $list = $db->execute($sql);
-        for ($i=5000;$i<15000;$i++){
-            $data = [
-                'ID'=>$i,
-                'NAME'=>'ASDF',
-                'AGE'=>12,
-                'ADDRESS'=>'SDFSDF',
-                'SALARY'=>22.22
-                
+        set_time_limit(0);
+        $list = $db->execute($sql);
+
+        foreach($cars as $car){
+            $data[] =[
+            'ID'=>$car['id'],
+            'CAR_NUMBER'    =>$car['car_number'],
+            'VERSION'       =>$car['qrcode_version'],
+            'STATUS'        =>$car['status'],
+            'VERIFY'        =>$car['verify'],
             ];
-            $db->insert($data)  ;
         }
+            $db->insert($data)  ;
         
        
 
