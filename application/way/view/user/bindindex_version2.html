@@ -67,6 +67,8 @@
 function yincang(){
     $(".m111").hide();
     $(".ios-overlay-show").hide();
+   	document.body.removeEventListener('touchmove',handler,false);
+    document.body.removeEventListener('wheel',handler,false);
 }
 </script>
 
@@ -442,6 +444,12 @@ app.controller('myCtrl', function($scope,$http) {
 var encrypt = new JSEncrypt();
 var public_key=$("#rsa_public_key").html();
 
+var handler = function () {
+    event.preventDefault();
+    event.stopPropagation();
+};
+
+
 encrypt.setPublicKey(public_key);
 //var data = encrypt.encrypt("123456789");
 
@@ -457,7 +465,8 @@ function hide_btn(){
 	
 }
 function show_loading(){
-	window.addEventListener('touchmove', move, false);
+    document.body.addEventListener('touchmove',handler,false);
+    document.body.addEventListener('wheel',handler,false);
 	dianji();
 }
 function hide(){
