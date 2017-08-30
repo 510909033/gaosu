@@ -48,7 +48,7 @@ class DemoJsonController
     // 服务器地址
     'hostname'       => '127.0.0.1',
     // 数据库名
-    'database'       => '/a.db',
+    'database'       => 'c:/sqlite/a.db',
     // 用户名
     'username'       => 'root',
     // 密码
@@ -82,30 +82,36 @@ class DemoJsonController
     // 是否需要进行SQL性能分析
     'sql_explain'    => false,
 ];
-        $db = \db('company' , $config );
-        $db = \db('test_insert');
+        $db = \db('company1' , $config );
+        //$db = \db('test_insert');
         $sql =<<<EOF
-      CREATE TABLE COMPANY
+      CREATE TABLE COMPANY1
       (ID INT PRIMARY KEY   NOT NULL,
       CAR_NUMBER   TEXT     NOT NULL,
       VERSION      TEXT     NOT NULL,
       STATUS       TEXT     NOT NULL,
-      VERIFY       TEXT     NOT NULL,
+      VERIFY       TEXT     NOT NULL
       );
 EOF;
         set_time_limit(0);
-        $list = $db->execute($sql);
+//        $list = $db->execute($sql);
+
+  //      $sql = 'show tables';
+
+        //$res = $db->getTableInfo('COMPANY1');
+        //var_dump($res);die();
 
         foreach($cars as $car){
-            $data[] =[
+            $data = [];
+            $data =[
             'ID'=>$car['id'],
             'CAR_NUMBER'    =>$car['car_number'],
             'VERSION'       =>$car['qrcode_version'],
             'STATUS'        =>$car['status'],
             'VERIFY'        =>$car['verify'],
             ];
-        }
             $db->insert($data)  ;
+        }
         
        
 
