@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title></title>
+    <link href="__STATIC__/way2/css/gs.css" type="text/css" rel="stylesheet" />
+    <link href="__STATIC__/way2/css/reset.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="__STATIC__/way2/css/swiper.min.css">
+    <link rel="stylesheet" href="__STATIC__/way2/css/mui.min.css">
+    <script src="__STATIC__/way2/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+    <script src="__STATIC__/way2/js/swiper.min.js"></script>
+    <script src="__STATIC__/way2/js/mui.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        mui.init();
+    </script>
+</head>
+<body>
+<a href="#popover" id="openPopover" class="mui-btn mui-btn-primary mui-btn-block ws_tc"><img src="__STATIC__/way2/images/tsxr_tm_03.png"></a>
+<div id="popover" class="mui-popover">
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell"><a href="#">Item1</a></li>
+        <li class="mui-table-view-cell"><a href="#">Item2</a></li>
+        <li class="mui-table-view-cell"><a href="#">Item3</a></li>
+        <li class="mui-table-view-cell"><a href="#">Item4</a></li>
+        <li class="mui-table-view-cell"><a href="#">Item5</a></li>
+    </ul>
+</div>
+<div class="ws_header">
+    <div class="toubu">
+    <p class="ws_bt1">高速缴费</p>
+</div>
+</div>
+    <div class="ws_slide">
+        <div class="swiper-container">
+            <div class="swiper-wrapper ws_lunbo">
+                <div class="swiper-slide ws_t1"><img src="__STATIC__/way2/images/gs_lb_t1_02.jpg"></div>
+                <div class="swiper-slide ws_t1"><img src="__STATIC__/way2/images/gs_lb_t1_02.jpg"></div>
+                <div class="swiper-slide ws_t1"><img src="__STATIC__/way2/images/gs_lb_t1_02.jpg"></div>
+                <div class="swiper-slide ws_t1"><img src="__STATIC__/way2/images/gs_lb_t1_02.jpg"></div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Arrows -->
+        </div>
+    </div>
+<div class="gzzt">
+    <ul>
+        <li>
+            <a href="#">
+                <img src="__STATIC__/way2/images/gs_yuan1_09.jpg">
+                <p>用户绑定</p>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="__STATIC__/way2/images/gs_yuan2_11.jpg">
+                <p>审核状态</p>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="__STATIC__/way2/images/gs_yuan3_13.jpg">
+                <p>缴费记录</p>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="tab_qiehuan">
+    <div class="tabs ws_tab"> <a href="#" class="active">本月</a> <a href="#">本季</a> <a href="#">本年</a> </div>
+    <div id="tabs-container" class="swiper-container1 swiper-container-horizontal ws_kuan">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide swiper-slide-active">
+                <div class="content-slide ws_q">
+                    <ul>
+                        <li>
+                            <span>0</span>
+                            <p>省内缴费</p>
+                        </li>
+                        <li>
+                            <span>0</span>
+                            <p>省内缴费</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="swiper-slide swiper-slide-next">
+                <div class="content-slide ws_q">
+                    <ul>
+                        <li>
+                            <span>0</span>
+                            <p>省内缴费</p>
+                        </li>
+                        <li>
+                            <span>0</span>
+                            <p>省内缴费</p>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="content-slide ws_q">
+                    <ul>
+                        <li>
+                            <span>0</span>
+                            <p>省内缴费</p>
+                        </li>
+                        <li>
+                            <span>0</span>
+                            <p>省内缴费</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button id='alertBtn' type="button" class="mui-btn mui-btn-blue mui-btn-outlined">警告消息框</button>
+    <div id="info">
+
+    </div>
+
+</div>
+</body>
+<script type="text/javascript">
+
+
+
+    window.onload = function() {
+        var tabsSwiper = new Swiper('#tabs-container',{
+            speed:500,
+            onSlideChangeStart: function(){
+                $(".tabs .active").removeClass('active');
+                $(".tabs a").eq(tabsSwiper.activeIndex).addClass('active')
+            }
+        });
+        $(".tabs a").on('touchstart mousedown',function(e){
+            e.preventDefault();
+            $(".tabs .active").removeClass('active');
+            $(this).addClass('active');
+            tabsSwiper.slideTo( $(this).index() )
+        })
+        $(".tabs a").click(function(e){
+            e.preventDefault()
+        })
+
+    }
+</script>
+
+<script>
+    mui('.mui-popover').popover('hide');
+    //            mui('.mui-popover').popover('toggle');//show hide toggle
+
+</script>
+<script>
+    jQuery(document).ready(function($){
+        get_wh()
+        $(window).resize(function(){
+            setTimeout(function(){
+                get_wh()
+            }, 0);
+        });
+        function get_wh(){
+            var bodyW = $(document.body).width();
+            var fontSize = bodyW/10;
+            $("html").css("font-size",fontSize);
+        }
+    });
+
+
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 1,
+        paginationClickable: true,
+        spaceBetween: 30,
+        loop: true,
+        autoplay:3000
+    });
+</script>
+</html>

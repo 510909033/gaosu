@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title></title>
+    <base href="__STATIC__/way2/" />
+    
+    <link href="css/gs.css" type="text/css" rel="stylesheet" />
+    <link href="css/reset.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/iosOverlay.css">
+    <link rel="stylesheet" href="css/prettify.css">
+    <link rel="stylesheet" href="css/mui.min.css">
+    <script src="js/jquery-1.10.1.min.js"></script>
+    <script src="js/carry.js"></script>
+    <script src="js/special.js"></script>
+    <script src="js/iosOverlay.js"></script>
+    <script src="js/spin.min.js"></script>
+    <script src="js/prettify.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="__STATIC__/way2/js/mui.min.js"></script>
+<script src="__STATIC__/way2/js/mui.picker.min.js"></script>
+</head>
+<body>
+<div class="yhbd">
+    <p class="nxdh">{$html.title}</p>
+    <p class="gexx">绑定信息</p>
+    <ul class="mui-input-group mui-scroll bd_ul">
+        <li class="bd_li">姓名<span class="ws_yh">{$entity->username}</span></li>
+        <li class="bd_li">手机号<div class="all_xj"><div class="xg_phone witdh_100">{$entity->phone}</div><input type="button" class="tihuan obtain generate_code ws_yzm" value="修改"></div></li>
+        <li class="bd_li yzm_none">验证码
+            <input type="button" class="obtain generate_code ws_yzm" value="获取验证码" onclick="settime(this);">
+            <input type="text" id="yzm" class="ws_yh witdh_100" placeholder="请输入验证码">
+        </li>
+
+
+        <li class="bd_li">身份证号<span class="ws_yh">{$entity->identity_card}</span></li>
+        <li class="bd_li">绑定时间<span class="ws_yh">{$entity->create_time}</span></li>
+    </ul>
+    <div class="kuan1 matop"><button class="xiayibu yzm_none" id="modify_phone_btn">提交</button></div>
+    <p class="gexx top30">车辆信息</p>
+    <ul class="bd_ul">
+        <li class="bd_li">车牌号<span class="ws_yh">{$entity->car_number}</span></li>
+        <li class="bd_li">发动机号<span class="ws_yh">{$entity->engine}</span></li>
+        <li class="bd_li">车辆识别码<span class="ws_yh">{$entity->username}</span></li>
+        <li class="bd_li">车型<span class="ws_yh">{$entity->car_type_id_text}</span></li>
+        <li class="bd_li">品牌<span class="ws_yh">{$entity->brand}</span></li>
+        <li class="bd_li">颜色<span class="ws_yh">{$entity->car_color_text}</span></li>
+    </ul>
+    <div class="pading771">
+
+        <div class="bg_t">
+            <img src="{$entity->sfz0_url}" id="img0" class="sctp">
+        </div>
+
+        <div class="bg_t" >
+            <img src="{$entity->sfz1_url}" id="img1" class="sctp">
+        </div>
+
+        <div class="bg_t" >
+            <img src="{$entity->xsz0_url}" id="img2" class="sctp">
+        </div>
+
+        <div class="bg_t" >
+            <img src="{$entity->xsz1_url}" id="img3" class="sctp">
+        </div>
+
+    </div>
+</div>
+
+<div class="ios-overlay-show"></div>
+<div class="m111"></div>
+
+<script>
+function show(html){
+	mui.alert( html , function() {
+		//回调函数。需要时候用
+	});
+}
+    $(".bg_t").css("background","none");
+
+    $(".tihuan").click(function(){
+        $('.xg_phone').html('<input id="modify_phone" type="text" class="pading0" placeholder="请输入手机号">');
+        $(".yzm_none").show();
+    });
+
+    function wcao(){
+        $(".m111").show();
+    }
+    function yincang(){
+        $(".m111").hide();
+        $(".ios-overlay-show").hide();
+    }
+    
+    countdown=60;
+    var is_send_yzm = false;
+    function settime(val) {
+        if (countdown == 0) {
+            val.removeAttribute("disabled");
+            val.value="获取验证码";
+            countdown = 60;
+            is_send_yzm = false;
+            return false;
+        } else {
+            val.setAttribute("disabled", true);
+            val.value="重新发送(" + countdown + ")";
+            countdown--;
+            !is_send_yzm && send_yzm();
+        }
+        setTimeout(function() {
+            settime(val);
+        },1500);
+    }
+    function send_yzm(){
+    	is_send_yzm = true;
+    	var data = {};
+    	data.phone = $.trim( $("#modify_phone").val() );
+    	$.post('{:url('way/user/send')}'  ,data ,function(data){
+    	
+    		if(0 == data.errcode){
+    			show(data.html);
+    		}else{
+    			countdown=0;
+    			show(data.html);
+    		}
+    	},'json');
+    }
+    
+    var is_click=false;
+    function modify_phone(){
+    	if(is_click){
+    		return ;
+    	}
+    	dianji();
+    	var data = {};
+    	data.yzm = $.trim( $("#yzm").val() );
+    	data.phone = $.trim( $("#modify_phone").val() );
+    	$.post('{:url('way/user/updatePhone')}?id={$entity->id}'  ,data ,function(data){
+        	yincang();
+    		if(0 == data.errcode){
+    			show(data.html);
+    			setTimeout(function(){
+    				location.href=data.url.next_page;
+    			},1000);
+    			
+    		}else{
+    			countdown=0;
+    			show(data.html);
+    		}
+    	},'json');
+    }
+    
+    $("#modify_phone_btn").click(function(){
+    	modify_phone();
+    });
+    
+    //显示
+    $(function(){
+//        dianji();
+        yincang();
+    });
+</script>
+</body>
+
+</html>

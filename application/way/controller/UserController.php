@@ -22,10 +22,17 @@ use youwen\exwechat\ErrorCode;
 use think\File;
 use think\Validate;
 use vendor\SMS\SmsSingleSender;
+use app\way\validate\WayUserBindCarValidate;
 
 class UserController extends \app\common\controller\NeedLoginController
 {
+    /**
+     * 手机验证码session的key
+     * @var string
+     */
     private $yzm_key = 'yzm_user_bind_car';
+    private $yzm_key_timeout = 'yzm_user_bind_car_timeout';
+    private $yzm_timeout = 600;
     
     public function testAction(){
         $vars=[];
@@ -64,6 +71,38 @@ class UserController extends \app\common\controller\NeedLoginController
         
         
         return $this->read(0);
+    }
+    
+    
+    public function detailAction(){
+        $vars = [];
+        $title = '';
+        $user_id = UserTool::getUser_id();
+        $en = WayUserBindCar::getOne($user_id);
+        if (!$en){
+            exception('您尚未绑定车辆',ConfigTool::$ERRCODE__COMMON);
+        }
+        //fmt.Printf(book1.title)
+        //您的信息已提交成功，正在审核中请耐心等候
+        if (0 == $en->status){
+            $title = '绑定车辆已被禁用';
+        }else if (0 == $en->verify){
+            $title = '您的信息已提交成功，尚未审核，请耐心等候';
+        }else if (1 == $en->verify){
+            $title = '您的信息已审核通过';
+        }else if (2 == $en->verify){
+            $title = '您的信息已审核未通过';
+        }else if (3 == $en->verify){
+            $title = '您的信息正在审核中，请耐心等候';
+        }
+        
+        $vars['entity'] = $en;
+        
+        
+        
+
+        $vars['html']['title'] = $title;
+        return \view('detail2',$vars);    
     }
     
     public function readAction($id){
@@ -186,18 +225,20 @@ class UserController extends \app\common\controller\NeedLoginController
             
             $phoneNumber = input('phone');
             
-            $key = 'yzm_user_bind_car';
-            $yzm = session($key);
+            $key = $this->yzm_key;
+            $yzm = \session($key);
+            
+            session($this->yzm_key_timeout , time() + $this->yzm_timeout );
             if (!$yzm){
                 $yzm = rand(100000,999999);
-                session($key,$yzm);
+                \session($key,$yzm);
             }
             
             
             $singleSender = new SmsSingleSender($appid, $appkey);
             
             // 假设模板内容为：测试短信，{1}，{2}，{3}，上学。`
-            $params = array($yzm,600);
+            $params = array($yzm,$this->yzm_timeout);
             $result = $singleSender->sendWithParam("86", $phoneNumber, $templId, $params, "", "", "");
             //{"result":0,"errmsg":"OK","ext":"","sid":"8:8gVBbgkZ25Gqz5rDpac20170828","fee":1}
             $rsp = json_decode($result,true);
@@ -216,9 +257,47 @@ class UserController extends \app\common\controller\NeedLoginController
         
         return \json($json);
     }
+    
+    /**
+     * yzm 
+     * phone
+     * @param unknown $id
+     */
+    public function updatePhoneAction($id){
+        try {
+            
+            
+            $json=[];
+            $yzm = input('yzm');
+            $phone = input('phone');
+            
+            $this->checkYzm($yzm);
+            
+            $model = WayUserBindCar::get($id);
+            $validate = new WayUserBindCarValidate();
+//             $validate->
+            if ($model && $model->user_id == UserTool::getUser_id()){
+                $model->phone = $phone;
+                $model->save();
+            }else{
+                exception('绑定车辆数据不存在');
+            }
+            $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
+            $json['html'] = '修改成功';
+            $json['url']['next_page'] = url('way/user/detail');
+            
+            $this->deleteYzmSession();
+        } catch (\Exception $e) {
+            $json['errcode'] = ConfigTool::$ERRCODE__EXCEPTION;
+            $json['html'] = $e->getMessage();
+        }
+        
+        return \json($json);
+    }
+    
     private function deleteYzmSession(){
-        $key = 'yzm_user_bind_car';
-        session($key,null);
+        session($this->yzm_key,null);
+        session($this->yzm_key_timeout,null);
     }
 
 
@@ -274,6 +353,33 @@ class UserController extends \app\common\controller\NeedLoginController
         return true;
     }
     
+    /**
+     * 
+     * @param unknown $yzm
+     * @return void
+     * @throws \Exception
+     */
+    private function checkYzm($yzm){
+        if (ConfigTool::$WAY_USER_BIND_CAR__CHECK_YZM){
+            
+            $expire = \session($this->yzm_key_timeout);
+            if (is_null($expire)){
+                exception($syserrmsg='请点击发送手机验证码',ConfigTool::$ERRCODE__COMMON);
+            }
+            
+            if ($expire < time()){
+                exception($syserrmsg='验证码超时，请重新获取验证码',ConfigTool::$ERRCODE__COMMON);
+            }
+            
+            $session_yzm = session($this->yzm_key);
+            if (!$session_yzm){
+                exception($syserrmsg='验证码超时，请重新获取验证码',ConfigTool::$ERRCODE__COMMON);
+            }
+            if ( $yzm != $session_yzm){
+                exception($syserrmsg='验证码错误',ConfigTool::$ERRCODE__COMMON);
+            }
+        }
+    }
 
     /**
      * 用户绑定车辆
@@ -310,23 +416,25 @@ class UserController extends \app\common\controller\NeedLoginController
                 $data[$k] = $decrypted;
                 
             }
-            if (ConfigTool::$WAY_USER_BIND_CAR__CHECK_YZM){
-                $session_yzm = session($this->yzm_key);
-                if (!$session_yzm){
-                    exception($syserrmsg='验证码超时，请重新获取验证码',ConfigTool::$ERRCODE__COMMON);
-                }
-                if ($data['yzm'] != $session_yzm){
-                    exception($syserrmsg='验证码错误',ConfigTool::$ERRCODE__COMMON);
-                }
-            }
+//             if (ConfigTool::$WAY_USER_BIND_CAR__CHECK_YZM){
+//                 $session_yzm = session($this->yzm_key);
+//                 if (!$session_yzm){
+//                     exception($syserrmsg='验证码超时，请重新获取验证码',ConfigTool::$ERRCODE__COMMON);
+//                 }
+//                 if ($data['yzm'] != $session_yzm){
+//                     exception($syserrmsg='验证码错误',ConfigTool::$ERRCODE__COMMON);
+//                 }
+//             }
+            
+            $this->checkYzm($data['yzm']);
             
             
           
             $data['user_id'] = UserTool::getUser_id();
             $data['openid'] = UserTool::getUni_account();
             $data['car_qrcode_path'] = '';
-            $data['status'] = 0;
-            $data['verify'] = 0;
+            $data['status'] = 1;
+            $data['verify'] = 3;
             $data['create_time'] = time();
             $data['reg_time'] = strtotime($data['reg_time']);
             
