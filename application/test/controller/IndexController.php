@@ -406,7 +406,7 @@ class IndexController extends Controller
                     'name' => urlencode('用户绑定'),
                     'type' => 'view',
                     'key' => 'item1',
-                    'url' => 'http://gs.jltengfang.com/user'
+                    'url' => 'http://gs.jltengfang.com'
                 ), // 第一个一级菜单
                 array(
                     'name' => urlencode('菜单2'),
