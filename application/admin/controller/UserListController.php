@@ -6,6 +6,10 @@ use think\Request;//引入request
 use think\Paginator;
 use think\Db;
 use app\admin\model\User;//引入模型层
+
+use app\common\tool\Verifier;
+use app\common\tool\AjaxTool;
+
 header("content-type:text/html;charset=UTF-8");//防乱码
 
 class UserListController extends Controller
@@ -100,18 +104,16 @@ class UserListController extends Controller
     }
 
    //删除
-   public function delete()
+   public function deleteAction()
    {
        $Request=Request::instance();
        $id=$Request->get('id');
        $user=new User;
        $result=$user->deleteData($id);
-       if($result)
-       {
-        return Redirect('Index/show');
-       }else{
-        $this->error('删除失败');
-       } 
+       if ($result) 
+          AjaxTool::outputDone($result);
+       else
+          AjaxTool::outputError('失败');
    }
 
    //修改页面
@@ -193,6 +195,29 @@ class UserListController extends Controller
 
       }
 
+    }
+
+//更新状态
+
+    public function updatestateAction(){
+
+        $verify = Verifier::validation($_POST, array(
+          array('name:id' => '数据id','name:status'=>'状态'),
+          array('id','noempty'),
+          array('id,status','required'),
+          array('id,status', 'int'),
+        )); 
+        if (true !== $verify)
+          AjaxTool::outputError($verify['msg']);
+
+        $data['status'] = ($_POST['status']==1) ? 0 : 1; 
+
+        $res = model('User')->updateData($data,$_POST['id']);
+
+        if ($res) 
+          AjaxTool::outputDone($res);
+        else
+          AjaxTool::outputError('失败');
 
     }
   

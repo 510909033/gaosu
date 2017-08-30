@@ -43,6 +43,7 @@ class FeedBackController extends PublicController
 		else
 			AjaxTool::outputError('失败');
     }
+    
     public function updatestateAction(){
         $verify = Verifier::validation($_POST, array(
 			array('name:id' => '数据id'),
