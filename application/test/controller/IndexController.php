@@ -409,7 +409,7 @@ class IndexController extends Controller
                     'name' => urlencode('智慧高速'),
                     'type' => 'view',
                     'key' => 'item1',
-                    'url' => 'http://gs.jltengfang.com/index/'
+                    'url' => 'http://gs.jltengfang.com/index'
                 ), // 第一个一级菜单
                 array(
                     'name' => urlencode('菜单2'),

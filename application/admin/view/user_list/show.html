@@ -45,8 +45,8 @@
                 <li>车型：<span id='car_type_id'></span></li>
                 <li>品牌：<span id='brand'></span></li>
                 <li>颜色：<span id='car_color'></span></li>
-                <li>审核状态：<span id='dis_verify'></span></li>
-                <li>用户状态：<span id='dis_status'></span></li>
+                <li>审核状态：<span id='verify'></span></li>
+                <li>用户状态：<span id='status'></span></li>
             </ul>
 
             <div class="g_kuan clearfix">
@@ -59,21 +59,19 @@
                
         <div class="anniu clearfix">
 
-     
-
-            <button type="button" class="btn btn-success wxx" id="js_verify_0" style="display: none;" >审核通过</button>
-            <button type="button" class="btn btn-warning wxx butongguo"  id="js_verify_1"  >审核未通过</button>
+            <button type="button" class="btn btn-success wxx" id="js_verify_0" style="display: none;" onclick="updateverify(1)">审核通过</button>
+            <button type="button" class="btn btn-warning wxx butongguo"   id="js_verify_1">审核未通过</button>
             <button type="button" class="btn btn-danger bt4 bottom0 guanbi" >关闭</button>
 
         </div>
 
         <div class="btgyy">
-        <form action="{:url('UserList/save')}" method="post">
+       
             <p class="wtg">未通过原因</p>
             <div class="leibie">
                 <p class="lxdh">下拉框</p>
-                <select class="form-control" >
-                    <option value ="1">1</option>
+                <select id="failtype" class="form-control" >
+                    <option value ="1" select="selected">1</option>
                     <option value ="2">2</option>
                     <option value ="3">3</option>
                     <option value ="4">4</option>
@@ -82,12 +80,12 @@
             </div>
             <div class="ws_ip clearfix">
                 <p class="lxdh">问题描述：</p>
-                <textarea class="form-control wenben" rows="5" name="verify_reason" ></textarea>
+                <textarea class="form-control wenben" rows="5" id="failmsg" name="verify_reason" ></textarea>
             </div>
             <input type="hidden" name="id" id="id" value="">
-            <input type="submit" name="" class="btn btn-primary btn1 qd">
+            <input type="button" name="" value='提交' onclick="updateverify(2)" class="btn btn-primary btn1 qd">
             <button type="button" class="btn btn-danger bt4 bottom0 guanbi2"  style="margin-top: 12px">关闭</button>
-        </form>
+        
         </div>
 
     </div>
@@ -117,10 +115,10 @@
                 <td>{$vo.car_number}</td>
                 <td>{$vo.brand}</td>
                 <td>{$vo.create_time}</td>
-                <td>{$vo.dis_verify}</td>
-                <td>{$vo.dis_status}</td>
+                <td>{$vo.verify}</td>
+                <td>{$vo.status}</td>
                 <td>
-                    <button type="button" class="btn btn-success xx" onclick="getDetail({$vo.id})" >详情</button>
+                    <button type="button" class="btn btn-success xx ws_show" onclick="getDetail({$vo.id})" >详情</button>
                     <button type="button" class="btn btn-warning xx"  onclick="upstate({$vo.id},{$vo.status})" ><?php if(isset($vo['status'])&&$vo['status']==0) echo '禁用'; else echo "启用"; ?></button>
                     <button type="button" class="btn btn-danger xx" onclick="del({$vo.id})">删除</button>
                 </td>
@@ -195,12 +193,11 @@ $(".qd").click(function(){
             $('#chassis_number').html(date.chassis_number);//车辆识别码
             $('#car_type_id').html(date.car_type_id);//车型
             $('#car_color').html(date.car_color);//颜色
-            $('#dis_verify').html(date.dis_verify);//审核状态
-            $('#dis_status').html(date.dis_status);//用户状态
+            
 
             $('#verify_reason').html(date.verify_reason);//用户状态
 
-            if(date.verify == 0){
+            if(date.verify == 1||0){
                 $("#js_verify_0").show();
                 $("#js_verify_1").show(); 
             }else{
@@ -249,7 +246,7 @@ $(".qd").click(function(){
     });
 
 
-    $(".xx").click(function(){
+    $(".ws_show").click(function(){
         $(".tanchukuang").fadeIn();
         $(".baiping").fadeIn()
     });
@@ -337,25 +334,44 @@ $(".qd").click(function(){
                             location.reload();
                         }
                     });
-                }
-                else{
+                }else{
                     bootbox.alert({
                         size: "small",
                         title: "错误",
                         message: data.msg,
                         callback: function(){
                         } 
-                }
-            } 
+                    })
+                } 
+            }
         });
     }
 
 //审核状态
-    function upstate(id,verify){
+    function updateverify(verify){
+        var data    = '';
+        var id      = $('#id').val();
+
+        if(verify==2){
+            var type = $('#failtype').val(); 
+            var msg = $('#failmsg').val(); 
+            if (type==0&&msg=="") {
+                bootbox.alert({
+                    size: "small",
+                    title: "提示",
+                    message: "问题描述或者问题类型不能均为空",
+                });
+            }else{
+                data = {id:id,verify:verify,type:type,msg:msg};
+            }
+        }else{
+            data = {id:id,verify:verify};
+        }
+
         $.ajax({
             type: "POST", 
             url: "{:url('admin/UserList/updateVerify')}",
-            data: {id:id,verify:verify},
+            data: data,
 
             dataType: "json",
             success: function(data){
@@ -382,6 +398,8 @@ $(".qd").click(function(){
             }
         });
     }
+
+//删除
 
     function del(id){
         $.getJSON('{:url('admin/UserList/delete')}',{'id':id},function(data){
