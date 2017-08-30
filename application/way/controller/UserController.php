@@ -55,7 +55,8 @@ class UserController extends \app\common\controller\NeedLoginController
         
         
         if ($wayUserBindCar){
-            $this->redirect('way/user/read',['id'=>$wayUserBindCar->id] );
+            $this->redirect('way/user/detail');
+//             $this->redirect('way/user/read',['id'=>$wayUserBindCar->id] );
         }else{
             $this->redirect('way/user/create');
         }
