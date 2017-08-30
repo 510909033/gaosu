@@ -107,7 +107,7 @@ class ConfigTool {
      * 更新车辆时是否判断验证码
      * @var string
      */
-    public static  $WAY_USER_BIND_CAR__CHECK_YZM = false;
+    public static  $WAY_USER_BIND_CAR__CHECK_YZM = true;
     /**
      * 绑定车辆图片mine值
      * @var string
@@ -144,6 +144,16 @@ XlOVhMEoiZxysA==
 -----END PRIVATE KEY-----
 EEE;
     
+    public static function getRootUrl(){
+        static $url=null;
+        if (is_null($url)){
+            $url = \request()->root();
+            if (strpos($url, '.')){
+                $url = dirname($url).'/';
+            }
+        }
+        return $url;
+    }
     
 
 }

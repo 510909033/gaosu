@@ -105,8 +105,8 @@ class WayUserBindCar extends Model
         $where = [
             'user_id'=>$user_id
         ];
-        
-        return WayUserBindCar::where($where)->find();
+        return WayUserBindCar::get($where);
+//         return WayUserBindCar::where($where)->find();
     }
     
     /**
@@ -123,6 +123,46 @@ class WayUserBindCar extends Model
         }
         return false;
     }
+    
+    public function getDisVerifyAttr($value,$data){
+        switch ($data['verify']){
+            case 0:
+                return '未审核';
+            case 1:
+                return '已审核';
+            case 2:
+                return '审核失败';
+            case 3:
+                return '审核中';
+            default:
+                return '状态异常';
+        }
+    }
+    
+ 
+    public function getCarColorTextAttr($value,$data){
+        $model = SysConfig::get($data['car_color']);
+        return $model?$model->value:'';
+    }
+    
+    public function getCarTypeIdTextAttr($value,$data){
+        $model = SysConfig::get($data['car_type_id']);
+        return $model?$model->value:'';
+    }
+    public function getSfz0UrlAttr($value,$data){
+        return ConfigTool::getRootUrl().'static/'.str_replace('\\', '/', $data['identity_image0']);
+    }
+    public function getSfz1UrlAttr($value,$data){
+        return ConfigTool::getRootUrl().'static/'.str_replace('\\', '/', $data['identity_image1']);
+    }
+    public function getXsz0UrlAttr($value,$data){
+        return ConfigTool::getRootUrl().'static/'.str_replace('\\', '/', $data['driving_license_image0']);
+    }
+    public function getXsz1UrlAttr($value,$data){
+        return ConfigTool::getRootUrl().'static/'.str_replace('\\', '/', $data['driving_license_image1']);
+    }
+
+    
     
 
     
