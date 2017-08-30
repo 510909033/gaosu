@@ -2,7 +2,6 @@
  * Created by Administrator on 17-8-25.
  */
 
-
 $(function(){
     //屏幕高度
     $(".baiping").height($(window).height());
