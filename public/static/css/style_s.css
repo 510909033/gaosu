@@ -233,7 +233,7 @@ body{
 .zidingyi th:nth-child(7){
     width: 7%;
 }
-.zidingyi th:nth-child(81){
+.zidingyi th:nth-child(8){
     width: 14%;
 }
 .xx{
@@ -371,34 +371,25 @@ position: absolute;
 /*-----------------用户管理-------------*/
 
 .yhgl td:nth-child(1){
-    width: 5%;
-}
-.yhgl td:nth-child(2){
-    width: 10%;
-}
-.yhgl td:nth-child(3){
     width: 12%;
 }
+.yhgl td:nth-child(2){
+    width: 12%;
+}
+.yhgl td:nth-child(3){
+    width: 18%;
+}
 .yhgl td:nth-child(4){
-    width: 10%;
+    width: 14%;
 }
 .yhgl td:nth-child(5){
-    width: 8%;
+    width: 14%;
 }
 .yhgl td:nth-child(6){
-    width: 8%;
+    width: 14%;
 }
 .yhgl td:nth-child(7){
-    width: 15%;
-}
-.yhgl td:nth-child(8){
-    width: 8%;
-}
-.yhgl td:nth-child(9){
-    width: 8%;
-}
-.yhgl td:nth-child(10){
-    width: 16%;
+    width: 20%;
 }
 
 
@@ -438,7 +429,7 @@ position: absolute;
     background: #ffffff;
     border-radius: 15px;
     top: 50%;
-    margin-top: -70px;
+    margin-top: -150px;
     margin-left: -25%;
     left: 50%;
     border: 1px solid #90a4b2;
@@ -492,6 +483,7 @@ position: absolute;
 }
 .width{
     width: 60% !important;
+    text-align: left !important;
 }
 .width1{
     width: 20% !important;
@@ -561,6 +553,7 @@ position: absolute;
 .tctb tr{
     background: #000000 !important;
 }
+
 .tctb td:nth-child(1){
     width: 7%;
 }
@@ -725,4 +718,51 @@ position: absolute;
     height: 40px;
     font-size: 22px;
     margin-top: 40px;
+}
+
+.tianjia td:nth-child(1){
+    width: 10%;
+}
+.tianjia td:nth-child(2){
+    width: 25%;
+}
+.tianjia td:nth-child(3){
+    width: 20%;
+}
+.tianjia td:nth-child(4){
+    width: 30%;
+}
+.tianjia td:nth-child(5){
+    width: 15%;
+}
+.tianjia td{
+    text-align: left;
+}
+.wxtj{
+    width: 70%;
+    margin-left: -35%;
+    margin-top: -250px;
+}
+.top0{
+    margin-top: 0;
+}
+.wx_tj{
+    font-size: 14px;
+}
+.wx_tjul{
+    padding: 10px;
+    margin-top: 0;
+}
+.wx_tj span{
+    font-size: 14px !important;
+    width: 16% !important;
+}
+.p10{
+    border: 1px solid #dddddd;
+}
+table thead tr td:first-child{
+    padding-left:20px !important;
+}
+table tbody tr td:first-child{
+    padding-left:20px !important;
 }
