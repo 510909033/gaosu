@@ -30,19 +30,19 @@ class User extends Model
 	//删除
   	function deleteData($id)
 	{
-		return Db::table($this->table)->where('uid','=',$id)->delete();    
+		return Db::table($this->table)->where('id','=',$id)->delete();    
 	}
 
 	//查询单条
 	function findData($id)
 	{
-		return Db::table($this->table)->where('uid','=',$id)->find();    
+		return Db::table($this->table)->where('id','=',$id)->find();    
 	}
 
 	//修改
 	function updateData($data,$id)
 	{
-		return Db::table($this->table)->where('uid','=',$id)->update($data); 
+		return Db::table($this->table)->where('id','=',$id)->update($data); 
 	}
 
 	
