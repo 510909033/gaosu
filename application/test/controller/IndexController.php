@@ -406,10 +406,10 @@ class IndexController extends Controller
         $postArr = array(
             'button' => array(
                 array(
-                    'name' => urlencode('用户绑定'),
+                    'name' => urlencode('智慧高速'),
                     'type' => 'view',
                     'key' => 'item1',
-                    'url' => 'http://gs.jltengfang.com'
+                    'url' => 'http://gs.jltengfang.com/'
                 ), // 第一个一级菜单
                 array(
                     'name' => urlencode('菜单2'),
