@@ -7,6 +7,7 @@ $(function(){
     //屏幕高度
     $(".baiping").height($(window).height());
     get_wh();
+    next();
 });
 
 
