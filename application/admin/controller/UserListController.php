@@ -132,17 +132,13 @@ class UserListController extends Controller
    {
         $Request = Request::instance();
 
-        $id = $Request->post('id');
-
-        
+        $id = $Request->post('id');      
     
         $Request = Request::instance();
 
         $data = $Request->post();//接修改之后的数据
 
         $user = new User;
-
-        
 
         $result = $user->updateData($data,$id);//修该语句
 
@@ -220,6 +216,56 @@ class UserListController extends Controller
           AjaxTool::outputError('失败');
 
     }
+
+//更新审核状态
+
+    public function updateverifyAction(){
+        $data = array();
+        $msgType = array(1=>'充值问题',2=>'注册问题');
+
+        if (!isset($_POST['verify'])&&empty($_POST['verify'])) 
+            AjaxTool::outputError('数据异常，操作失败');
+
+
+        if($_POST['verify']==1){
+            $verify = Verifier::validation($_POST, array(
+              array('name:id' => '数据id','name:verify'=>'审核状态'),
+              array('id,verify','noempty'),
+              array('id,verify','required'),
+              array('id,verify', 'int'),
+            )); 
+        }else{
+            $verify = Verifier::validation($_POST, array(
+              array('name:id' => '数据id','name:verify'=>'审核状态','name:type'=>'问题类型','name:msg'=>'问题描述'),
+              array('id,verify','noempty'),
+              array('id,verify,type,msg','required'),
+              array('id,verify,type', 'int'),
+            ));             
+        }
+        if (true !== $verify)
+          AjaxTool::outputError($verify['msg']);
+
+
+        if ($_POST['verify']==1) {
+            $data['verify']     = $_POST['verify'];
+            
+            //var_dump($data);die();
+        }else{
+            $data['verify'] = $_POST['verify'];
+            $data['verify_reason']  = $_POST['type']==0 ? $_POST['msg'] : (!empty($_POST['msg']) ? $msgType[$_POST['type']].$_POST['msg'] : $msgType[$_POST['type']]);
+            //var_dump($data);die();
+        }
+
+
+        $res = model('User')->updateData($data,$_POST['id']);
+
+        if ($res) 
+          AjaxTool::outputDone($res);
+        else
+          AjaxTool::outputError('失败');
+
+    }
+  
   
 
 }
