@@ -415,7 +415,36 @@ class IndexController extends Controller
             )
         );
         // //第三个一级菜单
-        
+/*      $postArr = array(
+            'button' => array(
+                array(
+                    'name' => urlencode('智慧高速'),
+                          'key' => 'item1',
+                    'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
+                ), // 第一个一级菜单
+                array(
+                    'name' => urlencode('菜单2'),
+                    'sub_button' => array(
+                        array(
+                            'type' => 'view',
+                            'name' => urlencode('获取地理位置'),
+                            'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
+                        ),
+                        array(
+                            'type' => 'view',
+                            'name' => urlencode('扫码带提示'),
+                            'url' => ''
+                        )
+                    )
+                ), // 第二个一级菜单
+                array(
+                    'name' => urlencode('菜单3'),
+                    'type' => 'view',
+                    'key' => 'item3',
+                    'url' => 'http://gs.jltengfang.com/index.php/way/user/bindindex'
+                )
+            )
+        ); */ 
         
         echo '<hr/>';
         echo $postJson = urldecode(json_encode($postArr));
