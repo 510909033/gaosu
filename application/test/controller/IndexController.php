@@ -410,7 +410,7 @@ class IndexController extends Controller
                     'name' => urlencode('智慧高速'),
                     'type' => 'view',
                     'key' => 'item1',
-                    'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
+                    'url' => 'http://gs.jltengfang.com'
                 ), // 第一个一级菜单
             )
         );
