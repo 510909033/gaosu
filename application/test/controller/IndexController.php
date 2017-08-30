@@ -398,7 +398,7 @@ class IndexController extends Controller
         $auth = new AuthExtend();
         $accessToken = $auth->getAccessToken(false);
         
-        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $access_token['access_token'];
+        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $accessToken;
         echo $url;
         /*
          * $auth = new AuthExtend();
