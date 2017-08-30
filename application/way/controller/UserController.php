@@ -287,6 +287,7 @@ class UserController extends \app\common\controller\NeedLoginController
             $json['url']['next_page'] = url('way/user/detail');
             
             $this->deleteYzmSession();
+            
         } catch (\Exception $e) {
             $json['errcode'] = ConfigTool::$ERRCODE__EXCEPTION;
             $json['html'] = $e->getMessage();
@@ -489,7 +490,8 @@ class UserController extends \app\common\controller\NeedLoginController
                 
                 $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
                 $json['html'] = '绑定车辆成功';
-                $json['view_url'] = url('way/user/read',['id'=>$res->id]);
+//                 $json['view_url'] = url('way/user/read',['id'=>$res->id]);
+                $json['view_url'] = url('way/user/detail');
               
                 $json['data'] = $res;
                 $json['data']->dis_create_time = date('Y-m-d' , $res->getData('create_time'));
