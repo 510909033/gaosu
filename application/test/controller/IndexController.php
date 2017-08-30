@@ -396,9 +396,10 @@ class IndexController extends Controller
         //$access_token = $this->getWxAccessTokenAction();
 
         $auth = new AuthExtend();
-        $accessToken = $auth->getAccessToken(true);
+        $accessToken = $auth->getAccessToken(false);
         
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $accessToken;
+        echo $url;
         /*
          * $auth = new AuthExtend();
          * $accessToken = $auth->getAccessToken(false);
@@ -411,27 +412,6 @@ class IndexController extends Controller
                     'key' => 'item1',
                     'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
                 ), // 第一个一级菜单
-                array(
-                    'name' => urlencode('菜单2'),
-                    'sub_button' => array(
-                        array(
-                            'type' => 'view',
-                            'name' => urlencode('获取地理位置'),
-                            'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
-                        ),
-                        array(
-                            'type' => 'view',
-                            'name' => urlencode('扫码带提示'),
-                            'url' => ''
-                        )
-                    )
-                ), // 第二个一级菜单
-                array(
-                    'name' => urlencode('菜单3'),
-                    'type' => 'view',
-                    'key' => 'item3',
-                    'url' => 'http://gs.jltengfang.com/index.php/way/user/bindindex'
-                )
             )
         );
         // //第三个一级菜单
