@@ -11,7 +11,7 @@ class IndexController extends controller
 
 
 
-    	echo UserTool::getUser_id();
+    UserTool::getUser_id();
 
 
 
