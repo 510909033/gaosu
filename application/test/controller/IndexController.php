@@ -447,7 +447,7 @@ class IndexController extends Controller
 
     public function testAction(){
 
-        //var_dump(VENDOR_PATH . 'SMS\SmsSender.php');die();
+/*        //var_dump(VENDOR_PATH . 'SMS\SmsSender.php');die();
         require_once VENDOR_PATH . 'SMS\SmsSender.php';
         require_once VENDOR_PATH . 'SMS\SmsVoiceSender.php';        
 
@@ -467,7 +467,7 @@ class IndexController extends Controller
         $result = $singleSender->sendWithParam("86", $phoneNumber, $templId, $params, "", "", "");
         $rsp = json_decode($result);
         echo $result;
-        echo "<br>";
+        echo "<br>";*/
 
     }
 
