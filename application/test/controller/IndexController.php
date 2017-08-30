@@ -4,6 +4,7 @@ namespace app\test\controller;
 use think\Controller;
 use app\common\model\SysLogTmp;
 use think\Log;
+use weixin\auth\AuthExtend;
 
 use vendor\SMS\SmsSingleSender;
 use vendor\SMS\SmsMultiSender;
@@ -392,7 +393,10 @@ class IndexController extends Controller
         // 创建微信菜单
         // 目前微信接口的调用方式都是通过curl post/get
         header('content-type:text/html;charset=utf-8');
-        $access_token = $this->getWxAccessTokenAction();
+        //$access_token = $this->getWxAccessTokenAction();
+
+        $auth = new AuthExtend();
+        $accessToken = $auth->getAccessToken(false);
         
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $access_token['access_token'];
         echo $url;
