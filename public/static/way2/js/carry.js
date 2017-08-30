@@ -7,9 +7,10 @@ $(function(){
     //屏幕高度
     $(".baiping").height($(window).height());
     get_wh();
+    next();
 });
 
-
+ 
 //获取屏幕尺寸
 function get_wh(){
     var bodyW = $(document.body).width();
