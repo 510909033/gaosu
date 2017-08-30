@@ -150,6 +150,8 @@ EEE;
             $url = \request()->root();
             if (strpos($url, '.')){
                 $url = dirname($url).'/';
+            }else{
+                $url=$url.'/';
             }
         }
         return $url;
