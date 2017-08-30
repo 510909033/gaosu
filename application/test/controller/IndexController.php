@@ -399,7 +399,6 @@ class IndexController extends Controller
         $accessToken = $auth->getAccessToken(true);
         
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $accessToken;
-        echo $url;
         /*
          * $auth = new AuthExtend();
          * $accessToken = $auth->getAccessToken(false);
@@ -407,10 +406,10 @@ class IndexController extends Controller
         $postArr = array(
             'button' => array(
                 array(
-                    'name' => urlencode('用户绑定'),
+                    'name' => urlencode('智慧高速'),
                     'type' => 'view',
                     'key' => 'item1',
-                    'url' => 'http://gs.jltengfang.com'
+                    'url' => 'http://gs.jltengfang.com/index/'
                 ), // 第一个一级菜单
                 array(
                     'name' => urlencode('菜单2'),
@@ -439,7 +438,6 @@ class IndexController extends Controller
         
         
         echo '<hr/>';
-        var_dump($postArr);
         echo $postJson = urldecode(json_encode($postArr));
         
         $res = $this->http_curl($url, 'post', 'json', $postJson);
