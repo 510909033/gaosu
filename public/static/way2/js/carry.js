@@ -10,7 +10,7 @@ $(function(){
     next();
 });
 
-
+ 
 //获取屏幕尺寸
 function get_wh(){
     var bodyW = $(document.body).width();
