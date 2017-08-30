@@ -2196,7 +2196,7 @@ input[type=color],input[type=date],input[type=datetime-local],input[type=datetim
     border-radius: 3px;
     background-color: #fff;
     line-height: 21px;
-    /*-webkit-user-select: text;*/
+    -webkit-user-select: text;
     -webkit-appearance: none;
 }
 
