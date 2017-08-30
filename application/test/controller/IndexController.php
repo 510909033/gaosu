@@ -215,7 +215,7 @@ class IndexController extends Controller
                     "【 今日天气】\n" .
                     '最高温度：'.$data['data']['forecast'][0]['high']."\n".
                     '最低温度：'.$data['data']['forecast'][0]['low']."\n".
-                    '风力：'.$data['data']['forecast'][0]['fengli']."\n".
+                    //'风力：'.$data['data']['forecast'][0]['fengli']."\n".
                     '风向：'.$data['data']['forecast'][0]['fengxiang']."\n".
                     '天气类型：'.$data['data']['forecast'][0]['type']."\n";
                     
