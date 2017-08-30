@@ -399,7 +399,6 @@ class IndexController extends Controller
         $accessToken = $auth->getAccessToken(true);
         
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $accessToken;
-        echo $url;
         /*
          * $auth = new AuthExtend();
          * $accessToken = $auth->getAccessToken(false);
@@ -439,7 +438,6 @@ class IndexController extends Controller
         
         
         echo '<hr/>';
-        var_dump($postArr);
         echo $postJson = urldecode(json_encode($postArr));
         
         $res = $this->http_curl($url, 'post', 'json', $postJson);
