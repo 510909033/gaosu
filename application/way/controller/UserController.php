@@ -32,6 +32,7 @@ class UserController extends \app\common\controller\NeedLoginController
      */
     private $yzm_key = 'yzm_user_bind_car';
     private $yzm_key_timeout = 'yzm_user_bind_car_timeout';
+    private $yzm_key_phone = 'yzm_user_bind_car_phone';
     private $yzm_timeout = 600;
     
     public function testAction(){
@@ -204,7 +205,7 @@ class UserController extends \app\common\controller\NeedLoginController
      */
     public function sendAction(){
         try {
-            
+            usleep(300000);
             $max_hours = 10;
             $cache_key = 'cache_'.date('ymdH').UserTool::getUser_id();
             $value = (int)cache($cache_key);
@@ -225,6 +226,13 @@ class UserController extends \app\common\controller\NeedLoginController
             $templId = 9117;
             
             $phoneNumber = input('phone');
+            $validate = new Validate();
+            $validate->rule('phone' , 'require|number|length:11');
+            if (!$validate->check(['phone'=>$phoneNumber])){
+                exception('手机号格式不对',ConfigTool::$ERRCODE__COMMON);
+            }
+            
+            session($this->yzm_key_phone,$phoneNumber);
             
             $key = $this->yzm_key;
             $yzm = \session($key);
@@ -234,15 +242,17 @@ class UserController extends \app\common\controller\NeedLoginController
                 $yzm = rand(100000,999999);
                 \session($key,$yzm);
             }
-            
-            
-            $singleSender = new SmsSingleSender($appid, $appkey);
-            
-            // 假设模板内容为：测试短信，{1}，{2}，{3}，上学。`
-            $params = array($yzm,$this->yzm_timeout);
-            $result = $singleSender->sendWithParam("86", $phoneNumber, $templId, $params, "", "", "");
-            //{"result":0,"errmsg":"OK","ext":"","sid":"8:8gVBbgkZ25Gqz5rDpac20170828","fee":1}
-            $rsp = json_decode($result,true);
+            $rsp=[];
+            if(ConfigTool::$WAY_USER_BIND_CAR__CHECK_YZM){
+                $singleSender = new SmsSingleSender($appid, $appkey);
+                // 假设模板内容为：测试短信，{1}，{2}，{3}，上学。`
+                $params = array($yzm,$this->yzm_timeout);
+                $result = $singleSender->sendWithParam("86", $phoneNumber, $templId, $params, "", "", "");
+                //{"result":0,"errmsg":"OK","ext":"","sid":"8:8gVBbgkZ25Gqz5rDpac20170828","fee":1}
+                $rsp = json_decode($result,true);
+            }else{
+                $rsp['errmsg'] = 'OK';
+            }
             if (strtoupper($rsp['errmsg']) == 'OK'){
                 $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
                 $json['html'] = '验证码发送成功';
@@ -253,7 +263,9 @@ class UserController extends \app\common\controller\NeedLoginController
         } catch (\Exception $e) {
             $json['errcode'] = ConfigTool::$ERRCODE__EXCEPTION;
             $json['html'] = '验证码发送失败';
-            $json['debug']['e'] = $e->getMessage();
+            if ($e->getCode() == ConfigTool::$ERRCODE__COMMON){
+                $json['html'] = $e->getMessage();
+            }
         }
         
         return \json($json);
@@ -272,7 +284,10 @@ class UserController extends \app\common\controller\NeedLoginController
             $yzm = input('yzm');
             $phone = input('phone');
             
-            $this->checkYzm($yzm);
+            $this->checkYzm($yzm,$phone);
+            
+            
+            
             
             $model = WayUserBindCar::get($id);
             $validate = new WayUserBindCarValidate();
@@ -300,6 +315,7 @@ class UserController extends \app\common\controller\NeedLoginController
     private function deleteYzmSession(){
         session($this->yzm_key,null);
         session($this->yzm_key_timeout,null);
+        session($this->yzm_key_phone,null);
     }
 
 
@@ -361,7 +377,7 @@ class UserController extends \app\common\controller\NeedLoginController
      * @return void
      * @throws \Exception
      */
-    private function checkYzm($yzm){
+    private function checkYzm($yzm,$phone){
         if (ConfigTool::$WAY_USER_BIND_CAR__CHECK_YZM){
             
             $expire = \session($this->yzm_key_timeout);
@@ -380,6 +396,11 @@ class UserController extends \app\common\controller\NeedLoginController
             if ( $yzm != $session_yzm){
                 exception($syserrmsg='验证码错误',ConfigTool::$ERRCODE__COMMON);
             }
+            
+            if ($phone != session($this->yzm_key_phone)){
+                exception($syserrmsg='手机号和接收验证码的手机号不同，请填写同一个手机号码',ConfigTool::$ERRCODE__COMMON);
+            }
+            
         }
     }
 
@@ -428,10 +449,10 @@ class UserController extends \app\common\controller\NeedLoginController
 //                 }
 //             }
             
-            $this->checkYzm($data['yzm']);
+            $this->checkYzm($data['yzm'] , $data['phone']);
             
             
-          
+            
             $data['user_id'] = UserTool::getUser_id();
             $data['openid'] = UserTool::getUni_account();
             $data['car_qrcode_path'] = '';

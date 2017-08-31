@@ -116,11 +116,12 @@ function show(html){
         },1500);
     }
     function send_yzm(){
+    	dianji();
     	is_send_yzm = true;
     	var data = {};
     	data.phone = $.trim( $("#modify_phone").val() );
     	$.post('{:url('way/user/send')}'  ,data ,function(data){
-    	
+    		yincang();
     		if(0 == data.errcode){
     			show(data.html);
     		}else{
