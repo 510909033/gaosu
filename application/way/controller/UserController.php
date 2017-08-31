@@ -65,7 +65,8 @@ class UserController extends \app\common\controller\NeedLoginController
     
     public function createAction(){
         if (WayUserBindCar::getOne(UserTool::getUser_id())){
-            exception('您已绑定了车辆',ConfigTool::$ERRCODE__COMMON);
+            $this->redirect('way/user/detai');
+//             exception('您已绑定了车辆',ConfigTool::$ERRCODE__COMMON);
         }
         
         View::share('form_url' , url('way/user/save'));
