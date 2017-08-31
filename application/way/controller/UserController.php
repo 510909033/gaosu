@@ -397,7 +397,7 @@ class UserController extends \app\common\controller\NeedLoginController
                 exception($syserrmsg='验证码错误',ConfigTool::$ERRCODE__COMMON);
             }
             
-            if ($yzm != session($this->yzm_key_phone)){
+            if ($phone != session($this->yzm_key_phone)){
                 exception($syserrmsg='手机号和接收验证码的手机号不同，请填写同一个手机号码',ConfigTool::$ERRCODE__COMMON);
             }
             
