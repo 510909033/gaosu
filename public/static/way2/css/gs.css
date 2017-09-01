@@ -204,11 +204,12 @@ body{
 
 }
 .pading0{
+    float: left;
     width: 4.015625rem;
     height: 0.928125rem !important;
     padding: 0 !important;
     font-size: 0.375rem !important;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     border: 0;
     background: 0;
     text-align: left;
