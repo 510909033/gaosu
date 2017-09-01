@@ -20,7 +20,7 @@ class UserListController extends Controller
     {
         $user = new WayUserBindCar();//实例化model
 
-        $res = $user->order('verify asc')->paginate(5);
+        $res = $user->order('verify asc')->paginate(10);
 
 
         
@@ -69,7 +69,7 @@ class UserListController extends Controller
         {
             $contents = input('contents');
 
-            $res = Db::name('way_user_bind_car')->order('verify asc')->where("$contents",'like',"%{$search_name}%")->paginate(5,false,['query' => request($contents)->param(),]);
+            $res = Db::name('way_user_bind_car')->order('verify asc')->where("$contents",'like',"%{$search_name}%")->paginate(10,false,['query' => request($contents)->param(),]);
             
             $this -> assign('res',$res);
 
