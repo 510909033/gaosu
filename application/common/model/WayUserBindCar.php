@@ -118,6 +118,7 @@ class WayUserBindCar extends Model
         $func = new UserBindCarFuncController();
         $car_qrcode_path = $func->createQrcode($wayUserBindCar);
         if ($car_qrcode_path){
+            
             $wayUserBindCar->car_qrcode_path = $car_qrcode_path;
             return $wayUserBindCar->allowField('car_qrcode_path')->save();
         }
@@ -162,7 +163,9 @@ class WayUserBindCar extends Model
         return ConfigTool::getRootUrl().'static/'.str_replace('\\', '/', $data['driving_license_image1']);
     }
 
-    
+    public function getCarQrcodePathUrlAttr($value,$data){
+        return str_replace('\\', '/', ConfigTool::getRootUrl().$data['car_qrcode_path']);
+    }
     
 
     
