@@ -138,7 +138,16 @@ class WayUserBindCar extends Model
                 return '状态异常';
         }
     }
-    
+    public function getDisStatusAttr($value,$data){
+        switch ($data['status']){
+            case 0:
+                return '禁用';
+            case 1:
+                return '启用';
+            default:
+                return '状态异常';
+        }
+    }
  
     public function getCarColorTextAttr($value,$data){
         $model = SysConfig::get($data['car_color']);
