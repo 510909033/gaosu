@@ -114,6 +114,11 @@ class UserController extends \app\common\controller\NeedLoginController
             $func = new UserBindCarFuncController();
             $user_id = UserTool::getUser_id();
             $wayUserBindCar = WayUserBindCar::getOne($user_id);
+            
+            if (!$wayUserBindCar){
+                exception('尚未绑定车辆',ConfigTool::$ERRCODE__COMMON);
+            }
+            
             $res = WayUserBindCar::save_car_qrcode_path($wayUserBindCar);
             
             
