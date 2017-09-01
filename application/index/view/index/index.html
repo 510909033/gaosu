@@ -199,12 +199,12 @@
     	$.get('{:url('way/user/qrcode')}',{},function(data){
     		if( 0 == data.errcode){
     			$("#qrcode_url").attr("src",data.qrcode.url);
-    			
+    			codeshow()
     		}else{
     			alert(data.html);
     		}
     	},'json');
-        codeshow();
+        ;
     });
 
     //二维码关闭
