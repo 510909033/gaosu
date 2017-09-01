@@ -154,7 +154,7 @@
 <div class="baiping"></div>
 <div class="pop">
     <p class="shibie">车辆识别二维码</p>
-    <img src="images/shenfenz_03.jpg"><!-- 二维码图片 -->
+    <img id="qrcode_url" src="images/shenfenz_03.jpg"><!-- 二维码图片 -->
     <button type="button" class="mui-btn mui-btn-danger mui-btn-outlined clear">关闭</button>
 </div>
 </body>
@@ -194,8 +194,17 @@
         $(".baiping").fadeIn();
         $(".pop").fadeIn();
     }
+    
     $(".code").click(function(){
-        codeshow();
+    	$.get('{:url('way/user/qrcode')}',{},function(data){
+    		if( 0 == data.errcode){
+    			$("#qrcode_url").attr("src",data.qrcode.url);
+    			codeshow()
+    		}else{
+    			alert(data.html);
+    		}
+    	},'json');
+        ;
     });
 
     //二维码关闭

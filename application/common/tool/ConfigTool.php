@@ -95,7 +95,7 @@ class ConfigTool {
      * @var string
      */
     public static $IS_UPLOAD_IDENTITY_IMAGE = TRUE;
-    public static $UPLOAD_VALIDATE_IDENTITY_IMAGE_CONFIG = ['size'=>1024000,'ext'=>'jpg,png,gif'];
+    public static $UPLOAD_VALIDATE_IDENTITY_IMAGE_CONFIG = ['size'=>10240000,'ext'=>'jpg,png,gif'];
     
     
     /**

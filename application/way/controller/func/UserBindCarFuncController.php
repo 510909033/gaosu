@@ -57,7 +57,7 @@ class UserBindCarFuncController
         
         $dir = $this->qrcode_root.$this->db_path.$this->getSplitDir($wayUserBindCar->id);
         
-        $onlyfilename = $wayUserBindCar->id.'.png';
+        $onlyfilename = $wayUserBindCar->qrcode_version.microtime(true).$wayUserBindCar->id.'.png';
         $outfile = $dir.$onlyfilename;
         
         $db_file = $this->db_path.$this->getSplitDir($wayUserBindCar->id).$onlyfilename;
