@@ -65,7 +65,7 @@ class UserController extends \app\common\controller\NeedLoginController
     
     public function createAction(){
         if (WayUserBindCar::getOne(UserTool::getUser_id())){
-            $this->redirect('way/user/detai');
+            $this->redirect('way/user/detail');
 //             exception('您已绑定了车辆',ConfigTool::$ERRCODE__COMMON);
         }
         
@@ -106,6 +106,31 @@ class UserController extends \app\common\controller\NeedLoginController
 
         $vars['html']['title'] = $title;
         return \view('detail2',$vars);    
+    }
+    
+    public function qrcodeAction(){
+        try {
+            $json = [];
+            $func = new UserBindCarFuncController();
+            $user_id = UserTool::getUser_id();
+            $wayUserBindCar = WayUserBindCar::getOne($user_id);
+            $res = WayUserBindCar::save_car_qrcode_path($wayUserBindCar);
+            
+            
+            if (false === $res){
+                exception('获取二维码失败',ConfigTool::$ERRCODE__COMMON);
+            }
+            $json['qrcode']['url'] = $wayUserBindCar->car_qrcode_path_url; 
+            $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
+        } catch (\Exception $e) {
+            $json['errcode'] = ConfigTool::$ERRCODE__EXCEPTION;
+            $json['html'] = $e->getCode() == ConfigTool::$ERRCODE__COMMON?$e->getMessage():'系统错误';
+            if ($e->getCode() != ConfigTool::$ERRCODE__COMMON){
+                SysLogTmp::log($e->getMessage(), $e->getMessage(), $user_id, __METHOD__.',line='.__LINE__);
+            }
+        }
+//         echo $wayUserBindCar->car_qrcode_path;
+        return \json($json);
     }
     
     public function readAction($id){
