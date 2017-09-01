@@ -505,7 +505,7 @@ class UserController extends \app\common\controller\NeedLoginController
             try {
                 $this->checkYzm($data['yzm'] , $data['phone']);
             } catch (\Exception $e) {
-                $json['step'] = 2;
+                $json['step'] = 1;
                 exception($e->getMessage(),$e->getCode());
             }
             
