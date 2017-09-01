@@ -3,9 +3,9 @@ namespace app\index\controller;
 
 use think\Controller;
 use app\common\tool\UserTool;
-use app\admin\controller\PublicController;
+use app\common\controller\NeedLoginController;
 
-class IndexController extends PublicController
+class IndexController extends NeedLoginController
 {
     public function indexAction()
     {
