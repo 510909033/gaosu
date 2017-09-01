@@ -156,8 +156,10 @@ class WayUserBindCar extends Model
     }
     
     public function getCarTypeIdTextAttr($value,$data){
-        $model = SysConfig::get($data['car_type_id']);
-        return $model?$model->value:'';
+        
+        $model = WayCarType::get($data['car_type_id']);
+        
+        return $model?$model->getData('name').'('.$model->title.')':'';
     }
     public function getSfz0UrlAttr($value,$data){
         return ConfigTool::getRootUrl().'static/'.str_replace('\\', '/', $data['identity_image0']);

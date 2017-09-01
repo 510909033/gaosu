@@ -26,22 +26,31 @@ class WayUserBindCarValidate extends Validate{
 //     ];
     
     protected $rule = [
+        'username' =>  'require|regex:/^[\x{4e00}-\x{9fa5}]+$/u',
+        'phone' =>  'require|number|length:11',
+        'identity_card' =>  'require|min:15|max:18',
         'car_number' =>  'require|length:7|regex:/^[\x{4e00}-\x{9fa5}]{1}[a-z0-9]{6}$/ui|unique:way_user_bind_car',
+        'reg_time' =>  'require',//1501084800
+        'engine' =>  'require',
+        'chassis_number' =>  'require',
+        'car_type_id' =>  'require|number|gt:0',
+        'car_color' =>  'require|number|gt:0',
+        
         'user_id'  =>  'require|gt:0|number|unique:way_user_bind_car',
         'openid' =>  'require',
         'status' =>  'require|number|in:0,1,2',
         'verify' =>  'require|number|in:0,1,2,3',
         'create_time' =>  'require|number|gt:0',
-        'car_color' =>  'require|number|gt:0',
-        'username' =>  'require|regex:/^[\x{4e00}-\x{9fa5}]+$/u',
-        'identity_card' =>  'require|min:15|max:18',
-        'phone' =>  'require|number|length:11',
-        'car_type_id' =>  'require|number|gt:0',
-        'engine' =>  'require',
+        
+        
+        
+        
+       
+       
        //'brand' =>  'require',
-        'chassis_number' =>  'require',
+        
         '_agree'=>'require|accepted',
-        'reg_time' =>  'require',//1501084800
+        
         
     ];
     
@@ -62,7 +71,7 @@ class WayUserBindCarValidate extends Validate{
         'engine' =>  '请填写发动机号',
         'brand' =>  '请填写车辆品牌',
         'reg_time' =>  '请填写车辆注册时间',
-        'chassis_number' =>  '请填写车架号',
+        'chassis_number' =>  '请填写车辆识别码',
         '_agree'=>'请同意吉林省高速缴费平台用户缴费协议',
     ];
     

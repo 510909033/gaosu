@@ -315,8 +315,18 @@ function yincang(){
 
 <script type="text/javascript">
 	$(".xiayibu").click(function() {
-		$(".yhbd").hide();
-		$(".tpsc").show();
+		dianji();
+		$.post("{:url('way/user/checkNext')}" ,$("#form_id").serialize() , function(data){
+			yincang();
+			if(0 == data.errcode ){
+				$(".yhbd").hide();
+				$(".tpsc").show();
+			}else{
+				show(data.html);
+			}
+		} ,'json');
+		
+		
 	});
 
 	$(".ssiby").click(function() {
@@ -555,6 +565,13 @@ $(function() {
 					});
 				}else{
 					show(data.html);
+					if(data.step == 1){
+						$(".yhbd").show();
+						$(".tpsc").hide();
+					}else{
+						$(".yhbd").hide();
+						$(".tpsc").show();
+					}
 				}
 			},
 			complete:function(){

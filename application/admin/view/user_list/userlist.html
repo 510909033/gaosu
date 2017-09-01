@@ -94,10 +94,10 @@
             <tr>
                 <td>Id</td>
                 <td>用户名</td>
-                <td>入口</td>
-                <td>出口</td>
-                <td>公里数</td>
-                <td>时长</td>
+                <td>身份证号</td>
+                <td>手机号</td>
+                <td>车牌号</td>
+                <td>品牌</td>
                 <td>创建时间</td>
                 <td>审核状态</td>
                 <td>用户状态</td>
@@ -202,7 +202,7 @@ $(".qd").click(function(){
 
             $('#verify_reason').html(date.verify_reason);//用户状态
 
-            if(date.verify == 3||date.verify == 0){
+            if(date.verify == 0 || date.verify == 2 ||date.verify == 3){
                 $("#js_verify_0").show();
                 $("#js_verify_1").show(); 
             }else{

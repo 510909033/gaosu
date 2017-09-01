@@ -42,7 +42,7 @@ class UserListController extends Controller
             $select['brand'] = "";
 
            $this->assign('select' , $select)  ;
-           return $this->fetch('show');
+           return $this->fetch('userlist');
 
         }
         
@@ -86,7 +86,7 @@ class UserListController extends Controller
 
             $this->assign('select' , $select);
 
-            return $this->fetch('show');
+            return $this->fetch('userlist');
 
         }
 
@@ -105,8 +105,8 @@ class UserListController extends Controller
         if($result)
         {   
             //return Redirect('UserList/index');
-            //echo "<script>alert('新增成功');localtion.href='{:url('Index/show')}'</script>";
-            $this->success('新增成功','UserList/show');
+            //echo "<script>alert('新增成功');localtion.href='{:url('Index/userlist')}'</script>";
+            $this->success('新增成功','UserList/userlist');
         }else{
             $this->error('新增失败');
         }
