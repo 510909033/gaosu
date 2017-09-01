@@ -218,11 +218,13 @@ body{
 .bd_ul .bd_li .ws_yzm{
     width: 2.5625rem;
     float: right;
-    margin-top: 0.234375rem;
+    /*margin-top: 0.234375rem;*/
     border: 0;
     background: 0;
     color: #41c989;
     font-size: 0.28125rem;
+    height: 0.928125rem;
+    line-height: 0.928125rem;
 }
 .top30{
     margin-top: 0.46875rem;
@@ -483,6 +485,37 @@ body{
 }
 .matop{
     margin-top: 0.36875rem !important;
+}
+
+.pop{
+    width: 90%;
+    padding: 0 5%;
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    margin-left: -45%;
+    background-color:rgba(255,255,255,0.9);
+    /*height: 200px;*/
+    z-index: 999;
+    display: none;
+    text-align: center;
+    padding-bottom: 0.46875rem;
+    border-radius: 5px;
+}
+.pop img{
+    width: 100%;
+    margin-top: 0.6525rem;
+}
+.pop button{
+    border-radius: 5px;
+    padding: 2px 5px;
+    margin-top: 0.3125rem;
+}
+.shibie{
+    font-size: 0.575rem;
+    text-align: center;
+    margin-top: 0.6525rem;
+    color: #000;
 }
 
 
