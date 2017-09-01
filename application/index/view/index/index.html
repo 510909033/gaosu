@@ -18,6 +18,32 @@
         mui.init();
     </script>
 </head>
+<style type="text/css">
+    .pop{
+        width: 90%;
+        padding: 0 5%;
+        position: fixed;
+        top: 25%;
+        left: 50%;
+        margin-left: -45%;
+        background-color:rgba(255,255,255,0.9);
+        /*height: 200px;*/
+        z-index: 999;
+        display: none;
+        text-align: center;
+        padding-bottom: 0.46875rem;
+        border-radius: 5px;
+    }
+.pop img{
+    width: 100%;
+    margin-top: 0.6525rem;
+}
+.pop button{
+    border-radius: 5px;
+    padding: 2px 5px;
+    margin-top: 0.3125rem;
+}
+</style>
 <body>
 <!--<a href="#popover" id="openPopover" class="mui-btn mui-btn-primary mui-btn-block ws_tc"><img src="__IMAGES__/tsxr_tm_03.png"></a>-->
 <!--<div id="popover" class="mui-popover">-->
@@ -56,9 +82,9 @@
             </a>
         </li>
         <li>
-            <a href="#">
-                <img src="__IMAGES__/gs_yuan2_11.jpg">
-                <p>审核状态</p>
+            <a href="JavaScript:void(0)" class="code">
+                <img src="images/gs_yuan2_11.jpg">
+                <p>二维码</p>
             </a>
         </li>
         <li>
@@ -118,7 +144,11 @@
             </div>
         </div>
     </div>
-
+</div>
+<div class="baiping"></div>
+<div class="pop">
+    <img src="images/shenfenz_03.jpg">
+    <button type="button" class="mui-btn mui-btn-danger mui-btn-outlined clear">关闭</button>
 </div>
 </body>
 <script type="text/javascript">
@@ -152,6 +182,18 @@
 
         }
 
+    //二维码显示
+
+
+    $(".code").click(function(){
+       $(".baiping").fadeIn();
+       $(".pop").fadeIn();
+    });
+    //二维码关闭
+    $(".clear").click(function(){
+        $(".baiping").hide();
+        $(".pop").hide();
+    });
 
     });
 </script>
