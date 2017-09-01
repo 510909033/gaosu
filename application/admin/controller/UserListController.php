@@ -9,6 +9,7 @@ use app\admin\model\User;//引入模型层
 
 use app\common\tool\Verifier;
 use app\common\tool\AjaxTool;
+use app\common\model\WayUserBindCar;
 
 header("content-type:text/html;charset=UTF-8");//防乱码
 
@@ -17,14 +18,14 @@ class UserListController extends Controller
      //表单页面
     public function indexAction()
     {
-        $user = new User;//实例化model
+        $user = new WayUserBindCar();//实例化model
 
-        $res = $user->order('verify asc')->paginate(5);
+        $res = $user->order('verify asc')->paginate(9);
+
+
         
         if(empty($_POST['contents']))
         {
-
-           
 
            $_POST['contents'] = "username";
 
@@ -40,11 +41,20 @@ class UserListController extends Controller
             $select['car_number'] = "";
             $select['brand'] = "";
 
-            $this->assign('select' , $select)  ;
+           $this->assign('select' , $select)  ;
            return $this->fetch('show');
 
         }
         
+    }
+
+    public function aaAction(){
+
+
+
+        $user = User::get($where);
+        
+        echo $user?$user->status:''; // 例如输出“正常”
     }
 
     public function index1Action()
@@ -59,7 +69,7 @@ class UserListController extends Controller
         {
             $contents = input('contents');
 
-            $res = Db::name('way_user_bind_car')->order('verify asc')->where("$contents",'like',"%{$search_name}%")->paginate(5,false,['query' => request($contents)->param(),]);
+            $res = Db::name('way_user_bind_car')->order('verify asc')->where("$contents",'like',"%{$search_name}%")->paginate(9,false,['query' => request($contents)->param(),]);
             
             $this -> assign('res',$res);
 
@@ -164,28 +174,36 @@ class UserListController extends Controller
    public function getDetailAction(){
 
       $id = $_GET['id'];
+       $new = [];
       
       if($id == NULL){
-
-        alert('数据异常');
+        $new['errcode'] = 1;
+        $new['html'] = '数据不存在';
+        return \json($new);
 
       }else{
 
-         $data = Db::name('way_user_bind_car')->find(array('id'=>$id));
+        $data = WayUserBindCar::get($id);
 
-      if ($data['create_time']&&!empty($data['create_time']))     
+         // $data = Db::name('way_user_bind_car')->find(array('id'=>$id));
+       
+      if ($data){     
 
-            $data['create_time'] = date('Y-m-d H:i:s',$data['create_time']);  
+            $new = $data->toArray();
+               $new['errcode'] = 0;
+
+            $new['create_time'] = date('Y-m-d H:i:s',$data->getData('create_time'));  
+            $new['dis_verify'] =  $data->dis_verify;
+
+            $new['dis_status'] =  $data->dis_status;
 
             /*$verify = config('verify');
 
             $status = config('status');
 
-            $data['verify'] =  $verify[$data['verify']];
-
-            $data['status'] =  $status[$data['status']];*/
-
-            echo !empty($data) ? json_encode($data,JSON_UNESCAPED_UNICODE) : json_encode(array());
+            */
+      }
+            return \json($new);
 
           //var_dump($data);die;
 
