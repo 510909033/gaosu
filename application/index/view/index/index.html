@@ -182,19 +182,24 @@
 
         }
 
-    //二维码显示
-
-
+//二维码显示
+    function codeshow(){
+        $(".baiping").fadeIn();
+        $(".pop").fadeIn();
+    }
     $(".code").click(function(){
-       $(".baiping").fadeIn();
-       $(".pop").fadeIn();
+        codeshow();
     });
+
     //二维码关闭
-    $(".clear").click(function(){
+    function codehdie(){
         $(".baiping").hide();
         $(".pop").hide();
+    }
+    $(".clear").click(function(){
+        codehdie();
     });
 
-    });
+});
 </script>
 </html>
