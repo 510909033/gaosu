@@ -434,6 +434,27 @@ class UserController extends \app\common\controller\NeedLoginController
             
         }
     }
+    
+    public function checkNextAction(){
+        $data = $this->request->post();
+        $data['user_id'] = UserTool::getUser_id();
+        $data['openid'] = UserTool::getUni_account();
+        $data['car_qrcode_path'] = '';
+        $data['status'] = 1;
+        $data['verify'] = 3;
+        $data['create_time'] = time();
+        $data['reg_time'] = strtotime($data['reg_time']);
+        $data['_agree'] = 1;
+        $validate = new WayUserBindCarValidate();
+        $json = [];
+        if (!$validate->check($data)){
+            $json['errcode'] = ConfigTool::$ERRCODE__COMMON;
+            $json['html'] = $validate->getError();
+        }else{
+            $json['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
+        }
+        return json($json);
+    }
 
     /**
      * 用户绑定车辆
@@ -446,6 +467,7 @@ class UserController extends \app\common\controller\NeedLoginController
         
         $json =[];
         $syserrmsg='';
+        $json['step'] = 1;
         try {
             usleep(2000);
             
@@ -480,7 +502,13 @@ class UserController extends \app\common\controller\NeedLoginController
 //                 }
 //             }
             
-            $this->checkYzm($data['yzm'] , $data['phone']);
+            try {
+                $this->checkYzm($data['yzm'] , $data['phone']);
+            } catch (\Exception $e) {
+                $json['step'] = 2;
+                exception($e->getMessage(),$e->getCode());
+            }
+            
             
             
             
@@ -507,6 +535,7 @@ class UserController extends \app\common\controller\NeedLoginController
                 if (true === $res_validate){
                     $res = $wayUserBindCar->addOne($data);
                 }else{
+                    $json['step'] = 2;
                     \exception( $syserrmsg=$res_validate ,ConfigTool::$ERRCODE__COMMON);
 //                     \exception( '图片上传验证失败：'.var_export($res,true) ,ConfigTool::$ERRCODE__COMMON);
                 }
