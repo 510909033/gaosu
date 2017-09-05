@@ -336,7 +336,7 @@ class UserListController extends Controller
               'url'=>'http://gs.jltengfang.com/user',
               'topcolor'=>'#FF0000',
               'data'=>[
-              'first'=>['value'=>'非常抱歉【'.$carData['car_number'].'】的车主,您提交的信息未通过审核'],
+              'first'=>['value'=>'非常抱歉【'.$carData['car_number'].'】的车主,您未通过审核'],
               'keyword1'=>['value'=>$carData['car_number']],
               'keyword2'=>['value'=>'失败原因:'.$carData['verify_reason'].'.'],
               'keyword3'=>['value'=>date('Y-m-d H:i:s',time())],
