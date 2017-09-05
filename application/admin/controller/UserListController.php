@@ -11,6 +11,10 @@ use app\common\tool\Verifier;
 use app\common\tool\AjaxTool;
 use app\common\model\WayUserBindCar;
 
+use weixin\auth\AuthExtend;
+use youwen\exwechat\api\accessToken;
+use youwen\exwechat\api\message\template;
+
 header("content-type:text/html;charset=UTF-8");//防乱码
 
 class UserListController extends Controller
@@ -277,14 +281,74 @@ class UserListController extends Controller
 
         $res = model('User')->updateData($data,$_POST['id']);
 
-        if ($res) 
-          AjaxTool::outputDone($res);
+        if ($res) {
+            if ($_POST['verify']==1) 
+                $this->sendSucceedToTemplate($_POST['id']);
+            else
+                $this->sendFailToTemplate($_POST['id']);
+            AjaxTool::outputDone($res);
+        }
         else
-          AjaxTool::outputError('失败');
+            AjaxTool::outputError('失败');
 
     }
-  
-  
+    /**
+    *审核成功发送麽办消息
+    *@author dwc
+    */
 
+    public function sendSucceedToTemplate($userId){
+        //$userData   = model('User')->findData($userId);
+        $carData    = WayUserBindCar::getOne($userId);
+        if (isset($carData['openid'])&&!empty($carData['openid'])) {
+          $data = [
+            'touser'=>$carData['openid'],
+            'template_id'=>'eWPAJ7F0w5TGs8yviLIA5bG982RL3FnO4lWuqLpbo4w',
+            'url'=>'http://gs.jltengfang.com/user',
+            'topcolor'=>'#FF0000',
+            'data'=>[
+                'first'=>['value'=>'恭喜'.$carData['car_number'].'的车主,您已经通过审核'],
+                'keyword1'=>['value'=>$carData['username']],
+                'keyword2'=>['value'=>'绑定成功'],
+                'keyword3'=>['value'=>date('Y-m-d H:i:s',time())],
+                'remark'=>['value'=>'感谢您的支持，您可以在高速上策马奔腾了，如有疑问，请与客服联系！【0438-8888888】']
+            ],
+          ];
+          $auth = new AuthExtend();
+          $accessToken = $auth->getAccessToken(false);
+          $message = new template($accessToken);
+          $res = $message->send($data);
+        }
+  }
+        /**
+        *审核失败发送麽办消息
+        *@author dwc
+        */
+
+        public function sendFailToTemplate($userId){
+            $data = [
+            'touser'=>$value['openid'],
+            'template_id'=>'eWPAJ7F0w5TGs8yviLIA5bG982RL3FnO4lWuqLpbo4w',
+            'url'=>'http://gs.jltengfang.com/user',
+            'topcolor'=>'#FF0000',
+            'data'=>[
+            'first'=>['value'=>'高速支付订单'],
+            'orderID'=>['value'=>$value['out_trade_no']],
+            'orderMoneySum'=>['value'=>sprintf("%.2f",($value['total_fee']/100))],
+            'backupFieldName'=>['value'=>$value['body']],
+            'backupFieldData'=>['value'=>'请及时付款,逾期可能对你的征信产生不良影响'],
+            'remark'=>['value'=>'如有问题请联系腾放公司客服']
+            ],
+            ];
+            $auth = new AuthExtend();
+            $accessToken = $auth->getAccessToken(false);
+            $message = new template($accessToken);
+            $res = $message->send($data);
+        }
+
+
+
+  
+  
 }
 
