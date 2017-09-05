@@ -301,6 +301,7 @@ class UserListController extends Controller
     public function sendSucceedToTemplate($userId){
         //$userData   = model('User')->findData($userId);
         $carData    = WayUserBindCar::getOne($userId);
+        Log::order_log(json_encode($carData),'用户信息');
         if (isset($carData['openid'])&&!empty($carData['openid'])) {
           $data = [
           'touser'=>$carData['openid'],
