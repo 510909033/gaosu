@@ -5,6 +5,7 @@ use think\Controller;//引入控制器
 use think\Request;//引入request
 use think\Paginator;
 use think\Db;
+use think\Log;
 use app\admin\model\User;//引入模型层
 
 use app\common\tool\Verifier;
@@ -302,23 +303,24 @@ class UserListController extends Controller
         $carData    = WayUserBindCar::getOne($userId);
         if (isset($carData['openid'])&&!empty($carData['openid'])) {
           $data = [
-            'touser'=>$carData['openid'],
-            'template_id'=>'eWPAJ7F0w5TGs8yviLIA5bG982RL3FnO4lWuqLpbo4w',
-            'url'=>'http://gs.jltengfang.com/user',
-            'topcolor'=>'#FF0000',
-            'data'=>[
-                'first'=>['value'=>'恭喜'.$carData['car_number'].'的车主,您已经通过审核'],
-                'keyword1'=>['value'=>$carData['username']],
-                'keyword2'=>['value'=>'绑定成功'],
-                'keyword3'=>['value'=>date('Y-m-d H:i:s',time())],
-                'remark'=>['value'=>'感谢您的支持，您可以在高速上策马奔腾了，如有疑问，请与客服联系！【0438-8888888】']
-            ],
+          'touser'=>$carData['openid'],
+          'template_id'=>'eWPAJ7F0w5TGs8yviLIA5bG982RL3FnO4lWuqLpbo4w',
+          'url'=>'http://gs.jltengfang.com/user',
+          'topcolor'=>'#FF0000',
+          'data'=>[
+          'first'=>['value'=>'恭喜'.$carData['car_number'].'的车主,您已经通过审核'],
+          'keyword1'=>['value'=>$carData['username']],
+          'keyword2'=>['value'=>'绑定成功'],
+          'keyword3'=>['value'=>date('Y-m-d H:i:s',time())],
+          'remark'=>['value'=>'感谢您的支持，您可以在高速上策马奔腾了，如有疑问，请与客服联系！【0438-8888888】']
+          ],
           ];
           $auth = new AuthExtend();
           $accessToken = $auth->getAccessToken(false);
           $message = new template($accessToken);
           $res = $message->send($data);
-        }
+          Log::order_log(json_encode($res),'模板消息回复结果');
+      }
   }
         /**
         *审核失败发送麽办消息
