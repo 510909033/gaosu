@@ -50,10 +50,14 @@
             </ul>
 
             <div class="g_kuan clearfix">
-                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="1"><img src="images/header_bj_01.jpg"></a></div>
-                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="2"><img src="images/header_bj_01.jpg"></a></div>
-                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="3"><img src="images/header_bj_01.jpg"></a></div>
-                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="4"><img src="images/header_bj_01.jpg"></a></div>
+                <div class="t1">
+                    <a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="1">
+                    <img id="sfz0" src="images/header_bj_01.jpg">
+                    </a>
+                </div>
+                <div class="t1"><a  href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="2"><img id="sfz1" src="images/header_bj_01.jpg"></a></div>
+                <div class="t1"><a  href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="3"><img id="xsz0" src="images/header_bj_01.jpg"></a></div>
+                <div class="t1"><a  href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="4"><img id="xsz1" src="images/header_bj_01.jpg"></a></div>
             </div>
         </div>
                
@@ -198,10 +202,10 @@ $(".qd").click(function(){
 
             $('#verify').html(date.dis_verify);//车型
             $('#status').html(date.dis_status);//颜色  
-            $('#sfz0').html(date.identity_image0);//颜色  
-            $('#sfz1').html(date.identity_image1);//颜色  
-            $('#xsz0').html(date.driving_license_image0);//颜色  
-            $('#xsz1').html(date.driving_license_image1);//颜色  
+            $('#sfz0').attr('src',date.identity_image0);//颜色  
+            $('#sfz1').attr('src',date.identity_image1);//颜色  
+            $('#xsz0').attr('src',date.driving_license_image0);//颜色  
+            $('#xsz1').attr('src',date.driving_license_image1);//颜色  
              
                       
                       
