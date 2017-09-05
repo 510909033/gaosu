@@ -298,9 +298,9 @@ class UserListController extends Controller
     *@author dwc
     */
 
-    public function sendSucceedToTemplate($userId){
+    public function sendSucceedToTemplate($CarId){
         //$userData   = model('User')->findData($userId);
-        $carData    = WayUserBindCar::getOne($userId);
+        $carData    = WayUserBindCar::get(['id'=>$CarId]);
         Log::order_log(json_encode($carData),'用户信息');
         if (isset($carData['openid'])&&!empty($carData['openid'])) {
           $data = [
