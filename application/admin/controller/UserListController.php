@@ -299,7 +299,6 @@ class UserListController extends Controller
     */
 
     public function sendSucceedToTemplate($CarId){
-        //$userData   = model('User')->findData($userId);
         $carData    = WayUserBindCar::get(['id'=>$CarId]);
         Log::order_log(json_encode($carData),'用户信息');
         if (isset($carData['openid'])&&!empty($carData['openid'])) {
@@ -309,7 +308,7 @@ class UserListController extends Controller
           'url'=>'http://gs.jltengfang.com/user',
           'topcolor'=>'#FF0000',
           'data'=>[
-          'first'=>['value'=>'恭喜'.$carData['car_number'].'的车主,您已经通过审核'],
+          'first'=>['value'=>'恭喜【'.$carData['car_number'].'】的车主,您已经通过审核'],
           'keyword1'=>['value'=>$carData['username']],
           'keyword2'=>['value'=>'绑定成功'],
           'keyword3'=>['value'=>date('Y-m-d H:i:s',time())],
@@ -328,26 +327,29 @@ class UserListController extends Controller
         *@author dwc
         */
 
-        public function sendFailToTemplate($userId){
-            $data = [
-            'touser'=>$value['openid'],
-            'template_id'=>'eWPAJ7F0w5TGs8yviLIA5bG982RL3FnO4lWuqLpbo4w',
-            'url'=>'http://gs.jltengfang.com/user',
-            'topcolor'=>'#FF0000',
-            'data'=>[
-            'first'=>['value'=>'高速支付订单'],
-            'orderID'=>['value'=>$value['out_trade_no']],
-            'orderMoneySum'=>['value'=>sprintf("%.2f",($value['total_fee']/100))],
-            'backupFieldName'=>['value'=>$value['body']],
-            'backupFieldData'=>['value'=>'请及时付款,逾期可能对你的征信产生不良影响'],
-            'remark'=>['value'=>'如有问题请联系腾放公司客服']
-            ],
-            ];
-            $auth = new AuthExtend();
-            $accessToken = $auth->getAccessToken(false);
-            $message = new template($accessToken);
-            $res = $message->send($data);
-        }
+        public function sendFailToTemplate($CarId){
+            $carData    = WayUserBindCar::get(['id'=>$CarId]);
+            if (isset($carData['openid'])&&!empty($carData['openid'])) {
+              $data = [
+              'touser'=>$carData['openid'],
+              'template_id'=>'qO1b_prvxLae33gUnTnE-3Y1Mrzw7QJyVX1j2Z-5Brg',
+              'url'=>'http://gs.jltengfang.com/user',
+              'topcolor'=>'#FF0000',
+              'data'=>[
+              'first'=>['value'=>'非常抱歉【'.$carData['car_number'].'】的车主,您提交的信息未通过审核'],
+              'keyword1'=>['value'=>$carData['car_number']],
+              'keyword2'=>['value'=>'失败原因:'.$carData['verify_reason'].'.'],
+              'keyword3'=>['value'=>date('Y-m-d H:i:s',time())],
+              'remark'=>['value'=>'您的帐号审核未通过，请您重新提交。']
+              ],
+              ];
+              $auth = new AuthExtend();
+              $accessToken = $auth->getAccessToken(false);
+              $message = new template($accessToken);
+              $res = $message->send($data);
+              Log::order_log(json_encode($res),'模板消息回复结果');
+          }
+      }
 
 
 
