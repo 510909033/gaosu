@@ -199,7 +199,10 @@ class UserListController extends Controller
 
             $new['create_time'] = date('Y-m-d H:i:s',$data->getData('create_time'));  
             $new['dis_verify'] =  $data->dis_verify;
-
+            $new['identity_image0'] =  $data->sfz0_url;
+            $new['identity_image1'] =  $data->sfz1_url;
+            $new['driving_license_image0'] =  $data->xsz0_url;
+            $new['driving_license_image1'] =  $data->xsz1_url;
             $new['dis_status'] =  $data->dis_status;
 
             /*$verify = config('verify');
