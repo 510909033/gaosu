@@ -16,6 +16,10 @@ class UserTool {
     private static $is_login = null;
     private static $user_id=null;
     private static $uni_account = null;
+    /**
+     * @var SysUser
+     */
+    private static $sysUser=null;
     
     /**
      * @return the $is_login
@@ -26,6 +30,14 @@ class UserTool {
             self::$is_login = session('is_login');
         }
         return UserTool::$is_login;
+    }
+
+    /**
+     * @return the $sysUser
+     */
+    public static function getSysUser()
+    {
+        return UserTool::$sysUser;
     }
 
     /**
@@ -56,7 +68,7 @@ class UserTool {
         \session('user_id',$sysUser->id);
         \session('uni_account' , $sysUser->uni_account);
         \session('is_login',true);
-        
+        self::$sysUser = $sysUser;
         self::$user_id = $sysUser->id;
         self::$uni_account = $sysUser->uni_account;
         self::$is_login = true;

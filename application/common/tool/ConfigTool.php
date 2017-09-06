@@ -88,7 +88,7 @@ class ConfigTool {
      * 绑定车辆表，只读字段
      * @var array
      */
-    public static  $TABLE_WAY_USER_BIND_CAR__READONLY = ['user_id','car_number','openid','create_time'];
+    public static  $TABLE_WAY_USER_BIND_CAR__READONLY = ['user_id','openid','create_time'];
     
     /**
      * 是否上传身份证正反面图片
@@ -107,16 +107,43 @@ class ConfigTool {
      * 更新车辆时是否判断验证码
      * @var string
      */
-    public static  $WAY_USER_BIND_CAR__CHECK_YZM = true;
+    public static  $WAY_USER_BIND_CAR__CHECK_YZM = false;
     /**
      * 绑定车辆图片mine值
      * @var string
      */
 //     public static $WAY_USER_BIND_CAR__IMAGE_MINE = 'image/png,image/jpg,image/jpeg,image/gif';
     public static $WAY_USER_BIND_CAR__IMAGE_MINE = 'image/*';
-    
-    
     public static $RSA_PUBLIC_KEY=<<<EEE
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQfnDtGmmCppDmZymgEw2ziN7L
+/XeFGsKVexkkpy9/rCrTjw3KRVNI96zVMyrdlkfHyAWe/2m8jn0Hj4pFJE8SWZEk
+P77XkCSkzwbANOzsfls60afeW4S8EhC0Spsjgiq0PRbDHnrsC4/jDnhUojVE9EKZ
+zudOVGbW5NUhS+W2SQIDAQAB
+-----END PUBLIC KEY-----
+EEE;
+    public static $RSA_PRIVATE_KEY=<<<eee
+-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQDQfnDtGmmCppDmZymgEw2ziN7L/XeFGsKVexkkpy9/rCrTjw3K
+RVNI96zVMyrdlkfHyAWe/2m8jn0Hj4pFJE8SWZEkP77XkCSkzwbANOzsfls60afe
+W4S8EhC0Spsjgiq0PRbDHnrsC4/jDnhUojVE9EKZzudOVGbW5NUhS+W2SQIDAQAB
+AoGAbIFRTeQQAyGiiXYo8JjZ6ZSStsD7wbbSi67bv/qOOrikNSPe/mSj2najaPVP
+GrEKPEu5uSydn7bcFOI8CI3D5A0HcwPQNvZcxKctVSl7UU3VU8X2yB2N9/lQWigd
+E4tD6AuPH7zUrfUfoVkd9A84uwp7l2MZlKFQtuQEwooqVW0CQQD0P49mFqz2GoHo
+gSYf20OgVfxZ0n2V7gZtPGaosxQUKWHfs0kSdeSjfQCdV0DxdABwgBDbwE/0fKWy
+MIP53FPDAkEA2oZ9S4pgq0o4fM94qRCHIpaxtbbvFiuVO1NR+YzDLQJXFwctAgLk
+MNtUpPgtMZ2uQx2DfOgFp/PrCw9jQZepAwJAZtupePWNqypokNBqjLna1dfAKNdy
+2cPeYvwvw1V+3Cq9M+adnC+XtJ28t4X6LHSMhtP3xYNMaIphgRPbUErP3wJAStfx
+JeQ5A7Gh8y1j2BOvFOuj5ebHsEIxFGaPFvddCZdZmKt+gMfYu9sC/JV7dRjaTGZZ
+WHhnJ4TlJZ6ZkieNXQJBANoywqkEGE7IQ+UVEIB8vGNB3Ampbr6yLw9Wrt9DD3f3
+uHbkeh7z84bFRYKSsefCW4gJL0QJCsqc9PwYjb1lLYY=
+-----END RSA PRIVATE KEY-----
+eee;
+    /**
+     * @deprecated
+     * @var unknown
+     */
+    public static $RSA_PUBLIC_KEY1=<<<EEE
 -----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDZENYDeswh/AyX3Bp1S2o/bhIM
 FEQXQBb+EsgB/7+tTWyacrZ5vG/vLM6MH75bi8vDleV2GPqJvIhtdtsLYOtY+2At
@@ -124,8 +151,11 @@ MbRPAPCVWJz2LQT5FfFomMEHfTy4Fpxk3QbZTkd6pbettjFQKL7xVXM0OX3e0oEm
 TKJ/2OHLAXjN+ZVwzQIDAQAB
 -----END PUBLIC KEY-----
 EEE;
-    
-    public static $RSA_PRIVATE_KEY=<<<EEE
+    /**
+     * @deprecated
+     * @var unknown
+     */
+    public static $RSA_PRIVATE_KEY1=<<<EEE
 -----BEGIN PRIVATE KEY-----
 MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBANkQ1gN6zCH8DJfc
 GnVLaj9uEgwURBdAFv4SyAH/v61NbJpytnm8b+8szowfvluLy8OV5XYY+om8iG12
