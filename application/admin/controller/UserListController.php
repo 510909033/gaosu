@@ -5,11 +5,16 @@ use think\Controller;//引入控制器
 use think\Request;//引入request
 use think\Paginator;
 use think\Db;
+use think\Log;
 use app\admin\model\User;//引入模型层
 
 use app\common\tool\Verifier;
 use app\common\tool\AjaxTool;
 use app\common\model\WayUserBindCar;
+
+use weixin\auth\AuthExtend;
+use youwen\exwechat\api\accessToken;
+use youwen\exwechat\api\message\template;
 
 header("content-type:text/html;charset=UTF-8");//防乱码
 
@@ -42,7 +47,7 @@ class UserListController extends Controller
             $select['brand'] = "";
 
            $this->assign('select' , $select)  ;
-           return $this->fetch('show');
+           return $this->fetch('userlist');
 
         }
         
@@ -86,7 +91,7 @@ class UserListController extends Controller
 
             $this->assign('select' , $select);
 
-            return $this->fetch('show');
+            return $this->fetch('userlist');
 
         }
 
@@ -105,8 +110,8 @@ class UserListController extends Controller
         if($result)
         {   
             //return Redirect('UserList/index');
-            //echo "<script>alert('新增成功');localtion.href='{:url('Index/show')}'</script>";
-            $this->success('新增成功','UserList/show');
+            //echo "<script>alert('新增成功');localtion.href='{:url('Index/userlist')}'</script>";
+            $this->success('新增成功','UserList/userlist');
         }else{
             $this->error('新增失败');
         }
@@ -194,7 +199,10 @@ class UserListController extends Controller
 
             $new['create_time'] = date('Y-m-d H:i:s',$data->getData('create_time'));  
             $new['dis_verify'] =  $data->dis_verify;
-
+            $new['identity_image0'] =  $data->sfz0_url;
+            $new['identity_image1'] =  $data->sfz1_url;
+            $new['driving_license_image0'] =  $data->xsz0_url;
+            $new['driving_license_image1'] =  $data->xsz1_url;
             $new['dis_status'] =  $data->dis_status;
 
             /*$verify = config('verify');
@@ -277,14 +285,78 @@ class UserListController extends Controller
 
         $res = model('User')->updateData($data,$_POST['id']);
 
-        if ($res) 
-          AjaxTool::outputDone($res);
+        if ($res) {
+            if ($_POST['verify']==1) 
+                $this->sendSucceedToTemplate($_POST['id']);
+            else
+                $this->sendFailToTemplate($_POST['id']);
+            AjaxTool::outputDone($res);
+        }
         else
-          AjaxTool::outputError('失败');
+            AjaxTool::outputError('失败');
 
     }
-  
-  
+    /**
+    *审核成功发送麽办消息
+    *@author dwc
+    */
 
+    public function sendSucceedToTemplate($CarId){
+        $carData    = WayUserBindCar::get(['id'=>$CarId]);
+        Log::order_log(json_encode($carData),'用户信息');
+        if (isset($carData['openid'])&&!empty($carData['openid'])) {
+          $data = [
+          'touser'=>$carData['openid'],
+          'template_id'=>'eWPAJ7F0w5TGs8yviLIA5bG982RL3FnO4lWuqLpbo4w',
+          'url'=>'http://gs.jltengfang.com/user',
+          'topcolor'=>'#FF0000',
+          'data'=>[
+          'first'=>['value'=>'恭喜【'.$carData['car_number'].'】的车主,您已经通过审核'],
+          'keyword1'=>['value'=>$carData['username']],
+          'keyword2'=>['value'=>'绑定成功'],
+          'keyword3'=>['value'=>date('Y-m-d H:i:s',time())],
+          'remark'=>['value'=>'感谢您的支持，您可以在高速上策马奔腾了，如有疑问，请与客服联系！【0438-8888888】']
+          ],
+          ];
+          $auth = new AuthExtend();
+          $accessToken = $auth->getAccessToken(false);
+          $message = new template($accessToken);
+          $res = $message->send($data);
+          Log::order_log(json_encode($res),'模板消息回复结果');
+      }
+  }
+        /**
+        *审核失败发送麽办消息
+        *@author dwc
+        */
+
+        public function sendFailToTemplate($CarId){
+            $carData    = WayUserBindCar::get(['id'=>$CarId]);
+            if (isset($carData['openid'])&&!empty($carData['openid'])) {
+              $data = [
+              'touser'=>$carData['openid'],
+              'template_id'=>'qO1b_prvxLae33gUnTnE-3Y1Mrzw7QJyVX1j2Z-5Brg',
+              'url'=>'http://gs.jltengfang.com/user',
+              'topcolor'=>'#FF0000',
+              'data'=>[
+              'first'=>['value'=>'非常抱歉【'.$carData['car_number'].'】的车主,您未通过审核'],
+              'keyword1'=>['value'=>$carData['car_number']],
+              'keyword2'=>['value'=>'失败原因:'.$carData['verify_reason'].'.'],
+              'keyword3'=>['value'=>date('Y-m-d H:i:s',time())],
+              'remark'=>['value'=>'您的帐号审核未通过，请您重新提交。']
+              ],
+              ];
+              $auth = new AuthExtend();
+              $accessToken = $auth->getAccessToken(false);
+              $message = new template($accessToken);
+              $res = $message->send($data);
+              Log::order_log(json_encode($res),'模板消息回复结果');
+          }
+      }
+
+
+
+  
+  
 }
 

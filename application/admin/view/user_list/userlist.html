@@ -50,10 +50,14 @@
             </ul>
 
             <div class="g_kuan clearfix">
-                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="1"><img src="images/header_bj_01.jpg"></a></div>
-                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="2"><img src="images/header_bj_01.jpg"></a></div>
-                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="3"><img src="images/header_bj_01.jpg"></a></div>
-                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="4"><img src="images/header_bj_01.jpg"></a></div>
+                <div class="t1">
+                    <a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="1">
+                    <img id="sfz0" src="images/header_bj_01.jpg">
+                    </a>
+                </div>
+                <div class="t1"><a  href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="2"><img id="sfz1" src="images/header_bj_01.jpg"></a></div>
+                <div class="t1"><a  href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="3"><img id="xsz0" src="images/header_bj_01.jpg"></a></div>
+                <div class="t1"><a  href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="4"><img id="xsz1" src="images/header_bj_01.jpg"></a></div>
             </div>
         </div>
                
@@ -94,10 +98,10 @@
             <tr>
                 <td>Id</td>
                 <td>用户名</td>
-                <td>入口</td>
-                <td>出口</td>
-                <td>公里数</td>
-                <td>时长</td>
+                <td>身份证号</td>
+                <td>手机号</td>
+                <td>车牌号</td>
+                <td>品牌</td>
                 <td>创建时间</td>
                 <td>审核状态</td>
                 <td>用户状态</td>
@@ -197,12 +201,20 @@ $(".qd").click(function(){
 
 
             $('#verify').html(date.dis_verify);//车型
-            $('#status').html(date.dis_status);//颜色            
+            $('#status').html(date.dis_status);//颜色  
+            $('#sfz0').attr('src',date.identity_image0);//颜色  
+            $('#sfz1').attr('src',date.identity_image1);//颜色  
+            $('#xsz0').attr('src',date.driving_license_image0);//颜色  
+            $('#xsz1').attr('src',date.driving_license_image1);//颜色  
+             
+                      
+                      
+
             
 
             $('#verify_reason').html(date.verify_reason);//用户状态
 
-            if(date.verify == 3||date.verify == 0){
+            if(date.verify == 0 || date.verify == 2 ||date.verify == 3){
                 $("#js_verify_0").show();
                 $("#js_verify_1").show(); 
             }else{
