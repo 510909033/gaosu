@@ -92,7 +92,8 @@ class UserBindCarFuncController
         $time  = time() + ConfigTool::$WAY_USER_BIND_CAR_QRCODE_EXPIRE;
         $str =  $wayUserBindCar->car_number.','.$wayUserBindCar->qrcode_version.','.$time.','.$wayUserBindCar->id;
         
-        if (openssl_private_encrypt($str, $crypted, ConfigTool::$RSA_PRIVATE_KEY)){
+//         if (openssl_private_encrypt($str, $crypted, ConfigTool::$RSA_PRIVATE_KEY)){
+        if (openssl_public_encrypt($str, $crypted, ConfigTool::$RSA_PUBLIC_KEY)){  
             return '@@@@'.base64_encode($crypted).'$$$$';
         }
         exception('车辆二维码加密失败');

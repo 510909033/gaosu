@@ -94,7 +94,9 @@ class UserController extends \app\common\controller\NeedLoginController
         }else if (1 == $en->verify){
             $title = '您的信息已审核通过';
         }else if (2 == $en->verify){
-            $title = '您的信息已审核未通过';
+            $edit_url = url('way/user/read' , ['id'=>$en->id]);
+            $edit='<a href="'.$edit_url.'">点击编辑</a>';
+            $title = '您的信息已审核未通过,'.$edit;
         }else if (3 == $en->verify){
             $title = '您的信息正在审核中，请耐心等候';
         }
@@ -141,7 +143,7 @@ class UserController extends \app\common\controller\NeedLoginController
     public function readAction($id){
 
         if (!WayUserBindCar::getOne(UserTool::getUser_id())){
-            exception('您尚未绑定车辆',ConfigTool::$ERRCODE__COMMON);
+            \exception('您尚未绑定车辆',ConfigTool::$ERRCODE__COMMON);
         }
         
      
@@ -179,27 +181,29 @@ class UserController extends \app\common\controller\NeedLoginController
                    $form = $wayUserBindCar; 
                 }
             }else{
-                $where = [
-                    'user_id'=>UserTool::getUser_id()
-                ];
+//                 $where = [
+//                     'user_id'=>UserTool::getUser_id()
+//                 ];
                
+//                 $wayUserBindCar = WayUserBindCar::where($where)->find();
                 
-                $wayUserBindCar = WayUserBindCar::where($where)->find();
-                
-            
-                if ($wayUserBindCar){
-                    $form = $wayUserBindCar;
-                }
+//                 if ($wayUserBindCar){
+//                     $form = $wayUserBindCar;
+//                 }
             }
             $vars['errcode'] = ConfigTool::$ERRCODE__NO_ERROR;
         } catch (\Exception $e) {
             $vars['errcode'] = ConfigTool::$ERRCODE__EXCEPTION ;
             exception('系统错误');
         }
-        
+ 
         $image = new \stdClass();
      
         if ($form){
+            if ( 2 != $form->verify){
+                exception('车辆当前状态不允许编辑！');
+            }
+            
             $image->identity_image0 = $form->identity_image0?$form->identity_image0:'/way2/images/shenfenz_03.jpg';
             $image->identity_image1 = $form->identity_image1?$form->identity_image1:'/way2/images/aaaaa1.jpg';
             $image->driving_license_image0 = $form->driving_license_image0?$form->driving_license_image0:'/way2/images/aaaaa2.jpg';
@@ -492,21 +496,13 @@ class UserController extends \app\common\controller\NeedLoginController
                 $data[$k] = $decrypted;
                 
             }
-//             if (ConfigTool::$WAY_USER_BIND_CAR__CHECK_YZM){
-//                 $session_yzm = session($this->yzm_key);
-//                 if (!$session_yzm){
-//                     exception($syserrmsg='验证码超时，请重新获取验证码',ConfigTool::$ERRCODE__COMMON);
-//                 }
-//                 if ($data['yzm'] != $session_yzm){
-//                     exception($syserrmsg='验证码错误',ConfigTool::$ERRCODE__COMMON);
-//                 }
-//             }
+
             
             try {
                 $this->checkYzm($data['yzm'] , $data['phone']);
             } catch (\Exception $e) {
                 $json['step'] = 1;
-                exception($e->getMessage(),$e->getCode());
+                \exception($e->getMessage(),$e->getCode());
             }
             
             
