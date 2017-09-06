@@ -29,6 +29,7 @@ class NeedLoginController extends TopBaseController
     
     protected function check(){
         Session::boot();
+
         if ( !UserTool::getIs_login() && !(defined('ADMIN_MODULE') && ADMIN_MODULE) ){
             if (self::$debug_user_id){
                 $this->debugTrace('debug_user_id模式,debug_user_id='.self::$debug_user_id);

@@ -496,21 +496,13 @@ class UserController extends \app\common\controller\NeedLoginController
                 $data[$k] = $decrypted;
                 
             }
-//             if (ConfigTool::$WAY_USER_BIND_CAR__CHECK_YZM){
-//                 $session_yzm = session($this->yzm_key);
-//                 if (!$session_yzm){
-//                     exception($syserrmsg='验证码超时，请重新获取验证码',ConfigTool::$ERRCODE__COMMON);
-//                 }
-//                 if ($data['yzm'] != $session_yzm){
-//                     exception($syserrmsg='验证码错误',ConfigTool::$ERRCODE__COMMON);
-//                 }
-//             }
+
             
             try {
                 $this->checkYzm($data['yzm'] , $data['phone']);
             } catch (\Exception $e) {
                 $json['step'] = 1;
-                exception($e->getMessage(),$e->getCode());
+                \exception($e->getMessage(),$e->getCode());
             }
             
             
