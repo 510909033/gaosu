@@ -98,7 +98,7 @@ class UserBindCarFuncController
             //$foot = bin2hex(255);
             //$body = bin2hex($crypted);
             //return $head.$body.$foot;
-            return '0';
+            return '2';
             //return '0'.base64_encode($crypted).'255';
         }
         exception('车辆二维码加密失败');
