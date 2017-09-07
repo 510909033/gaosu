@@ -94,7 +94,7 @@ class UserBindCarFuncController
         
 //         if (openssl_private_encrypt($str, $crypted, ConfigTool::$RSA_PRIVATE_KEY)){
         if (openssl_public_encrypt($str, $crypted, ConfigTool::$RSA_PUBLIC_KEY)){  
-            return '0x02'.base64_encode($crypted).'0xff';
+            return '0'.base64_encode($crypted).'255';
         }
         exception('车辆二维码加密失败');
     }

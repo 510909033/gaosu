@@ -193,7 +193,6 @@ class UserListController extends Controller
          // $data = Db::name('way_user_bind_car')->find(array('id'=>$id));
 
         if ($data){     
-
             $new = $data->toArray();
             $new['errcode']                 = 0;
             $new['create_time']             = date('Y-m-d H:i:s',$data->getData('create_time'));  
