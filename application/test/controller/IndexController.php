@@ -14,7 +14,7 @@ use vendor\SMS\SmsVoiceVeriryCodeSender;
 class IndexController extends Controller
 {
     //初始化
-    protected function _initialize()
+/*    protected function _initialize()
     {
 
 
@@ -28,7 +28,7 @@ class IndexController extends Controller
             SysLogTmp::log('微信api异常', $e->getMessage(), 0, __FILE__.',line='.__LINE__);
         }
         
-    }
+    }*/
    
     public function testAction(){
         
@@ -52,11 +52,8 @@ class IndexController extends Controller
 
         //3.将加密后的字符串与signature进行对比，判断该请求是否来自微信
         if($tmpstr == $signature){
-
             //echo $_GET['echostr'];
             return true;
-
-            exit;
         }else{
             return false;
         }
