@@ -13,62 +13,23 @@ use vendor\SMS\SmsVoiceVeriryCodeSender;
 
 class IndexController extends Controller
 {
+    //初始化
+    protected function _initialize()
+    {
 
+
+    }
 
     public function indexAction()
     {
-        Log::order_log(json_encode($_GET),'微信连接');
-        if ($_GET) {
-          echo $_GET['echostr'];  
-        };
-
-
-/*        try {
+        try {
             $this->responseMsgAction();
         } catch (\Exception $e) {
             SysLogTmp::log('微信api异常', $e->getMessage(), 0, __FILE__.',line='.__LINE__);
-        }*/
+        }
         
     }
    
-    public function testAction(){
-
-        Log::order_log(json_encode($_GET),'微信连接');
-
-
-
-        echo $_GET['echostr'];
-        //1.将timestamp,nonce,token按字典序排序
-/*        $timestamp = $_GET['timestamp'];
-
-        $nonce = $_GET['nonce'];
-
-        $token = 'zhgs';
-
-        $signature = $_GET['signature'];
-
-        $array = array($timestamp,$nonce,$token);
-
-        sort($array);
-
-        //2.将排序后的三个参数拼接之后用sha1加密
-        $tmpstr = implode('', $array);//join
-
-        $tmpstr = sha1($tmpstr);
-
-        //3.将加密后的字符串与signature进行对比，判断该请求是否来自微信
-        if($tmpstr == $signature){
-            //echo $_GET['echostr'];
-            return true;
-        }else{
-            return false;
-        }*/
-
-    }
-
-
-
-
 
     /*
      * // 接收事件推送并回复
@@ -169,7 +130,7 @@ class IndexController extends Controller
      * }
      * }
      */
-/*    public function responseMsgAction()
+    public function responseMsgAction()
     {
         
         // get post data, May be due to the different environments
@@ -221,9 +182,9 @@ class IndexController extends Controller
             echo "";
             exit();
         }
-    }*/
+    }
 
-/*    public function text($postObj)
+    public function text($postObj)
     {
         
 
@@ -281,12 +242,12 @@ class IndexController extends Controller
        
         $resultStr = $this->responseTextAction($object, $contentStr);
         return $resultStr;
-    }*/
+    }
     
     
     
     
-/*    public function location($object)
+    public function location($object)
     {
         //回复内容
         $contentStr = "您的位置："."\n"."纬度: ".$object->Location_X."\n"."经度为：".$object->Location_Y;
@@ -311,9 +272,12 @@ class IndexController extends Controller
         $resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, time(), $content, $flag);
         return $resultStr;
     }
-*/
-/*    private function weather1Action($postObj)
-    {   
+
+    private function weather1Action($postObj)
+    {
+        // include("weather_cityId.php");
+        // $c_name=$weather_cityId[$n         SysLogTmp::log('weatherAction', (string) $postObj->Content, 0, __LINE__);
+        
         if (!empty($postObj->Content)) {
             $json = file_get_contents("compress.zlib://http://wthrcdn.etouch.cn/weather_mini?city=" . $postObj->Content);
             SysLogTmp::log('天气结果', $json, 0, __FILE__);
@@ -325,7 +289,7 @@ class IndexController extends Controller
             SysLogTmp::log('天气结果-不应该出现这个结果', '', 0, __FILE__);
             return null;
         }
-    }*/
+    }
     
     public function getSignPackage(){
         require '/Public/jssdk.php'; //引入jssdk文件
@@ -335,7 +299,7 @@ class IndexController extends Controller
     }
     
     //获取城市名称    
-/*    public function getCityLocation(){
+    public function getCityLocation(){
         $latitude=I('post.latitude');//纬度
         $longitude=I('post.longitude');//经度
         $url="http://api.map.baidu.com/geocoder/v2/?ak=7GFnQy48lQeVefYZ3IDGfblcOrpo5Ttd&location=".$latitude.",".$longitude."&output=json&coordtype=gcj02ll";
@@ -346,9 +310,9 @@ class IndexController extends Controller
         if(!empty($city_name)){//获取到城市的时候返回true
             $this->ajaxReturn(array($city_name));
         }
-    }*/
+    }
 
-/*    public function http_curl($url, $type = 'get', $res = 'json', $arr = '')
+    public function http_curl($url, $type = 'get', $res = 'json', $arr = '')
     {
         // 1.初始化curl
         $ch = curl_init();
@@ -372,9 +336,9 @@ class IndexController extends Controller
                 return json_decode($output, true);
             }
         }
-    }*/
+    }
 
-/*    function getWxAccessTokenAction()
+    function getWxAccessTokenAction()
     {
         // 1.请求url地址
         $appid = 'wx9e1d8fc5ee0c85a1';
@@ -396,25 +360,49 @@ class IndexController extends Controller
         curl_close($ch);
         var_dump($arr);
         return $arr;
-    }*/
+    }
     
     public function weatherAction(){
         return \view('weather');
     }
     
-
-/*    public function definedItemAction()
+    // 返回access_token
+    /*
+     * public function getWxAccessTokenAction(){
+     * //将access_token存在session/cookie中
+     * if($_SESSION['access_token'] && $_SESSION['expire_time']>time()){
+     * //如果access_token在session并没有过期
+     * return $_SESSION['access_token'];
+     * }else{
+     * //如果access_token不存在或已过期，重新取access_token
+     * $appid = 'wx9e1d8fc5ee0c85a1';
+     * $appsecret = '39ea8dc418b5ab3a03867a5937fe19fd';
+     * $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret;
+     * $this->http_curlAction($url,'get','josn');
+     * $access_token = $res['access_token'];
+     * //将重新获取到的access_token存到session
+     * $_SESSION['access_token'] = $access_token;
+     * $_SESSION['expire_time'] = time()+7000;
+     * return $access_token;
+     * }
+     * }
+     */
+    public function definedItemAction()
     {
         // 创建微信菜单
         // 目前微信接口的调用方式都是通过curl post/get
         header('content-type:text/html;charset=utf-8');
+        //$access_token = $this->getWxAccessTokenAction();
 
         $auth = new AuthExtend();
         $accessToken = $auth->getAccessToken(false);
         
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $accessToken;
         echo $url;
-
+        /*
+         * $auth = new AuthExtend();
+         * $accessToken = $auth->getAccessToken(false);
+         */
         $postArr = array(
             'button' => array(
                 array(
@@ -424,7 +412,39 @@ class IndexController extends Controller
                     'url' => 'http://gs.jltengfang.com'
                 ), // 第一个一级菜单
             )
-        );        
+        );
+        // //第三个一级菜单
+/*      $postArr = array(
+            'button' => array(
+                array(
+                    'name' => urlencode('智慧高速'),
+                          'key' => 'item1',
+                    'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
+                ), // 第一个一级菜单
+                array(
+                    'name' => urlencode('菜单2'),
+                    'sub_button' => array(
+                        array(
+                            'type' => 'view',
+                            'name' => urlencode('获取地理位置'),
+                            'url' => 'http://gs.jltengfang.com/index.php/test/index/weather'
+                        ),
+                        array(
+                            'type' => 'view',
+                            'name' => urlencode('扫码带提示'),
+                            'url' => ''
+                        )
+                    )
+                ), // 第二个一级菜单
+                array(
+                    'name' => urlencode('菜单3'),
+                    'type' => 'view',
+                    'key' => 'item3',
+                    'url' => 'http://gs.jltengfang.com/index.php/way/user/bindindex'
+                )
+            )
+        ); */ 
+        
         echo '<hr/>';
         echo $postJson = urldecode(json_encode($postArr));
         
@@ -433,8 +453,32 @@ class IndexController extends Controller
         echo '<br/>';
         SysLogTmp::log('返回结果', $res, 0, __FILE__);
         var_dump($res);
-    }*/
+    }
+
+    public function testAction(){
+
+/*        //var_dump(VENDOR_PATH . 'SMS\SmsSender.php');die();
+        require_once VENDOR_PATH . 'SMS\SmsSender.php';
+        require_once VENDOR_PATH . 'SMS\SmsVoiceSender.php';        
+
+        $appid = 1400023627;
+        $appkey = "091dbec841263da9db9b68b6bddc8098";
+        $phoneNumber = "13224381123";
+        $templId = 9117;
 
 
+        $singleSender = new SmsSingleSender($appid, $appkey);
+
+        // 假设模板内容为：测试短信，{1}，{2}，{3}，上学。`
+        $params = array("123456",90);
+
+        $params = array("250250","666");
+        2867b957548d6f4676474782c1d285fe64a25895
+        $result = $singleSender->sendWithParam("86", $phoneNumber, $templId, $params, "", "", "");
+        $rsp = json_decode($result);
+        echo $result;
+        echo "<br>";*/
+
+    }
 
 }
