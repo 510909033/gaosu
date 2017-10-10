@@ -35,9 +35,9 @@ class IndexController extends Controller
     }
    
     public function testAction(){
-        
+        echo $_GET['echostr'];
         //1.将timestamp,nonce,token按字典序排序
-        $timestamp = $_GET['timestamp'];
+/*        $timestamp = $_GET['timestamp'];
 
         $nonce = $_GET['nonce'];
 
@@ -60,7 +60,7 @@ class IndexController extends Controller
             return true;
         }else{
             return false;
-        }
+        }*/
 
     }
 
