@@ -23,7 +23,7 @@ class IndexController extends Controller
     public function indexAction()
     {
 
-        echo "111111";die();
+        echo $_GET['echostr'];
 
 
 /*        try {
