@@ -17,8 +17,10 @@ class IndexController extends Controller
 
     public function indexAction()
     {
-
-        echo $_GET['echostr'];
+        Log::order_log(json_encode($_GET),'微信连接');
+        if ($_GET) {
+          echo $_GET['echostr'];  
+        };
 
 
 /*        try {
@@ -31,7 +33,7 @@ class IndexController extends Controller
    
     public function testAction(){
 
-        \Log::order_log(json_encode($_GET),'微信连接');
+        Log::order_log(json_encode($_GET),'微信连接');
 
 
 
