@@ -1,9 +1,19 @@
 <?php
 namespace app\test\controller;
 
+use think\Controller;
+use app\common\model\SysLogTmp;
+use think\Log;
+use weixin\auth\AuthExtend;
+
+use vendor\SMS\SmsSingleSender;
+use vendor\SMS\SmsMultiSender;
+use vendor\SMS\SmsVoicePromtSender;
+use vendor\SMS\SmsVoiceVeriryCodeSender;
 
 class IndexController extends Controller
 {
+
 
     public function indexAction()
     {
@@ -20,6 +30,11 @@ class IndexController extends Controller
     }
    
     public function testAction(){
+
+        \Log::order_log(json_encode($_GET),'微信连接');
+
+
+
         echo $_GET['echostr'];
         //1.将timestamp,nonce,token按字典序排序
 /*        $timestamp = $_GET['timestamp'];
