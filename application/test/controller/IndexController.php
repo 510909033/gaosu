@@ -53,16 +53,19 @@ class IndexController extends Controller
         //3.将加密后的字符串与signature进行对比，判断该请求是否来自微信
         if($tmpstr == $signature){
 
-            echo $_GET['echostr'];
+            //echo $_GET['echostr'];
+            return true;
 
             exit;
+        }else{
+            return false;
         }
 
     }
 
 
 
-   
+
 
     /*
      * // 接收事件推送并回复
