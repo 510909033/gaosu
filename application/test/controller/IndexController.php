@@ -363,7 +363,7 @@ class IndexController extends Controller
     }
     
     public function weatherAction(){
-        return \view('weather');
+        return $this->fetch('weather');
     }
     
     // 返回access_token
