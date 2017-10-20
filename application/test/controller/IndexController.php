@@ -305,7 +305,7 @@ class IndexController extends Controller
         /*require '/Public/jssdk.php'; //引入jssdk文件
         $jssdk = new \JSSDK($this->weixinConfig['appid'],$this->weixinConfig['appsecret']);
         $signPackage = $jssdk->GetSignPackage();//获取*/
-        return $signPackage;
+        return $this->fetch('weather');
     }
     
     //获取城市名称    
