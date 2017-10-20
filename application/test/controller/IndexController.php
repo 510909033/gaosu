@@ -12,10 +12,13 @@ use vendor\SMS\SmsVoicePromtSender;
 use vendor\SMS\SmsVoiceVeriryCodeSender;
 
 use weixin\auth\AuthExtend;
+if(!file_exists(EXTEND_PATH.'weixin/jssdk/Jssdk.php')){
+    die('file not exists');
+}
 require_once EXTEND_PATH.'weixin/jssdk/Jssdk.php';
-$auth = new AuthExtend();
-$jssdk = new JSSDK($auth->getAppkey(), "yourAppSecret");
-$signPackage = $jssdk->GetSignPackage();
+// $auth = new AuthExtend();
+// $jssdk = new JSSDK($auth->getAppkey(), "yourAppSecret");
+// $signPackage = $jssdk->GetSignPackage();
 
 class IndexController extends Controller
 {
