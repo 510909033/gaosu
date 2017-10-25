@@ -107,7 +107,7 @@ body{
 .gzzt ul li p{
     text-align: center;
     margin-top: 0.46875rem;
-    font-size: 0.4175rem;
+    font-size: 0.4375rem;
 }
 .tab_qiehuan{
     margin-top: 0.78125rem;
@@ -204,11 +204,12 @@ body{
 
 }
 .pading0{
+    float: left;
     width: 4.015625rem;
     height: 0.928125rem !important;
     padding: 0 !important;
     font-size: 0.375rem !important;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     border: 0;
     background: 0;
     text-align: left;
@@ -291,7 +292,6 @@ body{
 .kuan1{
     margin-top: 0.66875rem;
     font-size: 18px;
-
 }
 .kuan1 button{
     width: 100%;
@@ -518,4 +518,268 @@ body{
     color: #000;
 }
 
+/*---------------------缴费记录-------------------*/
+.pay_html{
+    background: #ececed;
+    height: 100%;
+}
+.pay_body{
+}
+.pay{
+    padding: 0.546875rem 0.21875rem;
+    background: #ececed;
+}
+.pay_list{
+    padding: 0.21875rem 0.34375rem;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow:0px 0px 0.15625rem #9e9c9c;
+    margin-bottom: 10px;
+}
+.green{
+    background: linear-gradient(to right, #5aca8e , #ace9a3);
+}
+.cph{
+    font-size: 0.46875rem;
+    color: #5a5f70;
+    font-weight: bold;
+    font-family: '微软雅黑';
+}
+.cph span{
+    text-align: right;
+    font-size: 0.421875rem;
+    color: #5a5f70;
+    float: right;
+    font-weight: normal;
+}
+.p_green{
+    color: #ffffff;
+}
+.pay_ul{
+    margin-top: 0.25rem;
+}
+.pay_ul li{
+    font-size: 0.421875rem;
+    color: #5a5f70;
+    line-height: 0.625rem;
+}
+.ul_green li{
+    color: #ffffff;
+}
+.payment{
+    color: #40c087;
+    font-size: 0.46875rem;
+    margin-top: 0.25rem;
+}
+.p1_green{
+    color: #ffffff;
+}
+.payment_lose{
+    font-size: 0.46875rem;
+    margin-top: 0.25rem;
+    color: #E16459;
+}
+.examine{
+    text-align: right;
+    font-size: 0.375rem;
+    margin-top: 0.34375rem;
+}
+.examine a{
+    color: #5a5f70;
+}
+.p2_green a{
+    color: #ffffff;
+}
+/*---------------缴费详情记录----------*/
+.date{
+    height: 2.109375rem;
+    background: linear-gradient(to right, #40c087 , #ace9a3);
+}
+.date ul{
+    padding-top: 0.546875rem;
+}
+.date ul li{
+    width: 12%;
+    float: left;
+    height: 1.328125rem;
+    margin-left: 2%;
+    text-align: center;
+}
+.date ul li span{
+    display: block;
+}
+.date ul li .date_s1{
+    font-size: 0.390625rem;
+    color: #fdfeff;
 
+}
+.date ul li .date_s2{
+    text-align: center;
+    font-size: 0.390625rem;
+    /*padding: 0.078125rem 0;*/
+    color: #ffffff;
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 0.1125rem;
+}
+.date ul li .date_s3{
+    text-align: center;
+    background: #ffffff;
+    color: #40c087;
+
+}
+.pay_details{
+    padding: 0 0.265625rem;
+    margin-top: 0.90625rem;
+}
+.pay_main{
+    padding: 0.296875rem;
+    border: 1px solid #cccccc;
+}
+.pay_details_ul{
+    /*margin-top: 0.546875rem;*/
+}
+.pay_details_ul li{
+    font-size: 0.375rem;
+    color: #000000;
+    margin-top: 0.306875rem;
+}
+.pay_details_ul li span{
+    display: block;
+    color: #737373;
+    font-size: 12px;
+    height: 0.375rem;
+    line-height: 0.375rem;
+}
+.clear_all{
+    position: relative;
+
+}
+.pay_details1_ul{
+    float: left;
+}
+.pay_details1_ul li{
+    font-size: 0.375rem;
+    color: #737373;
+    margin-top: 0.3125rem;
+}
+.pay_succeed{
+    width: 2.703125rem;
+    float: right;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: #8eccc9;
+}
+.pay_succeed_failure{
+    width: 2.703125rem;
+    float: right;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: #E16459;
+}
+.pay_succeed_failure span{
+    display: block;
+    text-align: center;
+}
+
+.pay_succeed span{
+    display: block;
+    text-align: center;
+}
+.zhifu1{
+    font-size: 0.3125rem;
+}
+.zhifu2{
+    font-size: 0.5625rem;
+    margin-top: 0.3125rem;
+}
+.footer{
+    margin-top: 0.5625rem;
+    border-top: 2px dashed #a19e9e;
+    padding-top: 0.546875rem;
+}
+.qrhk{
+    display: block;
+    float: left;
+    color: #e16459;
+    height: 0.4375rem;
+    line-height: 0.4375rem;
+    margin-left: 1.171875rem;
+}
+.qrhk img{
+    width: 0.375rem;
+    height: 0.4375rem;
+    float: left;
+}
+.qrhk span{
+    line-height: 0.4375rem;
+    float: left;
+    margin-left: 0.1875rem;
+}
+.dzfp{
+    display: block;
+    float: right;
+    color: #000000;
+    height: 0.4375rem;
+    line-height: 0.4375rem;
+    margin-right: 1.171875rem;
+}
+.dzfp img{
+    width: 0.375rem;
+    height: 0.4375rem;
+    float: left;
+}
+.dzfp span{
+    line-height: 0.4375rem;
+    float: left;
+    margin-left: 0.1875rem;
+}
+/*----------------问题二级列表----------------*/
+.problem_html{
+    background: #ebf1f1;
+}
+.problem_body{
+    background: #ebf1f1 !important;
+}
+.problem{
+    padding-left: 0.5rem;
+    background: #ffffff;
+    margin-bottom: 0.15625rem;
+}
+.problem_xq{
+
+
+}
+.problem_headline{
+    height: 0.96875rem;
+    line-height: 0.96875rem;
+    font-size: 0.4375rem;
+
+    color: #41444e;
+    /*background: url("../images/rj_logo_03.jpg") no-repeat left center;*/
+}
+/*.problem_headline:hover .rotate{*/
+    /*-webkit-transition:all .2s ease-in 0s;;*/
+    /*-webkit-transform: rotateZ(90deg);*/
+/*}*/
+.problem_headline img{
+    width: 0.53125rem;
+    height: 0.53125rem;
+    float: left;
+    margin-top: 0.21875rem;
+}
+.problem_headline span{
+    float: left;
+    margin-left: 0.390625rem;
+}
+.problem_answer{
+    /*padding-left: 0.9375rem;*/
+    color: #9ea0a3;
+    font-size: 0.375rem;
+    line-height: 0.625rem;
+    border-top: 1px solid #b5b5b5;
+    display: none;
+    padding: 0.234375rem 0;
+}

@@ -3,6 +3,11 @@
  */
 
 
+
+$(function(){
+    next();
+});
+
 //能否下一步
 function next(){
     var cb=document.getElementById("yes");
@@ -39,4 +44,5 @@ function settime(val) {
         settime(val);
     },1000);
 }
+
 
