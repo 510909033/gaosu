@@ -83,6 +83,11 @@ function yincang(){
         .m111{
             z-index: 999;
         }
+        
+        
+.hide1{
+	display:none;
+}        
     </style>
 </head>
 <body>
@@ -117,7 +122,7 @@ function yincang(){
 			>
 			</li>
 
-			<li class="bd_li">身份证号<input
+			<li class="bd_li hide1">身份证号<input
 				name="identity_card"
 				type="text"
 				class="ws_yh"
@@ -134,7 +139,7 @@ function yincang(){
 				class="ws_yh"
 				placeholder="请输车牌号"
 			></li>
-			<li class="bd_li">注册时间
+			<li class="bd_li hide1">注册时间
 				<button
 				type="button" 
 					id='demo2'
@@ -148,19 +153,19 @@ function yincang(){
 					>{$reg_time}</div>
 				</button>
 			</li>
-			<li class="bd_li">发动机号<input
+			<li class="bd_li hide1">发动机号<input
 				name="engine"
 				type="text"
 				class="ws_yh"
 				placeholder="请输入发动机号"
 			></li>
-			<li class="bd_li">车辆识别码<input
+			<li class="bd_li hide1">车辆识别码<input
 				name="chassis_number"
 				type="text"
 				class="ws_yh"
 				placeholder="请输入车辆识别码"
 			></li>
-			<li class="bd_li">车型<select
+			<li class="bd_li hide1">车型<select
 				name="car_type_id"
 				class="ws_yh"
 			>
@@ -172,13 +177,13 @@ function yincang(){
 							ng-bind="x.name"
 						></option>
 			</select></li>
-			<li class="bd_li">品牌<input
+			<li class="bd_li hide1">品牌<input
 				name="brand"
 				type="text"
 				class="ws_yh"
 				placeholder="请输入品牌"
 			></li>
-			<li class="bd_li">颜色<select
+			<li class="bd_li hide1">颜色<select
 				name="car_color"
 				class="ws_yh"
 			>

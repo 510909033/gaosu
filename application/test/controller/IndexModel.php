@@ -1,3 +1,6 @@
+
+
+
 <?php
 class IndexModel {
 	//回复多图文类型的微信消息

@@ -121,6 +121,20 @@ class UserController extends \app\common\controller\NeedLoginController
                 exception('尚未绑定车辆',ConfigTool::$ERRCODE__COMMON);
             }
             
+            if ( 1 != $wayUserBindCar->verify){
+                exception('车辆尚未通过审核',ConfigTool::$ERRCODE__COMMON);
+            }
+            if ( 1 != $wayUserBindCar->status){
+                exception('车辆已经被禁用',ConfigTool::$ERRCODE__COMMON);
+            }
+            
+            
+            
+//             $wayUserBindCar->qrcode_version=1;
+//             $wayUserBindCar->car_number = '吉AT506C';
+//             ConfigTool::$WAY_USER_BIND_CAR_QRCODE_EXPIRE = 0;
+            
+            
             $res = WayUserBindCar::save_car_qrcode_path($wayUserBindCar);
             
             

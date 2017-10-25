@@ -24,35 +24,35 @@ class WayUserBindCarValidate extends Validate{
             
 //         ],
 //     ];
-    
     protected $rule = [
         'username' =>  'require|regex:/^[\x{4e00}-\x{9fa5}]+$/u',
         'phone' =>  'require|number|length:11',
-        'identity_card' =>  'require|min:15|max:18',
         'car_number' =>  'require|length:7|regex:/^[\x{4e00}-\x{9fa5}]{1}[a-z0-9]{6}$/ui|unique:way_user_bind_car',
-        'reg_time' =>  'require',//1501084800
-        'engine' =>  'require',
-        'chassis_number' =>  'require',
-        'car_type_id' =>  'require|number|gt:0',
-        'car_color' =>  'require|number|gt:0',
-        
         'user_id'  =>  'require|gt:0|number|unique:way_user_bind_car',
         'openid' =>  'require',
         'status' =>  'require|number|in:0,1,2',
         'verify' =>  'require|number|in:0,1,2,3',
         'create_time' =>  'require|number|gt:0',
-        
-        
-        
-        
-       
-       
-       //'brand' =>  'require',
-        
         '_agree'=>'require|accepted',
-        
-        
     ];
+//     protected $rule = [
+//         'username' =>  'require|regex:/^[\x{4e00}-\x{9fa5}]+$/u',
+//         'phone' =>  'require|number|length:11',
+//         'identity_card' =>  'require|min:15|max:18',
+//         'car_number' =>  'require|length:7|regex:/^[\x{4e00}-\x{9fa5}]{1}[a-z0-9]{6}$/ui|unique:way_user_bind_car',
+//         'reg_time' =>  'require',//1501084800
+//         'engine' =>  'require',
+//         'chassis_number' =>  'require',
+//         'car_type_id' =>  'require|number|gt:0',
+//         'car_color' =>  'require|number|gt:0',
+        
+//         'user_id'  =>  'require|gt:0|number|unique:way_user_bind_car',
+//         'openid' =>  'require',
+//         'status' =>  'require|number|in:0,1,2',
+//         'verify' =>  'require|number|in:0,1,2,3',
+//         'create_time' =>  'require|number|gt:0',
+//         '_agree'=>'require|accepted',
+//     ];
     
     protected $message = [
         'car_number'=>'车牌号选项错误',
