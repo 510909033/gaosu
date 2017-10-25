@@ -24,6 +24,11 @@
     
     <script src="__STATIC__/way2/js/mui.min.js"></script>
 <script src="__STATIC__/way2/js/mui.picker.min.js"></script>
+<style>
+.hide1{
+	display:none;
+}
+</style>
 </head>
 <body>
 <div class="yhbd">
@@ -38,18 +43,18 @@
         </li>
 
 
-        <li class="bd_li">身份证号<span class="ws_yh">{$entity->identity_card}</span></li>
+        <li class="bd_li hide1">身份证号<span class="ws_yh">{$entity->identity_card}</span></li>
         <li class="bd_li">绑定时间<span class="ws_yh">{$entity->create_time}</span></li>
     </ul>
     <div class="kuan1 matop"><button class="xiayibu yzm_none" id="modify_phone_btn">提交</button></div>
     <p class="gexx top30">车辆信息</p>
     <ul class="bd_ul">
         <li class="bd_li">车牌号<span class="ws_yh">{$entity->car_number}</span></li>
-        <li class="bd_li">发动机号<span class="ws_yh">{$entity->engine}</span></li>
-        <li class="bd_li">车辆识别码<span class="ws_yh">{$entity->username}</span></li>
-        <li class="bd_li">车型<span class="ws_yh" style="overflow:hidden;" >{$entity->car_type_id_text}</span></li>
-        <li class="bd_li">品牌<span class="ws_yh">{$entity->brand}</span></li>
-        <li class="bd_li">颜色<span class="ws_yh">{$entity->car_color_text}</span></li>
+        <li class="bd_li hide1">发动机号<span class="ws_yh">{$entity->engine}</span></li>
+        <li class="bd_li hide1">车辆识别码<span class="ws_yh">{$entity->username}</span></li>
+        <li class="bd_li hide1">车型<span class="ws_yh" style="overflow:hidden;" >{$entity->car_type_id_text}</span></li>
+        <li class="bd_li hide1">品牌<span class="ws_yh">{$entity->brand}</span></li>
+        <li class="bd_li hide1">颜色<span class="ws_yh">{$entity->car_color_text}</span></li>
     </ul>
     <div class="pading771">
 
