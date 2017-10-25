@@ -11,7 +11,6 @@ use vendor\SMS\SmsMultiSender;
 use vendor\SMS\SmsVoicePromtSender;
 use vendor\SMS\SmsVoiceVeriryCodeSender;
 
-use weixin\auth\AuthExtend;
 if(!file_exists(EXTEND_PATH.'weixin/jssdk/Jssdk.php')){
     die('file not exists');
 }
@@ -300,14 +299,16 @@ class IndexController extends Controller
         }
     }
     
-    public function getSignPackage(){
+    public function getSignPackageAction(){
         $auth = new AuthExtend();
-        $jssdk = new JSSDK($auth->getAppkey(), $auth->getAppsecret());
+        $jssdk = new \weixin\jssdk\Jssdk($auth->getAppkey(), $auth->getAppsecret());
         $signPackage = $jssdk->GetSignPackage();
 
         /*require '/Public/jssdk.php'; //引入jssdk文件
         $jssdk = new \JSSDK($this->weixinConfig['appid'],$this->weixinConfig['appsecret']);
         $signPackage = $jssdk->GetSignPackage();//获取*/
+
+        $this->assign('signPackage',$signPackage);
         return $this->fetch('weather');
     }
     
@@ -350,7 +351,7 @@ class IndexController extends Controller
             }
         }
     }
-
+/*
     function getWxAccessTokenAction()
     {
         // 1.请求url地址
@@ -373,7 +374,7 @@ class IndexController extends Controller
         curl_close($ch);
         var_dump($arr);
         return $arr;
-    }
+    }*/
     
     public function weatherAction(){
         return $this->fetch('weather');

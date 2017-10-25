@@ -2,93 +2,229 @@
 <html lang="en">
 <head>
  <meta charset="UTF-8">
+ <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
   <title></title>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="__JS__/jquery-1.8.3.min.js"></script>
+<!-- <style>
+        html,
+        body{
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+        #container{
+            width: 100%;
+            height: 100%;
+        }
+</style> -->
+<style type="text/css">
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+    body, button, input, select, textarea {
+        font: 12px/16px Verdana, Helvetica, Arial, sans-serif;
+    }
+    li {
+        margin-left: 30px;
+    }
+  #container {
+     min-width:500px;
+     min-height:500px;
+  }
+</style>
 </head>
-<body>
+<body onload="init()">
+<!-- <div>
+<input id="keyword" type="textbox" value="服务区" style="width: 10%">
+<input type="button" value="search" onclick="searchKeyword()">
+</div>
+  <div  id="container"></div>
+<div>
+ -->
+ <div id="container"></div>
+ <div>区域 <input type='text' value='长春' id="regionText"/>
+    地点 <input type='text' value="服务区" id="poiText"/>
+    <input type="button" value="Search" onclick="getResult()"/>
 
-</body>
+    <div id="pageIndexLabel" style="width: 100px;"></div>
+</div>
+<div style='width: 500px; height: 180px' id="infoDiv"></div>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+<script>
+ 
+   /* var searchService,map,markers = [];
+    function init($lat,$lon) {
+    var center = new qq.maps.LatLng($lat,$lon);
+    map = new qq.maps.Map(document.getElementById('container'),{
+        center: center,
+        zoom: 15
+    });
+
+
+    //设置圆形
+    new qq.maps.Circle({
+        center:new qq.maps.LatLng($lat,$lon),
+        radius: 500,
+        map: map
+    });
+    //添加地图导航平移控件
+    var navControl = new qq.maps.NavigationControl({
+        align: qq.maps.ALIGN.TOP_LEFT,
+        margin: new qq.maps.Size(5, 15),
+        map: map
+    });
+    
+    //实时路况图层
+    var layer = new qq.maps.TrafficLayer();
+    layer.setMap(map);
+    var latlngBounds = new qq.maps.LatLngBounds();
+    var latlngBounds = new qq.maps.LatLngBounds();
+
+    //调用Poi检索类
+    searchService = new qq.maps.SearchService({
+        complete : function(results){
+            var pois = results.detail.pois;
+            for(var i = 0,l = pois.length;i < l; i++){
+                var poi = pois[i];
+                latlngBounds.extend(poi.latLng);  
+                var marker = new qq.maps.Marker({
+                    map:map,
+                    position: poi.latLng
+                });
+
+                marker.setTitle(i+1);
+                
+                markers.push(marker);
+            }
+            map.fitBounds(latlngBounds);
+        }
+    });
+}
+var Lat = '';
+var Lng = '';                                 
+//调用poi类信接口                                         
+function searchKeyword() {
+    var keyword = document.getElementById("keyword").value;
+    
+    region = new qq.maps.LatLng(Lat,Lng);
+   
+    searchService.setPageCapacity(5);
+    searchService.searchNearBy(keyword, region, 500);//根据中心点坐标、半径和关键字进行周边检索。
+}
+*/
+
+var map = null;
+var searchService = null;
+
+function init($lat,$lon) {
+    var center = new qq.maps.LatLng($lat,$lon);
+    map = new qq.maps.Map(document.getElementById('container'), {
+        center:center,
+        zoomLevel:13
+    });
+    
+    //调用Poi检索类
+    searchService = new qq.maps.SearchService({
+        panel:document.getElementById('infoDiv'),
+        map : map
+    });
+    getResult();
+   
+    //实时路况图层
+    var layer = new qq.maps.TrafficLayer();
+    layer.setMap(map);
+    var latlngBounds = new qq.maps.LatLngBounds();
+    var latlngBounds = new qq.maps.LatLngBounds();
+}
+function getResult() {
+
+    //设置searchRequest
+    var poiText = document.getElementById("poiText").value;
+    var regionText = document.getElementById("regionText").value;
+    
+    searchService.setLocation(regionText);
+
+    searchService.search(poiText);
+
+}
+</script>
+
 
 <script type="text/javascript">
-//微信环境中定位，获取当前经纬度，然后传入后台根据经纬度调取百度地图接口，获取城市名称。
-$(function(){
-getLoc();
-})
-
-
+//微信环境中定位，获取当前经纬度
 //判断是否是微信内置浏览器
 function isWeiXin(){ 
-var ua = window.navigator.userAgent.toLowerCase(); 
-if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
-return true; 
-}else{ 
-return false; 
-} 
+    var ua = window.navigator.userAgent.toLowerCase(); 
+    if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
+    return true; 
+    }else{ 
+    return false; 
+    } 
 } 
 
 function getLoc(){
-if(isWeiXin()){ 
-//通过config接口注入权限验证配置
-wx.config({
-  debug: false,
-  appId: "{$signPackage['appId']}",
-  timestamp: "{$signPackage['timestamp']}",
-  nonceStr: "{$signPackage['nonceStr']}",
-  signature: "{$signPackage['signature']}",
-  jsApiList: [
-      // 所有要调用的 API 都要加到这个列表中
-      'checkJsApi',
-      'getLocation',
-    ]
-});
-//通过ready接口处理成功验证
-wx.ready(function () {
+    if(isWeiXin()){ 
+    //通过config接口注入权限验证配置
+        wx.config({
+          debug: true,
+          appId: "{$signPackage['appId']}",
+          timestamp: "{$signPackage['timestamp']}",
+          nonceStr: "{$signPackage['nonceStr']}",
+          signature: "{$signPackage['signature']}",
+          jsApiList: [
+              // 所有要调用的 API 都要加到这个列表中
+              'checkJsApi',
+              'getLocation',
+            ]
+    });
+    //通过ready接口处理成功验证
+          wx.ready(function () {
 
-//通过checkJsApi判断当前客户端版本是否支持指定获取地理位置
-wx.checkJsApi({
-  jsApiList: [
-      'getLocation'
-  ],
-  success: function (res) {
-      // alert(JSON.stringify(res));
-      // alert(JSON.stringify(res.checkResult.getLocation));
-      if (res.checkResult.getLocation == false) {
-          alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
-          return;
-      }
-  }
-});
+          //通过checkJsApi判断当前客户端版本是否支持指定获取地理位置
+          wx.checkJsApi({
+            jsApiList: [
+                'getLocation'
+            ],
+            success: function (res) {
+                // alert(JSON.stringify(res));
+                // alert(JSON.stringify(res.checkResult.getLocation));
+                if (res.checkResult.getLocation == false) {
+                    alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
+                    return;
+                }
+            }
+    });
 
-wx.getLocation(
-		{
-  type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-  success: function (res) {
-      var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-      var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-      var speed = res.speed; // 速度，以米/每秒计
-      var accuracy = res.accuracy; // 位置精度
-      $.ajax(
-    		  {
-        url:"{:U('Common/getCityLocation')}",
-        data:'latitude='+latitude+'&longitude='+longitude,
-        type:'post',
-        success:function(data){
-        alert(data);
-        console.log(data);
+    wx.getLocation({
+          type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+          success: function (res) {
+              var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+              var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+              var speed = res.speed; // 速度，以米/每秒计
+              var accuracy = res.accuracy; // 位置精度\
+              init(res.latitude,res.longitude);
+              Lat = latitude;
+              Lng = longitude;
+          }
         }
-      }
-    		  ) 
-  }
-}
-		);
-
-});
-}else{
-alert('请在微信环境中打开');
-}
+        );
+    });
+      
+    }else{
+          alert('请在微信环境中打开');
+    }
 }  
 
-
+getLoc();
+  
 </script>
+
+
+</body>
+
+
+
 
 </html>
