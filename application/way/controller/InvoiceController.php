@@ -38,25 +38,25 @@ class InvoiceController extends \app\common\controller\NeedLoginController
 {
     public function indexAction()
     {
-
         $lid = isset($_GET['log_id']) ? $_GET['log_id'] : 0;
 
-        $this->assign('lid',$lid);
+        $data = Db::name('way_invoice')->where(array('log_id'=>$lid))->select()
+        var_dump($data);die();
 
+
+
+        $this->assign('lid',$lid);
         return $this->fetch('invoice');
     }
 
     public function addAction(){
     	$model = new WayInvoice();
 
-
     	$model->title          =\request()->post('title');
         $model->duty_paragraph = \request()->post('duty_paragraph');
     	$model->log_id         = \request()->post('log_id');
     	$model->user_id        = UserTool::getUser_id();
-
     	$model->save();
-
 
     	return $this->success('提交成功','index/index/index');
 
