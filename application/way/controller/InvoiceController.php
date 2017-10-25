@@ -42,7 +42,7 @@ class InvoiceController extends \app\common\controller\NeedLoginController
         $data = Db::name('way_invoice')->where(array('log_id'=>$lid))->select();
 
         if (!empty($data)) {
-            if ($data[0]['Print']) {
+            if ($data[0]['is_Print']) {
                 $this->assign('fpiao',$data[0]['img']);
                 $this->fetch('index');
             }else{
