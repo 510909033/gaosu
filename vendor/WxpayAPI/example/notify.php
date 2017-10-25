@@ -87,7 +87,7 @@ class PayNotifyCallBack extends WxPayNotify
                 Log::order_log('订单更新成功'.$orderdata['out_trade_no'],'成功');
 
                 $data = [
-                    'touser'=>$value['openid'],
+                    'touser'=>$orderdata['openid'],
                     'template_id'=>'KkAbWJkpYq2ySUKRLnd1QGzLSTWmYQNSz2a2M3aovM0',
                     'url'=>'http://gs.jltengfang.com/order/wxpay/index?ordernum='.$value['out_trade_no'],
                     'topcolor'=>'#FF0000',
