@@ -4,6 +4,11 @@ use app\order\model\SysOrder;
 use think\Db;
 use app\common\model\WayLog;
 
+use weixin\auth\AuthExtend;
+//use youwen\exwechat\api\accessToken;
+use youwen\exwechat\api\message\template;
+
+
 ini_set('date.timezone','Asia/Shanghai');
 error_reporting(E_ERROR);
 
@@ -80,6 +85,26 @@ class PayNotifyCallBack extends WxPayNotify
             if ($res && $logres){
                 Db::commit();
                 Log::order_log('订单更新成功'.$orderdata['out_trade_no'],'成功');
+
+                $data = [
+                    'touser'=>$value['openid'],
+                    'template_id'=>'KkAbWJkpYq2ySUKRLnd1QGzLSTWmYQNSz2a2M3aovM0',
+                    'url'=>'http://gs.jltengfang.com/order/wxpay/index?ordernum='.$value['out_trade_no'],
+                    'topcolor'=>'#FF0000',
+                    'data'=>[
+                        'first'=>['value'=>'您的款项已收到'],
+                        'keyword1'=>['value'=>'尊敬的客户'],
+                        'keyword2'=>['value'=>$orderdata['out_trade_no']],
+                        'keyword3'=>['value'=>sprintf("%.2f",($orderdata['total_fee']/100))],
+                        'remark'=>['value'=>'如有问题请联系腾放公司客服']
+                    ],
+                ];
+                $auth           = new AuthExtend();
+                $accessToken    = $auth->getAccessToken(false);
+                $message        = new template($accessToken);
+                $res            = $message->send($data);
+                
+                Log::order_log(json_encode($res),'模板消息');
                 return true;
             }
             else
