@@ -39,14 +39,20 @@ class InvoiceController extends \app\common\controller\NeedLoginController
     public function indexAction()
     {
         $lid = isset($_GET['log_id']) ? $_GET['log_id'] : 0;
-
         $data = Db::name('way_invoice')->where(array('log_id'=>$lid))->select();
-        var_dump($data);die();
 
-
-
-        $this->assign('lid',$lid);
-        return $this->fetch('invoice');
+        if (!empty($data)) {
+            if ($data[0]['Print']) {
+                $this->assign('fpiao'=>$data[0]['img']);
+                $this->fetch('index');
+            }else{
+                $this->assign('msg'=>'努力出票中,请稍后重试');
+                $this->fetch('index');
+            }
+        }else{
+            $this->assign('lid',$lid);
+            return $this->fetch('invoice');
+        }
     }
 
     public function addAction(){
