@@ -12,7 +12,7 @@ use think\Route;
 // +----------------------------------------------------------------------
 
 
-Route::resource('user' , 'way/User');
+//Route::resource('user' , 'way/User');
 // Route::resource('role' , 'admin/Role');
 // Route::resource('menu' , 'admin/Menu');
 // Route::resource('rolemenu' , 'admin/RoleMenu');
