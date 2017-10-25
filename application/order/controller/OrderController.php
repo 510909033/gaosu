@@ -166,7 +166,7 @@ class OrderController extends Controller
 	        $orderData['create_cache'] = json_encode($data);
 	        $orderData['total_fee']    = $data['pay_total_fee'];
 	        $orderData['out_trade_no'] = create_order_num();
-	        $orderData['body']         = $stationArr[$data['in_pos_id']].'高速入口至'.$stationArr[$data['out_pos_id']].'高速出口所产生的高速费用';
+	        $orderData['body']         = '【'.$stationArr[$data['in_pos_id']].'】高速入口至【'.$stationArr[$data['out_pos_id']].'】高速出口所产生的高速费用';
 	        $orderData['log_id']       = $data['id'];
 	        $id = model('SysOrder')->add($orderData);
 	        echo $id;   
