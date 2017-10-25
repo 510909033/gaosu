@@ -38,7 +38,12 @@ class InvoiceController extends \app\common\controller\NeedLoginController
 {
     public function indexAction()
     {
-         return $this->fetch('invoice');
+
+        $lid = isset($_GET['log_id']) ? $_GET['log_id'] : 0;
+
+        $this->assign('lid',$lid);
+
+        return $this->fetch('invoice');
     }
 
     public function addAction(){
