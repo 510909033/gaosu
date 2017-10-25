@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class="pay_html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title></title>
+    <link href="__CSS__/gs.css?v=1.1" type="text/css" rel="stylesheet" />
+    <link href="__CSS__/reset.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="__CSS__/swiper.min.css">
+    <link rel="stylesheet" href="__CSS__/mui.min.css">
+    <script src="__JS__/jquery-1.10.1.min.js" type="text/javascript"></script>
+    <script src="__JS__/carry.js"></script>
+    <script src="__JS__/swiper.min.js"></script>
+    <script src="__JS__/mui.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        mui.init();
+    </script>
+</head>
+<body class="pay_body">
+    <div class="pay">
+        <!--<div class="pay_list green">-->
+            <!--<p class="cph p_green">吉A HH126</p>-->
+            <!--<ul class="pay_ul ul_green">-->
+                <!--<li>入口：莲花山收费站</li>-->
+                <!--<li>出口：龙嘉机场收费站</li>-->
+            <!--</ul>-->
+            <!--<p class="payment p1_green">微信支付： 25.00元</p>-->
+            <!--&lt;!&ndash;<p class="payment_lose">微信支付： 25.00元</p>&ndash;&gt;-->
+            <!--<p class="examine p2_green"><a href="#">查看详情</a></p>-->
+        <!--</div>-->
+        <!--缴费列表开始-->
+        <?php if(isset($res)&&!empty($res)){?>
+        {volist name="res" id="vo"}
+        <div class="pay_list">
+            <p class="cph">{$car_num}<span><i>{$vo.create_time}</i></span></p>
+
+                 
+            <ul class="pay_ul">
+                <li>入口：{$vo.in_pos_id}</li>
+                <li>出口：{$vo.out_pos_id}</li>
+            </ul>
+            
+            <p class="payment">微信支付： {$vo.pay_total_fee/100|number_format=###, 2, '.', ''}元</p>
+            <p style="text-align: right;">{$vo.is_pay}</p>
+
+            <p class="examine"><a href="{:url('way/invoice/index')}">电子发票</a></p>
+        </div>
+        {/volist}
+        <?php }else{?>
+            <div class="pay_list">
+                <p>没有通行记录</p>
+            </div>
+       <?php } ?>
+        <!--缴费列表结束。-->
+        
+    </div>
+</body>
+</html>

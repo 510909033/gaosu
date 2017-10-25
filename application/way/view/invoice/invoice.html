@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title></title>
+    <link href="__CSS__/gs.css?v=1.1" type="text/css" rel="stylesheet" />
+    <link href="__CSS__/reset.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="__CSS__/swiper.min.css">
+    <link rel="stylesheet" href="__CSS__/mui.min.css">
+    <script src="__JS__/jquery-1.10.1.min.js" type="text/javascript"></script>
+    <script src="__JS__/carry.js"></script>
+    <script src="__JS__/swiper.min.js"></script>
+    <script src="__JS__/mui.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        mui.init();
+    </script>
+</head>
+<body>
+<div class="yhbd">
+    <form action="{:url('way/invoice/add')}" method="post">
+    <p class="gexx">发票信息</p>
+    <ul class="mui-input-group mui-scroll bd_ul">
+        <li class="bd_li">单位名称<input id="username" type="text" class="mui-search ws_yh" placeholder="单位名称" name="title"></li>
+        <li class="bd_li">税号<input type="text" class="ws_yh" placeholder="请输入税号" name='duty_paragraph'></li>
+    </ul>
+    <div class="kuan1"><button class="xiayibu" type="submit">提交</button></div>
+    </form>
+</div>
+<script>
+    $(".xiayibu").click(function(){
+        var name=$("#username").val();
+        if(name==""){
+            mui.alert('用户名不能为空', '提示', function() {
+                //回调函数。需要时候用
+            });
+        }else{
+            win();
+        }
+    });
+</script>
+</body>
+</html>
