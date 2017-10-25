@@ -40,7 +40,7 @@ class InvoiceController extends \app\common\controller\NeedLoginController
     {
         $lid = isset($_GET['log_id']) ? $_GET['log_id'] : 0;
 
-        $data = Db::name('way_invoice')->where(array('log_id'=>$lid))->select()
+        $data = Db::name('way_invoice')->where(array('log_id'=>$lid))->select();
         var_dump($data);die();
 
 
