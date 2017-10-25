@@ -50,9 +50,10 @@ class InvoiceController extends \app\common\controller\NeedLoginController
     	$model = new WayInvoice();
 
 
-    	$model->title=\request()->post('title');
-    	$model->duty_paragraph = \request()->post('duty_paragraph');
-    	$model->user_id = UserTool::getUser_id();
+    	$model->title          =\request()->post('title');
+        $model->duty_paragraph = \request()->post('duty_paragraph');
+    	$model->log_id         = \request()->post('log_id');
+    	$model->user_id        = UserTool::getUser_id();
 
     	$model->save();
 
