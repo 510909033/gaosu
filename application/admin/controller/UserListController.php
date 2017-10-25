@@ -179,45 +179,44 @@ class UserListController extends Controller
    public function getDetailAction(){
 
       $id = $_GET['id'];
-       $new = [];
+      $new = [];
       
       if($id == NULL){
         $new['errcode'] = 1;
         $new['html'] = '数据不存在';
         return \json($new);
 
-      }else{
+    }else{
 
         $data = WayUserBindCar::get($id);
 
          // $data = Db::name('way_user_bind_car')->find(array('id'=>$id));
-       
-      if ($data){     
 
+        if ($data){     
             $new = $data->toArray();
-               $new['errcode'] = 0;
-
-            $new['create_time'] = date('Y-m-d H:i:s',$data->getData('create_time'));  
-            $new['dis_verify'] =  $data->dis_verify;
-            $new['identity_image0'] =  $data->sfz0_url;
-            $new['identity_image1'] =  $data->sfz1_url;
-            $new['driving_license_image0'] =  $data->xsz0_url;
-            $new['driving_license_image1'] =  $data->xsz1_url;
-            $new['dis_status'] =  $data->dis_status;
+            $new['errcode']                 = 0;
+            $new['create_time']             = date('Y-m-d H:i:s',$data->getData('create_time'));  
+            $new['dis_verify']              =  $data->dis_verify;
+            $new['identity_image0']         =  $data->sfz0_url;
+            $new['identity_image1']         =  $data->sfz1_url;
+            $new['driving_license_image0']  =  $data->xsz0_url;
+            $new['driving_license_image1']  =  $data->xsz1_url;
+            $new['dis_status']              =  $data->dis_status;
+            $new['car_number']              =  strtoupper($data->car_number);
 
             /*$verify = config('verify');
 
             $status = config('status');
 
             */
-      }
-            return \json($new);
+        }
+        return \json($new);
 
           //var_dump($data);die;
 
-      }
-
     }
+
+}
 
 //更新状态
 

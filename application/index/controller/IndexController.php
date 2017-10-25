@@ -5,18 +5,10 @@ use think\Controller;
 use app\common\tool\UserTool;
 use app\common\controller\NeedLoginController;
 
-class IndexController extends NeedLoginController
+class IndexController extends NeedloginController
 {
     public function indexAction()
     {
-
-
-
-    UserTool::getUser_id();
-
-
-
-
     	return view('index');
     }
 }

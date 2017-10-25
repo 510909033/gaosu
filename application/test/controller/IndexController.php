@@ -11,6 +11,15 @@ use vendor\SMS\SmsMultiSender;
 use vendor\SMS\SmsVoicePromtSender;
 use vendor\SMS\SmsVoiceVeriryCodeSender;
 
+use weixin\auth\AuthExtend;
+if(!file_exists(EXTEND_PATH.'weixin/jssdk/Jssdk.php')){
+    die('file not exists');
+}
+require_once EXTEND_PATH.'weixin/jssdk/Jssdk.php';
+// $auth = new AuthExtend();
+// $jssdk = new JSSDK($auth->getAppkey(), "yourAppSecret");
+// $signPackage = $jssdk->GetSignPackage();
+
 class IndexController extends Controller
 {
     //初始化
@@ -292,10 +301,14 @@ class IndexController extends Controller
     }
     
     public function getSignPackage(){
-        require '/Public/jssdk.php'; //引入jssdk文件
+        $auth = new AuthExtend();
+        $jssdk = new JSSDK($auth->getAppkey(), $auth->getAppsecret());
+        $signPackage = $jssdk->GetSignPackage();
+
+        /*require '/Public/jssdk.php'; //引入jssdk文件
         $jssdk = new \JSSDK($this->weixinConfig['appid'],$this->weixinConfig['appsecret']);
-        $signPackage = $jssdk->GetSignPackage();//获取
-        return $signPackage;
+        $signPackage = $jssdk->GetSignPackage();//获取*/
+        return $this->fetch('weather');
     }
     
     //获取城市名称    
@@ -363,7 +376,11 @@ class IndexController extends Controller
     }
     
     public function weatherAction(){
-        return \view('weather');
+        return $this->fetch('weather');
+    }
+
+    public function locationAction(){
+        return $this->fetch('location');
     }
     
     // 返回access_token
