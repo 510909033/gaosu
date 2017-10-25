@@ -5,7 +5,7 @@ use think\Controller;
 use app\common\tool\UserTool;
 use app\common\controller\NeedLoginController;
 
-class IndexController extends Controller
+class IndexController extends NeedloginController
 {
     public function indexAction()
     {
