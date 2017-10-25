@@ -89,7 +89,7 @@ class PayNotifyCallBack extends WxPayNotify
                 $data = [
                     'touser'=>$orderdata['openid'],
                     'template_id'=>'KkAbWJkpYq2ySUKRLnd1QGzLSTWmYQNSz2a2M3aovM0',
-                    'url'=>'http://gs.jltengfang.com/order/wxpay/index?ordernum='.$value['out_trade_no'],
+                    'url'=>'http://gs.jltengfang.com',
                     'topcolor'=>'#FF0000',
                     'data'=>[
                         'first'=>['value'=>'您的款项已收到'],
