@@ -43,11 +43,9 @@ class InvoiceController extends \app\common\controller\NeedLoginController
 
         if (!empty($data)) {
             if ($data[0]['is_Print']) {
-                echo "1111";
                 $this->assign('img',$data[0]['img']);
                 return $this->fetch('fapiao');
             }else{
-                echo "22222";
                 $this->assign('msg','努力出票中,请稍后重试');
                 return $this->fetch('fapiao');
             }
