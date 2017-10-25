@@ -45,7 +45,8 @@
             <p class="payment">微信支付： {$vo.pay_total_fee/100|number_format=###, 2, '.', ''}元</p>
             <p style="text-align: right;">{$vo.is_pay}</p>
 
-            <p class="examine"><a href="way/invoice/index?log_id=<?php echo $vo['id'];?>">电子发票</a></p>
+            <p class="examine"><a href="{:url('way/invoice/index',['log_id'=>$vo['id']])}">电子发票</a></p>
+            < a href=" 'way/Invoice/index',['log_id' => $vo['id']])}">电子发票</ a>
         </div>
         {/volist}
         <?php }else{?>
