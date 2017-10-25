@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发票</title>
+</head>
+<body>
+
+	<?php if(issect($img)){?>
+    	<div><img src="{$img}"></div>
+   		<a href="{$img}" download="fapiao"><button>点击保存</button></a>
+	<?php }else{ ?>
+
+	<p>{$msg}</p>
+	<?php } ?>
+</body>
+</html>
+
+
+
