@@ -1,19 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>发票</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=10,user-scalable=yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>发票信息</title>
+    <link href="__CSS__/gs.css" type="text/css" rel="stylesheet" />
+    <link href="__CSS__/reset.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="__CSS__/swiper.min.css">
+    <link rel="stylesheet" href="__CSS__/mui.min.css">
+    <script src="__JS__/jquery-1.10.1.min.js" type="text/javascript"></script>
+    <script src="__JS__/carry.js"></script>
+    <script src="__JS__/mui.min.js"></script>
+    <script src="__JS__/jquery.rotate.min.js"></script>
 </head>
 <body>
+<div class="invoice">
+    <?php if(isset($img)){?>
+    <div class="invoice_img">
+        <img src="/static/{$img}" id="rotate">
+    </div>
+     <?php }else{ ?>
+        <div><p><?php echo $msg;?></p></div>
+    <?php } ?>
+</div>
+<script>
+    $(".invoice").height($(window).height());
 
-	<?php if(isset($img)){?>
-    	<div><img src="/static/{$img}"></div>
-   		<!-- <a href="/static/{$img}" download="fapiao"><button>点击保存</button></a> -->
-	<?php }else{ ?>
-		<div><p><?php echo $msg;?></p></div>
-	<?php } ?>
+
+//    $(".invoice_img img").rotate({
+//        animateTo:90
+//    });
+</script>
 </body>
 </html>
-
-
-

@@ -1,0 +1,439 @@
+{include file="public/header" /}
+<body>
+<div class="all_back">
+<!-- header clearfix -->
+<!-- welcome clearfix -->
+{include file="public/header_top" /}
+
+<div class="main clearfix">
+{include file="public/left_main" /}
+
+<div class="right_main">
+<p class="jfgl">用户管理</p>
+    <div class="sousuo">
+        <div class="sousuo_n">
+         <form action="{:url('admin/UserList/index1')}" method="post">
+            <select class="form-control input-sm xiala" name="contents">
+                <option value ="username" >用户名</option>
+                <option value ="car_number" {$select.car_number}>车牌号</option>
+                <option value="brand"  {$select.brand}>品牌</option>
+                <option value="phone" {$select.phone}>手机号</option>
+            </select>
+            
+            <input class="form-control input-sm shuru" type="text" placeholder="输入关键字" name="search_name" 
+            value="<?php echo input('search_name');?>">
+
+            <input type="submit" class="btn btn-primary btn1" value="搜索">
+        </form>
+        </div>
+    </div>
+<!--列表开始-->
+    <div class="table-responsive">
+    <div class="tanchukuang xqxx">
+        <div class="zhezhu"></div>
+        <div class="ws_ip clearfix">
+            <p class="yhqq">用户详情</p>
+
+            <ul>
+                <li>姓名：<span id='name'></span></li>
+                <li>手机号：<span id='phone'></span></li>
+                <li>身份证号：<span id='identity_card'></span></li>
+                <li>注册时间：<span id='create_time'></span></li>
+                <li>车牌号：<span id='car_number'></span></li>
+                <li>发动机号：<span id='engine'></span></li>
+                <li>车辆识别码：<span id='chassis_number'></span></li>
+                <li>车型：<span id='car_type_id'></span></li>
+                <li>品牌：<span id='brand'></span></li>
+                <li>颜色：<span id='car_color'></span></li>
+                <li>审核状态：<span id='verify'></span></li>
+                <li>用户状态：<span id='status'></span></li>
+            </ul>
+
+            <div class="g_kuan clearfix">
+                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="1"><img src="images/header_bj_01.jpg"></a></div>
+                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="2"><img src="images/header_bj_01.jpg"></a></div>
+                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="3"><img src="images/header_bj_01.jpg"></a></div>
+                <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="4"><img src="images/header_bj_01.jpg"></a></div>
+            </div>
+        </div>
+               
+        <div class="anniu clearfix">
+
+            <button type="button" class="btn btn-success wxx" id="js_verify_0" style="display: none;" onclick="updateverify(1)">审核通过</button>
+            <button type="button" class="btn btn-warning wxx butongguo"   id="js_verify_1">审核未通过</button>
+            <button type="button" class="btn btn-danger bt4 bottom0 guanbi" >关闭</button>
+
+        </div>
+
+        <div class="btgyy">
+       
+            <p class="wtg">未通过原因</p>
+            <div class="leibie">
+                <p class="lxdh">下拉框</p>
+                <select id="failtype" class="form-control" >
+                    <option value ="1" select="selected">1</option>
+                    <option value ="2">2</option>
+                    <option value ="3">3</option>
+                    <option value ="4">4</option>
+                    <option value ="5">5</option>
+                </select>
+            </div>
+            <div class="ws_ip clearfix">
+                <p class="lxdh">问题描述：</p>
+                <textarea class="form-control wenben" rows="5" id="failmsg" name="verify_reason" ></textarea>
+            </div>
+            <input type="hidden" name="id" id="id" value="">
+            <input type="button" name="" value='提交' onclick="updateverify(2)" class="btn btn-primary btn1 qd">
+            <button type="button" class="btn btn-danger bt4 bottom0 guanbi2"  style="margin-top: 12px">关闭</button>
+        
+        </div>
+
+    </div>
+        <table class="table table-hover table-striped zidingyi yhgl">
+            <thead>
+            <tr>
+                <td>Id</td>
+                <td>用户名</td>
+                <td>入口</td>
+                <td>出口</td>
+                <td>公里数</td>
+                <td>时长</td>
+                <td>创建时间</td>
+                <td>审核状态</td>
+                <td>用户状态</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody>
+
+            {volist name="res" id="vo"}          
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.username}</td>
+                <td>{$vo.identity_card}</td>
+                <td>{$vo.phone}</td>
+                <td>{$vo.car_number}</td>
+                <td>{$vo.brand}</td>
+                <td>{$vo.create_time}</td>
+                <td>{$vo->dis_verify}</td>
+                <td>{$vo->dis_status}</td>
+                <td>
+                    <button type="button" class="btn btn-success xx ws_show" onclick="getDetail({$vo.id})" >详情</button>
+                    <button  type="button" class="btn btn-warning xx"  onclick="upstate({$vo.id},{$vo.status})" ><?php if(isset($vo['status'])&&$vo['status']==0) echo '禁用'; else echo "启用"; ?></button>
+                    <button type="button" class="btn btn-danger xx" onclick="del({$vo.id})">删除</button>
+                </td>
+            </tr>
+            {/volist}
+            
+            </tbody>
+        </table>
+
+    </div>
+    <div class="baiping"></div>
+<!--列表结束-->
+<!--翻页开始-->
+<div class="fanye_all">
+    <div class="fanye clearfix">
+        <div class="M-box3" style="float: right">
+            {$res}
+        </div>
+       
+    </div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript" src="__JS__/bootbox.min.js" ></script>
+<script>
+//未通过原因
+$(".butongguo").click(function(){
+    $(".btgyy").fadeIn();
+    $(".zhezhu").fadeIn();
+});
+$(".qd").click(function(){
+    $(".btgyy").fadeOut();
+    $(".zhezhu").fadeOut();
+})
+
+
+
+    $(".hide_bt").click(function(){
+        var width =  $(".left_main").css("width");
+
+        if(width=='0px'){
+            $(".left_main").animate({width:"20%"},250);
+            $(".right_main").animate({width:"79%"},250);
+            $(".u1").show();
+        }else{
+            $(".left_main").animate({width:"0px"},250);
+            $(".right_main").animate({width:"99%"},250);
+            $(".u1").hide();
+        }
+    });
+  
+
+    $('.btn').click(function(){
+        var select =$('.xiala').val();
+        var text = $('.shuru').val();
+        
+    });
+
+
+    //获取详情
+    function getDetail(id){
+        $.getJSON('{:url('admin/UserList/getDetail')}',{'id':id},function(date){
+            if(0 == date.errcode){
+            $('#id').val(date.id);
+            $('#name').html(date.username);
+            $('#phone').html(date.phone);
+            $('#identity_card').html(date.identity_card);
+            $('#car_number').html(date.car_number);
+            $('#brand').html(date.brand);
+            $('#create_time').html(date.create_time);
+            $('#engine').html(date.engine);//发动机号
+            $('#chassis_number').html(date.chassis_number);//车辆识别码
+            $('#car_type_id').html(date.car_type_id);//车型
+            $('#car_color').html(date.car_color);//颜色
+
+
+            $('#verify').html(date.dis_verify);//车型
+            $('#status').html(date.dis_status);//颜色            
+            
+
+            $('#verify_reason').html(date.verify_reason);//用户状态
+
+            if(date.verify == 3||date.verify == 0){
+                $("#js_verify_0").show();
+                $("#js_verify_1").show(); 
+            }else{
+                $("#js_verify_0").hide();
+                $("#js_verify_1").hide(); 
+            }
+        }else{
+            alert(date.html);
+        }
+
+        })
+    }
+
+    (function(){
+        var date = new Date(+new Date()+8*3600*1000).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'')
+
+//        alert(date);
+        $("#shijian").text(date);
+    })();
+
+    var lmain = $(".left_main").height();
+    var rmain = $(".right_main").height();
+    if(lmain>rmain){
+        $(".right_main").css("height",lmain)
+    }else{
+        $(".left_main").css("height",rmain)
+    }
+
+
+    $(".l1 p").click(function(){
+        var zhuangtai = $(this).parent().find('.u2').css("display");
+
+        if(zhuangtai=="block"){
+            $(this).parent().find('.u2').hide()
+        }else{
+            $(this).parent().find('.u2').show()
+        }
+    });
+
+    $(".l1 p").hover(function(){
+        $(this).css("color","#d41b99");
+    },function(){
+        $(this).css("color","");
+    });
+    $(".l2").hover(function(){
+        $(this).css("color","#d41b99");
+    },function(){
+        $(this).css("color","");
+    });
+
+
+    $(".ws_show").click(function(){
+        $(".tanchukuang").fadeIn();
+        $(".baiping").fadeIn()
+    });
+
+    $(".guanbi").click(function(){
+        $(".tanchukuang").fadeOut();
+        $(".baiping").fadeOut()
+    });
+
+    $(".butongguo").click(function(){
+        $(".btgyy").fadeIn();
+        $(".zhezhu").fadeIn();
+        $(".wenben").val("");
+    });
+    $(".guanbi2").click(function(){
+        $(".btgyy").fadeOut();
+        $(".zhezhu").fadeOut();
+        $(".form-control").val("");
+        $(".wenben").val("");
+    });
+
+
+    // $(".btn-success").click(function(){
+    //     $(".tanchukuang").fadeIn();
+    //     $(".baiping").fadeIn()
+    // });
+
+
+    // $(".bt4").click(function(){
+    //     $(".wenben").val("");
+    //     $(".tanchukuang").fadeOut();
+    //     $(".baiping").fadeOut()
+    // });
+
+    $(function(){
+        $(".bt2").ready(function(){
+//            $("body").mLoading();
+        });
+    });
+
+    $(document).ready(function() {
+        $(".baiping").height($(window).height());
+        $('.ws_t').fancybox();
+        $('.fancybox-thumbs').fancybox({
+            prevEffect : 'none',
+            nextEffect : 'none',
+
+            closeBtn  : false,
+            arrows    : false,
+            nextClick : true,
+
+            helpers : {
+                thumbs : {
+                    width  : 50,
+                    height : 50
+                }
+            }
+        });
+    });
+
+
+   function clear(){
+        $(".wenben").val("");
+        $(".form-control").val("");
+        $(".tanchukuang").fadeOut();
+        $(".baiping").fadeOut();
+    } 
+
+//启用、禁用
+    function upstate(id,status){
+        $.ajax({
+            type: "POST",
+            url: "{:url('admin/UserList/updateState')}",
+            data: {id:id,status:status},
+
+            dataType: "json",
+            success: function(data){
+                if (data.state==0){
+                    bootbox.alert({
+                        size: "small",
+                        title: "通知",
+                        message: "变更成功",
+                        callback: function(){
+                            clear();
+                            location.reload();
+                        }
+                    });
+                }else{
+                    bootbox.alert({
+                        size: "small",
+                        title: "错误",
+                        message: data.msg,
+                        callback: function(){
+                        } 
+                    })
+                } 
+            }
+        });
+    }
+
+//审核状态
+    function updateverify(verify){
+        var data    = '';
+        var id      = $('#id').val();
+
+        if(verify==2){
+            var type = $('#failtype').val(); 
+            var msg = $('#failmsg').val(); 
+            if (type==0&&msg=="") {
+                bootbox.alert({
+                    size: "small",
+                    title: "提示",
+                    message: "问题描述或者问题类型不能均为空",
+                });
+            }else{
+                data = {id:id,verify:verify,type:type,msg:msg};
+            }
+        }else{
+            data = {id:id,verify:verify};
+        }
+
+        $.ajax({
+            type: "POST", 
+            url: "{:url('admin/UserList/updateVerify')}",
+            data: data,
+
+            dataType: "json",
+            success: function(data){
+                if (data.state==0){
+                    bootbox.alert({
+                        size: "small",
+                        title: "通知",
+                        message: "变更成功",
+                        callback: function(){
+                            clear();
+                            location.reload();
+                        }
+                    });
+                }
+                else{
+                    bootbox.alert({
+                        size: "small",
+                        title: "错误",
+                        message: data.msg,
+                        callback: function(){
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+//删除
+
+    function del(id){
+        $.getJSON('{:url('admin/UserList/delete')}',{'id':id},function(data){
+                if (data.state==0){
+                    bootbox.alert({
+                        size: "small",
+                        title: "通知",
+                        message: "删除成功",
+                        callback: function(){
+                            clear();
+                            location.reload();
+                        }
+                    });
+                }else{
+                    bootbox.alert({
+                        size: "small",
+                        title: "错误",
+                        message: data.msg,
+                        callback: function(){
+                        }
+                    });
+                }   
+        });
+    }
+
+
+</script>
+</body>
+</html>

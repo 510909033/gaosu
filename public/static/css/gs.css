@@ -783,3 +783,37 @@ body{
     display: none;
     padding: 0.234375rem 0;
 }
+.invoice{
+    width: 100%;
+    background: #000000;
+    position: relative;
+}
+.invoice_img{
+    width:100%;
+    /*margin-left: 5%;*/
+    height: 12.8125rem;
+    position: absolute;
+    top: 13%;
+    background: #ffffff;
+    overflow: hidden;
+}
+.invoice_img img{
+    width:10rem;
+    height: 13.1rem;
+}
+#rotate{
+    width: 13.1rem;
+    height: 10rem;
+    transform: rotate(-90deg) translate(-50px,-50px) ;
+}
+.wait{
+    position: relative;
+    background: #fff1ce;
+}
+.rot1{
+    width:10rem;
+    top: 23%;
+    /*height:100%;*/
+    position: absolute;
+    /*left: -55%;*/
+}
