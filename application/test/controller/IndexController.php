@@ -31,17 +31,17 @@ class IndexController extends Controller
 
     public function indexAction()
     {
-        Log::order_log(json_encode($_GET),'微信连接');
+/*        Log::order_log(json_encode($_GET),'微信连接');
         if ($_GET) {
           echo $_GET['echostr'];  
-        };
+        };*/
 
 
-/*        try {
+        try {
             $this->responseMsgAction();
         } catch (\Exception $e) {
             SysLogTmp::log('微信api异常', $e->getMessage(), 0, __FILE__.',line='.__LINE__);
-        }*/        
+        }        
     }
    
 
