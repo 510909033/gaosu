@@ -47,7 +47,7 @@ class InvoiceController extends \app\common\controller\NeedLoginController
                 return $this->fetch('fapiao');
             }else{
                 $this->assign('msg','努力出票中,请稍后重试');
-                return $this->fetch('fapiao');
+                return $this->fetch('loading');
             }
         }else{
             $this->assign('lid',$lid);
@@ -62,9 +62,16 @@ class InvoiceController extends \app\common\controller\NeedLoginController
         $model->duty_paragraph = \request()->post('duty_paragraph');
     	$model->log_id         = \request()->post('log_id');
     	$model->user_id        = UserTool::getUser_id();
-    	$model->save();
+    	$res = $model->save();
 
-    	return $this->success('提交成功','index/index/index');
+        if ($res&is_numeric($res)) {
+            echo json_encode(array('code'=>1,'msg'=>'提交成功'));
+        }else{
+            echo json_encode(array('code'=>0,'msg'=>'保存失败'));
+        }
+
+
+//    	return $this->success('提交成功','index/index/index');
 
     }
 }

@@ -20,26 +20,50 @@
 </head>
 <body>
 <div class="yhbd">
-    <form action="{:url('way/invoice/add')}" method="post">
+    <form action="{:url('way/invoice/add')}" method="post" >
     <p class="gexx">发票信息</p>
     <ul class="mui-input-group mui-scroll bd_ul">
         <li class="bd_li">单位名称<input id="username" type="text" class="mui-search ws_yh" placeholder="单位名称" name="title"></li>
-        <li class="bd_li">税号<input type="text" class="ws_yh" placeholder="请输入税号" name='duty_paragraph'></li>
+        <li class="bd_li">税号<input id="TFN" type="text" class="ws_yh" placeholder="请输入税号" name='duty_paragraph'></li>
     </ul>
-    <input type="hidden" name="log_id" value="<?php echo $lid; ?>">
-    <div class="kuan1"><button class="xiayibu" type="submit">提交</button></div>
+    <input type="hidden" id="log_id"  name="log_id" value="<?php echo $lid; ?>">
+    <div class="kuan1"><button class="xiayibu" type="button">提交</button></div>
     </form>
 </div>
 <script>
     $(".xiayibu").click(function(){
-        var name=$("#username").val();
-        if(name==""){
-            mui.alert('用户名不能为空', '提示', function() {
-                //回调函数。需要时候用
+        var username = $("#username").val();
+        var TFN      =$("#TFN").val();
+        var log_id   =$("#log_id").val();
+        if(username==""){
+            mui.alert('单位名称不能为空', '提示', function() {
+
             });
-        }else{
-            win();
+            return false;
+        }else if(TFN==""){
+            mui.alert('税号不能为空', '提示', function() {
+            
+            });
+            return false;
         }
+        $.ajax({
+          type: 'POST',
+          url: '/way/invoice/add',
+          data: {'title':username,'duty_paragraph':TFN,'log_id':log_id},
+          dataType:"json",
+          success:function(result){
+            if (result.code==1) {
+
+                mui.alert(result.msg, '提示', function() {
+                    window.history.back()
+                });
+            }else{
+                mui.alert(result.msg, '提示', function() {
+            
+                });
+            }
+          }
+        });
     });
 </script>
 </body>
