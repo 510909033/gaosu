@@ -15,7 +15,6 @@ class LoginFunc
      * @return true|string  
      */
     public static function login($data){
-	return true;
         // uni_account , password ,type
         $json=[];
         try {

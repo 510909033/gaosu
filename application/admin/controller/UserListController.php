@@ -300,8 +300,7 @@ class UserListController extends Controller
     *@author dwc
     */
 
-    public function sendSucceedToTemplateAction (){
-	$CardId=47;
+    public function sendSucceedToTemplate($CarId){
         $carData    = WayUserBindCar::get(['id'=>$CarId]);
         Log::order_log(json_encode($carData),'用户信息');
         if (isset($carData['openid'])&&!empty($carData['openid'])) {
