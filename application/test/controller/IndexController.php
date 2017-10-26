@@ -30,11 +30,12 @@ class IndexController extends Controller
 
     public function indexAction()
     {
-        try {
+/*        try {
             $this->responseMsgAction();
         } catch (\Exception $e) {
             SysLogTmp::log('微信api异常', $e->getMessage(), 0, __FILE__.',line='.__LINE__);
-        }
+        }*/
+        return $_GET['echostr'];
         
     }
    
