@@ -84,16 +84,20 @@ class demoController extends Controller
         //
     }
 
-
+    //转化高速收费站站点
     public function testAction(){
-        $res= Db::query("SELECT * FROM `kw_station` WHERE Station_ID!=311 or Station_ID!='31A'");
+        header('content-type;text/html;charset=utf-8');
+        $res= Db::query("SELECT * FROM `kw_station`");
         foreach ($res as $key => $value) {
-            $sql='UPDATE kw_station SET Station_Name="'.iconv("gb2312", "utf-8", $value['Station_Name']).'"WHERE Station_ID="'.$value['Station_ID'].'"';           
+            $Station_Name = iconv("gb2312","utf-8",$value['Station_Name']);
+            echo $Station_Name;
+            Db::query("SET NAMES utf8");
+            $sql = "INSERT INTO station VALUES('".$value['Station_ID']."','".$Station_Name."','','".$value['pinyin']."')";
             $res = Db::execute($sql);
         }
         echo "done";
 
-/*        $data = iconv("gb2312","utf-8",$res[0]['Station_Name']);
+/*        
         var_dump($data);*/
     }
 }
