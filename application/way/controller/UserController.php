@@ -30,17 +30,17 @@ class UserController extends \app\common\controller\NeedLoginController
      * 手机验证码session的key
      * @var string
      */
-    private $yzm_key = 'yzm_user_bind_car';
+    private $yzm_key         = 'yzm_user_bind_car';
     private $yzm_key_timeout = 'yzm_user_bind_car_timeout';
-    private $yzm_key_phone = 'yzm_user_bind_car_phone';
-    private $yzm_timeout = 600;
+    private $yzm_key_phone   = 'yzm_user_bind_car_phone';
+    private $yzm_timeout     = 600;
     
     public function testAction(){
-        $vars=[];
-        $auth = new \weixin\auth\AuthExtend();
-        $appId = $auth->getAppkey();
+        $vars      =[];
+        $auth      = new \weixin\auth\AuthExtend();
+        $appId     = $auth->getAppkey();
         $appSecret = $auth->getAppsecret();
-        $jssdk = new \weixin\jssdk\Jssdk($appId, $appSecret);
+        $jssdk     = new \weixin\jssdk\Jssdk($appId, $appSecret);
         
         
         
@@ -50,7 +50,6 @@ class UserController extends \app\common\controller\NeedLoginController
     }
  
     public function indexAction(){
-        
         
         $wayUserBindCar = WayUserBindCar::get( array('user_id'=>UserTool::getUser_id()));
         
@@ -112,9 +111,9 @@ class UserController extends \app\common\controller\NeedLoginController
     
     public function qrcodeAction(){
         try {
-            $json = [];
-            $func = new UserBindCarFuncController();
-            $user_id = UserTool::getUser_id();
+            $json           = [];
+            $func           = new UserBindCarFuncController();
+            $user_id        = UserTool::getUser_id();
             $wayUserBindCar = WayUserBindCar::getOne($user_id);
             
             if (!$wayUserBindCar){
