@@ -55,7 +55,7 @@ class RecordsController extends \app\common\controller\NeedLoginController
         				$res[$key]['in_pos_id'] = isset($station[$value['in_pos_id']]) ? $station[$value['in_pos_id']] : "";	
         				$res[$key]['out_pos_id'] = isset($station[$value['out_pos_id']]) ? $station[$value['out_pos_id']] : "";
         				$res[$key]['is_pay'] = isset($is_pay[$value['is_pay']]) ? $is_pay[$value['is_pay']] : "";	
-        				$res[$key]['create_time'] = date('Y-m-d',$value['create_time']);	
+        				$res[$key]['create_time'] = date('Y-m-d',strtotime($value['create_time']));	
         			}
         		}
 	       	}
