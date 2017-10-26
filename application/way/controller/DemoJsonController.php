@@ -5,7 +5,11 @@ namespace app\way\controller;
 use think\Controller;
 use app\order\model\WayUserBindCar;
 use think\db\Query;
-
+/**
+ * @author "baotian0506<510909033@qq.com>"
+ * @deprecated 
+ * @desc 不建议删除，里面有sqlite的示例连接代码
+ */
 class DemoJsonController
 {
 

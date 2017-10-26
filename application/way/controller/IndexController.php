@@ -10,7 +10,11 @@ use app\way\controller\func\UserBindCarFuncController;
 use app\common\model\WayUserBindCar;
 use think\Url;
 use think\Build;
-
+/**
+ * @deprecated 此类可删除
+ * @author Administrator
+ *
+ */
 class IndexController extends Controller
 {
     public function __construct($request=null){
@@ -18,11 +22,18 @@ class IndexController extends Controller
         Session::boot();
     }
     
+    /**
+     * @deprecated
+     * @return string
+     */
     public function readAction(){
         return '123';
     }
     
-    
+    /**
+     * @deprecated
+     * @param string $id
+     */
     public function indexAction($id=''){
         
         echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
