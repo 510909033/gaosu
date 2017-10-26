@@ -11,10 +11,11 @@ use vendor\SMS\SmsMultiSender;
 use vendor\SMS\SmsVoicePromtSender;
 use vendor\SMS\SmsVoiceVeriryCodeSender;
 
-if(!file_exists(EXTEND_PATH.'weixin/jssdk/Jssdk.php')){
+/*if(!file_exists(EXTEND_PATH.'weixin/jssdk/Jssdk.php')){
+    echo EXTEND_PATH.'weixin/jssdk/Jssdk.php';
     die('file not exists');
 }
-require_once EXTEND_PATH.'weixin/jssdk/Jssdk.php';
+require_once EXTEND_PATH.'weixin/jssdk/Jssdk.php';*/
 // $auth = new AuthExtend();
 // $jssdk = new JSSDK($auth->getAppkey(), "yourAppSecret");
 // $signPackage = $jssdk->GetSignPackage();
