@@ -24,6 +24,11 @@ use think\Validate;
 use vendor\SMS\SmsSingleSender;
 use app\way\validate\WayUserBindCarValidate;
 
+/**
+ * 用户车辆绑定相关类
+ * @author Administrator
+ *
+ */
 class UserController extends \app\common\controller\NeedLoginController
 {
     /**
@@ -35,6 +40,9 @@ class UserController extends \app\common\controller\NeedLoginController
     private $yzm_key_phone = 'yzm_user_bind_car_phone';
     private $yzm_timeout = 600;
     
+    /**
+     * @deprecated
+     */
     public function testAction(){
         $vars=[];
         $auth = new \weixin\auth\AuthExtend();
@@ -45,10 +53,14 @@ class UserController extends \app\common\controller\NeedLoginController
         
         
         $vars['signPackage'] = $jssdk->getSignPackage();
-      
+   
         return \view('demo_jssdk' , $vars);
     }
  
+    /**
+     * 访问此方法后，如果用户未绑定车辆，进入绑定页面。
+     * 如果已绑定了车辆，进入绑定车辆详细页
+     */
     public function indexAction(){
         
         
@@ -63,7 +75,12 @@ class UserController extends \app\common\controller\NeedLoginController
         }
     }
     
+    /**
+     * 绑定车辆表单显示页面
+     * @return \think\response\View
+     */
     public function createAction(){
+        //如果已绑定，进入详细页
         if (WayUserBindCar::getOne(UserTool::getUser_id())){
             $this->redirect('way/user/detail');
 //             exception('您已绑定了车辆',ConfigTool::$ERRCODE__COMMON);
@@ -76,7 +93,9 @@ class UserController extends \app\common\controller\NeedLoginController
         return $this->read(0);
     }
     
-    
+    /**
+     * 绑定车辆详细页
+     */
     public function detailAction(){
         $vars = [];
         $title = '';
@@ -110,6 +129,10 @@ class UserController extends \app\common\controller\NeedLoginController
         return \view('detail2',$vars);    
     }
     
+    /**
+     * 生成二维码，在出入高速通过扫描二维码方式时
+     * @return \think\response\Json
+     */
     public function qrcodeAction(){
         try {
             $json = [];
@@ -154,6 +177,11 @@ class UserController extends \app\common\controller\NeedLoginController
         return \json($json);
     }
     
+    /**
+     * 
+     * @param unknown $id
+     * @return \think\response\View
+     */
     public function readAction($id){
 
         if (!WayUserBindCar::getOne(UserTool::getUser_id())){
@@ -249,13 +277,14 @@ class UserController extends \app\common\controller\NeedLoginController
     }
     
     /**
+     * 发送手机验证码
      * phone
      * @return \think\response\Json
      */
     public function sendAction(){
         try {
             usleep(300000);
-            $max_hours = 10;
+            $max_hours = 10;//用户每小时发送二维码上限
             $cache_key = 'cache_'.date('ymdH').UserTool::getUser_id();
             $value = (int)cache($cache_key);
             if ($value >= $max_hours){
@@ -321,6 +350,7 @@ class UserController extends \app\common\controller\NeedLoginController
     }
     
     /**
+     * 更新用户手机号
      * yzm 
      * phone
      * @param unknown $id
@@ -361,6 +391,9 @@ class UserController extends \app\common\controller\NeedLoginController
         return \json($json);
     }
     
+    /**
+     * 删除验证码相关session
+     */
     private function deleteYzmSession(){
         session($this->yzm_key,null);
         session($this->yzm_key_timeout,null);
@@ -368,10 +401,19 @@ class UserController extends \app\common\controller\NeedLoginController
     }
 
 
+    /**
+     * 调试方法
+     * @param unknown $array
+     */
     private function debugLogUserBindCarAction($array){
         TmpTool::arrayToArrayFile($array);
     }
     
+    /**
+     * 上传省份证，行驶证
+     * @param unknown $name
+     * @return string
+     */
     private function uploadImage($name){
         if (!ConfigTool::$IS_UPLOAD_IDENTITY_IMAGE){
             return '';
@@ -394,6 +436,7 @@ class UserController extends \app\common\controller\NeedLoginController
     }
     
     /**
+     * 身份证，行驶证验证规则
      * @param unknown $data
      * @return true|array   true表示通过验证， array为数据验证失败
      */
@@ -421,7 +464,7 @@ class UserController extends \app\common\controller\NeedLoginController
     }
     
     /**
-     * 
+     * 验证码验证规则
      * @param unknown $yzm
      * @return void
      * @throws \Exception
@@ -453,6 +496,10 @@ class UserController extends \app\common\controller\NeedLoginController
         }
     }
     
+    /**
+     * 页面点击下一步时发来的ajax请求
+     * @return \think\response\Json
+     */
     public function checkNextAction(){
         $data = $this->request->post();
         $data['user_id'] = UserTool::getUser_id();
@@ -624,7 +671,10 @@ class UserController extends \app\common\controller\NeedLoginController
     }
     
     
-    
+    /**
+     * 获取车型配置
+     * @return \think\response\Json
+     */
     public function getCarTypeJsonAction(){
         $all = WayCarType::all();
         foreach ($all as $k=>$v){
@@ -636,6 +686,10 @@ class UserController extends \app\common\controller\NeedLoginController
     }
 
 
+    /**
+     * 获取车颜色配置
+     * @return \think\response\Json
+     */
     public function getCarColorJsonAction(){
         
         $all = SysConfig::getListByType(SysConfig::TYPE_GS_COLOR_CONFIG);
