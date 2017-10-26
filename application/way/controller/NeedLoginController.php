@@ -8,7 +8,14 @@ use app\common\tool\UserTool;
 use app\common\model\SysUser;
 use app\common\tool\ConfigTool;
 use think\Env;
+use app\common\controller\NeedLoginController;
 mb_internal_encoding("UTF-8");
+/**
+ * 此类应该已经停止使用，转移到了common下
+ * @deprecated
+ * @author Administrator
+ * @see \app\common\controller\NeedLoginController
+ */
 class NeedLoginController extends Controller
 {
     
