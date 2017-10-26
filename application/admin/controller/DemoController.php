@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use think\Controller;
 use think\Request;
+use think\Db;
 
 class demoController extends Controller
 {
@@ -81,5 +82,11 @@ class demoController extends Controller
     public function delete($id)
     {
         //
+    }
+
+
+    public function testAction(){
+        $res= Db::query("SELECT * FROM `kw_station` WHERE Station_ID=134");
+        var_dump($res);
     }
 }
