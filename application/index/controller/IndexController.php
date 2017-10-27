@@ -9,8 +9,6 @@ class IndexController extends NeedloginController
 {
     public function indexAction()
     {
-    	phpinfo();
-    	die();
     	return view('index');
     }
 }
