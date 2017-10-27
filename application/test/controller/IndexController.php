@@ -148,7 +148,8 @@ class IndexController extends Controller
     {
         
         // get post data, May be due to the different environments
-        $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+        //$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+        $postStr = file_get_contents('php://input');
         
         // extract post data
         if (! empty($postStr)) {
@@ -411,6 +412,8 @@ class IndexController extends Controller
      * }
      * }
      */
+    
+
     public function definedItemAction()
     {
         // 创建微信菜单

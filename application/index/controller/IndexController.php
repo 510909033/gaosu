@@ -9,7 +9,6 @@ class IndexController extends NeedloginController
 {
     public function indexAction()
     {
-
     	return view('index');
     }
 }
