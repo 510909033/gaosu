@@ -27,6 +27,71 @@ class OrderController extends Controller
 		$obj->saveAll($list); 
 	
 	}
+	/**
+	 * 
+	 *添加订单
+	 * @param  (array())$data log原始数据
+	 * @return (int) 添加生成的id;
+	 */
+
+
+	public function addOrderAction()
+	{
+	 	$stationArr = array('311'=>'长春东','31A'=>'莲花山');
+	    $logs= model('WayLog')->getNotPay();
+	    
+	    foreach ($logs as $data)
+	    {
+	        $orderData = array();
+	        $orderData['user_id']      = $data['user_id'];
+	        $orderData['create_time']  = time();
+	        $orderData['openid']       = $data['open_id'];
+	        $orderData['create_cache'] = json_encode($data);
+	        $orderData['total_fee']    = $data['pay_total_fee'];
+	        $orderData['out_trade_no'] = create_order_num();
+	        $orderData['body']         = '【'.$stationArr[$data['in_pos_id']].'】高速入口至【'.$stationArr[$data['out_pos_id']].'】高速出口所产生的高速费用';
+	        $orderData['log_id']       = $data['id'];
+	        $id = model('SysOrder')->add($orderData);
+	        echo $id;   
+	    }
+	}
+
+	/**
+	 * 查询所有未支付的订单进行推送消息
+	 */
+	
+	public function createPushMessageAction()
+	{
+	    $notPayOrder = SysOrder::all(['trade_state'=>'']);
+	   if (!empty($notPayOrder))
+	   {
+    	    foreach ($notPayOrder as $key => $value)
+    	    {
+    	        $data = [
+    	            'touser'=>$value['openid'],
+    	            //'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
+    	            'template_id'=>'NKvVUaovIrHSqtZaHSeVllP3uiPnuCPtjXDmapadPFo',
+    	            'url'=>'http://gs.jltengfang.com/order/wxpay/index?ordernum='.$value['out_trade_no'],
+    	            'topcolor'=>'#FF0000',
+    	            'data'=>[
+    	                'first'=>['value'=>'高速支付订单'],
+    	                'orderID'=>['value'=>$value['out_trade_no']],
+    	                'orderMoneySum'=>['value'=>sprintf("%.2f",($value['total_fee']/100))],
+    	                'backupFieldName'=>['value'=>$value['body']],
+    	                'backupFieldData'=>['value'=>'请及时付款,逾期可能对你的征信产生不良影响'],
+    	                'remark'=>['value'=>'如有问题请联系腾放公司客服']
+    	            ],
+    	        ];
+                $auth = new AuthExtend();
+                $accessToken = $auth->getAccessToken(false);
+    	        $message = new template($accessToken);
+    	        $res = $message->send($data);
+    	    }
+	   	}else 
+	   	{
+	       echo "没有未支付的订单";	    
+	   	}
+	}
  	/**
 	 * 
 	 *合并出入口信息并下单
@@ -144,69 +209,4 @@ class OrderController extends Controller
 
 		return $rate*$mileage*1000;
 	}*/
-	/**
-	 * 
-	 *添加订单
-	 * @param  (array())$data log原始数据
-	 * @return (int) 添加生成的id;
-	 */
-
-
-	public function addOrderAction()
-	{
-	 	$stationArr = array('311'=>'长春东','31A'=>'莲花山');   
-	    $logs= model('WayLog')->getNotPay();
-	    
-	    foreach ($logs as $data)
-	    {
-	        $orderData = array();
-	        $orderData['user_id']      = $data['user_id'];
-	        $orderData['create_time']  = time();
-	        $orderData['openid']       = $data['open_id'];
-	        $orderData['create_cache'] = json_encode($data);
-	        $orderData['total_fee']    = $data['pay_total_fee'];
-	        $orderData['out_trade_no'] = create_order_num();
-	        $orderData['body']         = '【'.$stationArr[$data['in_pos_id']].'】高速入口至【'.$stationArr[$data['out_pos_id']].'】高速出口所产生的高速费用';
-	        $orderData['log_id']       = $data['id'];
-	        $id = model('SysOrder')->add($orderData);
-	        echo $id;   
-	    }
-	}
-
-	/**
-	 * 查询所有未支付的订单进行推送消息
-	 */
-	
-	public function createPushMessageAction()
-	{
-	    $notPayOrder = SysOrder::all(['trade_state'=>'']);
-	   if (!empty($notPayOrder))
-	   {
-    	    foreach ($notPayOrder as $key => $value)
-    	    {
-    	        $data = [
-    	            'touser'=>$value['openid'],
-    	            //'template_id'=>'GE7wCNP-i61975MhBMaV1XOW7ExbzGV-fQqLh5iiW0w',
-    	            'template_id'=>'NKvVUaovIrHSqtZaHSeVllP3uiPnuCPtjXDmapadPFo',
-    	            'url'=>'http://gs.jltengfang.com/order/wxpay/index?ordernum='.$value['out_trade_no'],
-    	            'topcolor'=>'#FF0000',
-    	            'data'=>[
-    	                'first'=>['value'=>'高速支付订单'],
-    	                'orderID'=>['value'=>$value['out_trade_no']],
-    	                'orderMoneySum'=>['value'=>sprintf("%.2f",($value['total_fee']/100))],
-    	                'backupFieldName'=>['value'=>$value['body']],
-    	                'backupFieldData'=>['value'=>'请及时付款,逾期可能对你的征信产生不良影响'],
-    	                'remark'=>['value'=>'如有问题请联系腾放公司客服']
-    	            ],
-    	        ];
-                $auth = new AuthExtend();
-                $accessToken = $auth->getAccessToken(false);
-    	        $message = new template($accessToken);
-    	        $res = $message->send($data);
-    	    }
-	   	}else 
-	   	{
-	       echo "没有未支付的订单";	    
-	   	}
-	}
 }

@@ -4,6 +4,7 @@ namespace app\order\controller;
 use think\Controller;
 use think\Log;
 use app\common\model\SysOrder;
+use think\Cache;
 
 class IndexController extends Controller
 {
@@ -110,6 +111,16 @@ class IndexController extends Controller
         }
         //生成二维码
         return $this->getUrlQRCode($url);
+    }
+
+
+
+    public function redisAction(){
+        //$Redis =  new Redis;
+        $Redis = Cache::init();
+        //$Redis->set('diwanchao','11111','3600');
+        //$data = $Redis->get('diwanchao');
+        $Redis->clear();
     }
 
 }
