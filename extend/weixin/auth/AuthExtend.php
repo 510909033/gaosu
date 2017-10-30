@@ -27,8 +27,8 @@ class AuthExtend
     private $field_access_token_expire = 'access_token_expire';
     
     /**
-     * 是否是测试模式，测试模式不回去微信获取openid，会使用openid_nochange或者uniqid()
-     * @var string
+     * 是否是测试模式，测试模式不回去微信获取openid，会使用openid_nochange或者uniqid()   
+     * @var string 
      */
     public static $is_can_unit = true;
     
