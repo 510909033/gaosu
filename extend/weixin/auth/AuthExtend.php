@@ -27,9 +27,9 @@ class AuthExtend
     private $field_access_token_expire = 'access_token_expire';
     
     /**
-     * 是否是测试模式
-     * @var string
-     */
+     * 是否是测试模式，测试模式不回去微信获取openid，会使用openid_nochange或者uniqid()   
+     * @var string   
+     */   
     public static $is_can_unit = true;
     
     /**
@@ -103,6 +103,7 @@ class AuthExtend
 
 
     /**
+     * 授权 第一步
      * 跳转到微信服务器获取code
      * @param unknown $redirect_uri 微信跳回地址http开始的
      * @param unknown $state    额外参数，跳回时会get返回
@@ -126,6 +127,7 @@ class AuthExtend
     }
     
     /**
+     * 授权第二步
      * 根据code获取用户openid，保存session信息，user_id为键，
      * @return false|\app\home\model\User
      * @throws \think\Exception
@@ -204,9 +206,8 @@ array(5) {
     }
 
     /**
-     * 存在直接返回user对象，不存在添加返回 <br>
-     * {@inheritDoc}
-     * @see \app\base\controller\interf\AuthInterf::bindUser()
+     * 存在直接返回user对象，不存在添加返回 
+     * @return false|SysUser
      */
     public function bindUser()
     {
@@ -248,22 +249,21 @@ array(5) {
 
 
     /**
-     * {@inheritDoc}
-     * @see \app\base\controller\interf\AuthInterf::getError()
+     * 部分方法发生错误时，通过此方法返回错误信息
+     * @return string
      */
     public function getError()
     {
         return $this->error;
     }
     /**
-     * {@inheritDoc}
-     * @see \app\common\interf\AuthInterf::getAccount()
+     * @deprecated
+     * @return \app\common\struct\AuthAccount
      */
     public function getAccount()
     {
         return $this->account;
     }
-
 
     
 }
