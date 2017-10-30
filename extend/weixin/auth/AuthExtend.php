@@ -28,6 +28,8 @@ class AuthExtend
     
     /**
      * 是否是测试模式，测试模式不回去微信获取openid，会使用openid_nochange或者uniqid()   
+     * 
+     * 
      * @var string   
      */   
     public static $is_can_unit = true;
