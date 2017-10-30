@@ -10,7 +10,11 @@ use app\admin\controller\html\LeftMenuController;
 use app\admin\controller\html\LeftMenuHtml;
 use app\common\tool\UserTool;
 use think\Loader;
-
+/**
+ * 菜单的增删改查类
+ * @author "baotian0506<510909033@qq.com>"
+ *
+ */
 class MenuController extends PublicController
 {
     

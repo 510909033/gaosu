@@ -9,7 +9,12 @@ use app\admin\model\SysRole;
 use app\admin\model\SysMenu;
 use think\Db;
 use app\common\tool\ConfigTool;
-
+/**
+ * 设置角色对应的菜单        <br />
+ * 编辑角色对应的菜单    
+ * @author "baotian0506<510909033@qq.com>"
+ *
+ */
 class RoleMenuController extends PublicController
 {
     use  \app\common\trait_common\RestTrait;
