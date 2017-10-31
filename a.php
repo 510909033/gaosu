@@ -17,3 +17,6 @@ echo iconv('gbk', 'utf-8', $str);
 "master add ";
 
 "dev add";
+
+
+"issue-101 fix bug";
