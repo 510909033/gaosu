@@ -39,8 +39,11 @@ class RecordsController extends \app\common\controller\NeedLoginController
     	$res 		= array();
     	$car_num 	= ""; 
     	//后期读取缓存
-    	$station 	= array('311'=>'长春东','31A'=>'莲花山');
-    	$is_pay 	= array('0'=>'未支付','1'=>'已支付');
+        $res_station = Db::name('kw_payrate')->select();
+        var_dump($res_station);
+        die;
+        $station     = array('311'=>'长春东','31A'=>'莲花山');
+        $is_pay      = array('0'=>'未支付','1'=>'已支付');
 
     	$user_id = UserTool::getUser_id();
 

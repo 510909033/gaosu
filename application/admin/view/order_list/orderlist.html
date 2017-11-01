@@ -34,21 +34,21 @@
         <div class="ws_ip clearfix">
             <p class="yhqq">用户详情</p>
 
-            <ul>
-                <li>姓名：<span id='name'></span></li>
-                <li>手机号：<span id='phone'></span></li>
-                <li>身份证号：<span id='identity_card'></span></li>
-                <li>注册时间：<span id='create_time'></span></li>
-                <li>车牌号：<span id='car_number'></span></li>
-                <li>发动机号：<span id='engine'></span></li>
-                <li>车辆识别码：<span id='chassis_number'></span></li>
-                <li>车型：<span id='car_type_id'></span></li>
-                <li>品牌：<span id='brand'></span></li>
-                <li>颜色：<span id='car_color'></span></li>
-                <li>审核状态：<span id='verify'></span></li>
-                <li>用户状态：<span id='status'></span></li>
-            </ul>
-
+           <!--  <ul>
+               <li>姓名：<span id='name'></span></li>
+               <li>订单时间：<span id='phone'></span></li>
+               <li>身份证号：<span id='identity_card'></span></li>
+               <li>注册时间：<span id='create_time'></span></li>
+               <li>车牌号：<span id='car_number'></span></li>
+               <li>发动机号：<span id='engine'></span></li>
+               <li>车辆识别码：<span id='chassis_number'></span></li>
+               <li>车型：<span id='car_type_id'></span></li>
+               <li>品牌：<span id='brand'></span></li>
+               <li>颜色：<span id='car_color'></span></li>
+               <li>审核状态：<span id='verify'></span></li>
+               <li>用户状态：<span id='status'></span></li>
+           </ul>
+            -->
             <div class="g_kuan clearfix">
                 <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="1"><img src="images/header_bj_01.jpg"></a></div>
                 <div class="t1"><a href="images/header_bj_01.jpg" class="ws_t"data-fancybox-group="gallery" title="2"><img src="images/header_bj_01.jpg"></a></div>
@@ -94,13 +94,13 @@
             <tr>
                 <td>Id</td>
                 <td>用户名</td>
+                <td>订单时间</td>
                 <td>入口</td>
                 <td>出口</td>
-                <td>公里数</td>
                 <td>时长</td>
-                <td>创建时间</td>
-                <td>审核状态</td>
-                <td>用户状态</td>
+                <td>车牌号</td>
+                <td>支付状态</td>
+                <td>开票状态</td>
                 <td>操作</td>
             </tr>
             </thead>
@@ -109,18 +109,16 @@
             {volist name="res" id="vo"}          
             <tr>
                 <td>{$vo.id}</td>
-                <td>{$vo.username}</td>
-                <td>{$vo.identity_card}</td>
-                <td>{$vo.phone}</td>
-                <td>{$vo.car_number}</td>
-                <td>{$vo.brand}</td>
+                <td>{$username}</td>
                 <td>{$vo.create_time}</td>
-                <td>{$vo->dis_verify}</td>
-                <td>{$vo->dis_status}</td>
+                <td>{$vo.in_pos_id}</td>
+                <td>{$vo.out_pos_id}</td>
+                <td>{$vo.out_time}-{$vo.in_time}</td>
+                <td>{$car_num}</td>
+                <td>{$vo.is_pay}</td>
+                <td>{$is_Print}</td>
                 <td>
-                    <button type="button" class="btn btn-success xx ws_show" onclick="getDetail({$vo.id})" >详情</button>
-                    <button  type="button" class="btn btn-warning xx"  onclick="upstate({$vo.id},{$vo.status})" ><?php if(isset($vo['status'])&&$vo['status']==0) echo '禁用'; else echo "启用"; ?></button>
-                    <button type="button" class="btn btn-danger xx" onclick="del({$vo.id})">删除</button>
+                    
                 </td>
             </tr>
             {/volist}

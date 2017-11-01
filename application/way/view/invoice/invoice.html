@@ -49,7 +49,11 @@
         $.ajax({
           type: 'POST',
           url: '/way/invoice/add',
-          data: {'title':username,'duty_paragraph':TFN,'log_id':log_id},
+          data: {
+            'title':username,
+            'duty_paragraph':TFN,
+            'log_id':log_id
+            },
           dataType:"json",
           success:function(result){
             if (result.code==1) {
@@ -68,3 +72,18 @@
 </script>
 </body>
 </html>
+
+
+
+ <!--    $redis = Cache::init();
+     //$station = array('311_31A_1'=>'5','31A'=>'链家山');
+     $station='31A';
+ 
+     //$redis->set('station',$station,3600);
+     $stationArr=$redis->get('station');
+ 
+     $stationName = $stationArr[$station];
+ 
+     var_dump($stationName);
+ 
+     die(); -->

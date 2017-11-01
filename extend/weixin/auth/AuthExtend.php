@@ -140,19 +140,28 @@ class AuthExtend
             'openid'=>$openid,
         ] ;
         
-  
+$this->aaa(__LINE__);
         if ($arr['openid']){
+$this->aaa(__LINE__);
+
             $user = $this->bindUser(); 
+$this->aaa(__LINE__);
             if ( $user ){
                 return $user;
             }
             return false;
         }else{
+          $this->aaa(__LINE__);
             $this->error = 'openid不存在';
             return false;
         }
     }
 
+
+    private function aaa($msg){
+
+        file_put_contents('c:\\aa.txt' , $msg."\r\n" , FILE_APPEND);
+    }
 
     /**
      * {@inheritDoc}
@@ -169,15 +178,18 @@ class AuthExtend
         if ( self::$is_can_unit && $is_unit  ){
             $arr['openid'] = rand(1,5) > 3?uniqid():'openid_nochange';
         }else{
-            $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$code.'&grant_type=authorization_code';
+            ini_set('user_agent','Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; GreenBrowser)');
+            $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$code.'  &grant_type=authorization_code';
+          //$opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
+            //$context = stream_context_create($opts);
+            //$con = file_get_contents($url,false,$context);
             $con = file_get_contents($url);
+          //  echo $con;die();
             $arr = json_decode($con,true);
         }
-        
         if (ConfigTool::IS_LOG_TMP){
             SysLogTmp::log('获取openid结果', $con , 0 ,__METHOD__);
         }
-        
 /*
 
 array(5) {
@@ -190,6 +202,7 @@ array(5) {
 
 
  */
+ //file_get_contents(https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx9e1d8fc5ee0c85a1&amp;secret=39ea8dc418b5ab3a03867a5937fe19fd&amp;code=071IBdcp1ZHz7o0nJocp1uFdcp1IBdco  &amp;grant_type=authorization_code): failed to open stream: HTTP request failed! &amp;grant_type=authorization_code 200 OK
         $this->codeArr = $arr;
         
         if (!$this->codeArr['openid']){
