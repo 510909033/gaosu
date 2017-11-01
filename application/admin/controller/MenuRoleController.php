@@ -9,7 +9,12 @@ use app\admin\model\SysMenu;
 use think\Db;
 use app\common\tool\ConfigTool;
 use app\admin\validate\RoleMenuValidate;
-
+/**
+ * 菜单设置角色       <br />
+ * 编辑菜单的角色
+ * @author "baotian0506<510909033@qq.com>"
+ *
+ */
 class MenuRoleController extends PublicController
 {
     use  \app\common\trait_common\RestTrait;

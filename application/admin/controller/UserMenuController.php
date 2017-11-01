@@ -6,6 +6,7 @@ use think\Controller;
 use app\admin\model\SysUserMenu;
 use app\admin\validate\UserMenuValidate;
 
+
 class UserMenuController extends PublicController
 {
     use  \app\common\trait_common\RestTrait;

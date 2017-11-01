@@ -11,6 +11,11 @@ use app\common\model\SysLogTmp;
 use think\db\Query;
 use think\Route;
 
+/**
+ * 角色的增删改查类
+ * @author "baotian0506<510909033@qq.com>"
+ *
+ */
 class RoleController extends   PublicController
 {
     use \app\common\trait_common\RestTrait;

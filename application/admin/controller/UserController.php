@@ -12,6 +12,11 @@ use think\Validate;
 use app\common\tool\ConfigTool;
 use app\common\model\SysConfig;
 
+/**
+ * 用户的增删改查类
+ * @author "baotian0506<510909033@qq.com>"
+ *
+ */
 class UserController extends PublicController
 {
     use \app\common\trait_common\RestTrait;

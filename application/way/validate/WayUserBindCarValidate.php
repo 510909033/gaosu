@@ -2,6 +2,11 @@
 namespace app\way\validate;
 use think\Validate;
 
+/**
+ * 车辆绑定验证类
+ * @author "baotian0506<510909033@qq.com>"
+ *
+ */
 class WayUserBindCarValidate extends Validate{
     
 //     protected $scene = [

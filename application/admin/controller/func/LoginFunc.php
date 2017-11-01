@@ -7,10 +7,15 @@ use app\common\model\SysUser;
 use app\common\model\SysConfig;
 use app\common\tool\UserTool;
 use app\common\model\SysLogTmp;
-
+/**
+ * 登录类
+ * @author "baotian0506<510909033@qq.com>"
+ *
+ */
 class LoginFunc 
 {
     /**
+     * 登录方法
      * @param unknown $data uni_account,password,type
      * @return true|string  
      */

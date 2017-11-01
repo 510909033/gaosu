@@ -5,10 +5,20 @@ namespace app\admin\controller\html;
 use think\Controller;
 use app\common\tool\UserTool;
 use app\admin\model\SysMenu;
-
+/**
+ * 后台左侧菜单html
+ * @author "baotian0506<510909033@qq.com>"
+ *
+ */
 class LeftMenuHtml 
 {
     private static $privList;
+    
+    /**
+     * 获取左侧菜单html
+     * @param unknown $user_id
+     * @return string
+     */
     public static function getLeftMenu($user_id){
         
         $list = SysMenu::getList(0);

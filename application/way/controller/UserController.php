@@ -51,7 +51,7 @@ class UserController extends \app\common\controller\NeedLoginController
         $jssdk     = new \weixin\jssdk\Jssdk($appId, $appSecret);
         
         
-        
+         
         $vars['signPackage'] = $jssdk->getSignPackage();
    
         return \view('demo_jssdk' , $vars);
@@ -681,7 +681,7 @@ class UserController extends \app\common\controller\NeedLoginController
             $all[$k]['name'] = $v->name.'('.$v->title.')';
         }
         
-        return json(array('records'=>$all));
+        return json( array('records'=>$all) );
     }
 
 

@@ -9,6 +9,11 @@ use app\admin\controller\func\LoginFunc;
 use app\common\model\SysConfig;
 use app\common\tool\ConfigTool;
 
+/**
+ * 登录类
+ * @author "baotian0506<510909033@qq.com>"
+ *
+ */
 class LoginController extends Controller 
 {
     

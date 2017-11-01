@@ -5,6 +5,11 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Db;
 
+/**
+ * @deprecated
+ * @author "baotian0506<510909033@qq.com>"
+ *
+ */
 class InstallController extends Controller
 {
     

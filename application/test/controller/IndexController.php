@@ -11,10 +11,11 @@ use vendor\SMS\SmsMultiSender;
 use vendor\SMS\SmsVoicePromtSender;
 use vendor\SMS\SmsVoiceVeriryCodeSender;
 
-if(!file_exists(EXTEND_PATH.'weixin/jssdk/Jssdk.php')){
+/*if(!file_exists(EXTEND_PATH.'weixin/jssdk/Jssdk.php')){
+    echo EXTEND_PATH.'weixin/jssdk/Jssdk.php';
     die('file not exists');
 }
-require_once EXTEND_PATH.'weixin/jssdk/Jssdk.php';
+require_once EXTEND_PATH.'weixin/jssdk/Jssdk.php';*/
 // $auth = new AuthExtend();
 // $jssdk = new JSSDK($auth->getAppkey(), "yourAppSecret");
 // $signPackage = $jssdk->GetSignPackage();
@@ -30,12 +31,17 @@ class IndexController extends Controller
 
     public function indexAction()
     {
+/*        Log::order_log(json_encode($_GET),'微信连接');
+        if ($_GET) {
+          echo $_GET['echostr'];  
+        };*/
+
+
         try {
             $this->responseMsgAction();
         } catch (\Exception $e) {
             SysLogTmp::log('微信api异常', $e->getMessage(), 0, __FILE__.',line='.__LINE__);
-        }
-        
+        }        
     }
    
 
@@ -142,7 +148,8 @@ class IndexController extends Controller
     {
         
         // get post data, May be due to the different environments
-        $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+        //$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+        $postStr = file_get_contents('php://input');
         
         // extract post data
         if (! empty($postStr)) {
@@ -405,6 +412,8 @@ class IndexController extends Controller
      * }
      * }
      */
+    
+
     public function definedItemAction()
     {
         // 创建微信菜单

@@ -10,6 +10,12 @@ use think\Db;
 use app\common\tool\ConfigTool;
 use app\common\model\SysUser;
 
+/**
+ * 设置用户包含的角色    <br />
+ * 编辑用户包含的角色
+ * @author "baotian0506<510909033@qq.com>"
+ *
+ */
 class UserRoleController extends PublicController
 {
     use  \app\common\trait_common\RestTrait;
